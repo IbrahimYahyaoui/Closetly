@@ -1,0 +1,16 @@
+# dependencies
+/node_modules
+
+# build output
+/build
+
+# .env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
+
+
+
+
