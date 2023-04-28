@@ -60,7 +60,7 @@ const SignIn = () => {
             underlined
             aria-labelledby="Username"
             placeholder="Username"
-            className="w-80 h-12 "
+            className="w-92 h-12 "
             // helperText="between 4 and 10"
             contentRight={<UserIcon className="w-32" />}
             onChange={(e) => setUsername(e.target.value)}
