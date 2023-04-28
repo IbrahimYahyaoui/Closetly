@@ -89,7 +89,7 @@ const SignUp = () => {
           <motion.button
             className=" bg-btnColor w-80 h-12 rounded text-white font-semibold mt-8"
             onClick={() => handelSignup()}
-            whileTap={{ scale: 0.8 }}
+            whileTap={{ scale: 0.9 }}
           >
             Create an account
           </motion.button>

@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.17",
-    "@iconscout/unicons": "^4.0.8",
     "@nextui-org/react": "^1.0.0-beta.12",
     "@radix-ui/react-icons": "^1.3.0",
+    "@szhsin/react-menu": "^3.5.2",
     "axios": "^1.3.6",
     "dotenv": "^16.0.3",
     "framer-motion": "^10.12.4",
