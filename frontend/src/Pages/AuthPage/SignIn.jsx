@@ -50,7 +50,7 @@ const SignIn = () => {
           className=" w-70 pt-10  absolute bottom-0 translate-y-16 -translate-x-12 rotate-45 opacity-20 hidden md:block "
         />
       </section>
-      <section className=" flex flex-col items-center">
+      <section className=" flex flex-col items-center ">
         <p className="text-black font-bold  text-6xl opacity-30 my-2 ml-8  leading-tight">
           welcome back!
         </p>
@@ -60,7 +60,7 @@ const SignIn = () => {
             underlined
             aria-labelledby="Username"
             placeholder="Username"
-            className="w-92 h-12 "
+            className=" h-12 w-80"
             // helperText="between 4 and 10"
             contentRight={<UserIcon className="w-32" />}
             onChange={(e) => setUsername(e.target.value)}
