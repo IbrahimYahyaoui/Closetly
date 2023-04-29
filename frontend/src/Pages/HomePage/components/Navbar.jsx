@@ -1,4 +1,4 @@
-import { Avatar, Badge, User } from "@nextui-org/react";
+import { Avatar, Badge, Dropdown, User } from "@nextui-org/react";
 import React, { useContext } from "react";
 import { AuthContext } from "../../AuthPage/context/AuthContext";
 import {
@@ -12,6 +12,7 @@ import {
 import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
+import { motion } from "framer-motion";
 const Navbar = () => {
   const { user } = useContext(AuthContext);
   console.log(user);
@@ -21,19 +22,40 @@ const Navbar = () => {
       <section className="flex items-center w-2/3 justify-end ">
         <div className="flex  w-16 justify-between items-center ">
           <div>
-            <Badge color="error" content={0}>
-              <HeartIcon className=" fill-none  stroke-black w-6  cursor-pointer" />
-            </Badge>
+            <Dropdown placement="bottom-right ">
+              <Dropdown.Button className="p-0">
+                <Badge color="error" content={0}>
+                  <HeartIcon className=" fill-none  stroke-black w-6  cursor-pointer" />
+                </Badge>
+              </Dropdown.Button>
+              <Dropdown.Menu aria-label="Static Actions">
+                <Dropdown.Item key="new">New file</Dropdown.Item>
+                <Dropdown.Item key="copy">Copy link</Dropdown.Item>
+                <Dropdown.Item key="edit">Edit file</Dropdown.Item>
+                <Dropdown.Item key="delete" withDivider color="error">
+                  Delete file
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
           <div>
-            <Badge color="error" content={0}>
-              <BellIcon className=" fill-none  stroke-black w-6  cursor-pointer" />
-            </Badge>
+            <Dropdown placement="bottom-right ">
+              <Dropdown.Button className="p-0">
+                <Badge color="error" content={0} className="mr-2">
+                  <BellIcon className=" fill-none  stroke-black w-6  cursor-pointer " />
+                </Badge>
+              </Dropdown.Button>
+              <Dropdown.Menu aria-label="Static Actions">
+                <Dropdown.Item key="new">
+                  <p>hello</p>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
         {user && (
           <div className="flex items-center mr-2">
-            <p className="h-8 bg-slate-300 w-1 rounded mx-4 opacity-50 "></p>
+            <p className="h-8 bg-slate-300 w-1 rounded mx-4 opacity-50  ml-5"></p>
             <Menu
               // menu styles
               menuStyle={{
@@ -46,7 +68,7 @@ const Navbar = () => {
                   <Avatar
                     src={`https://eu.ui-avatars.com/api/?name=${user.Username}&size=300`}
                     // name={user.Username}
-                    // className="h-10"
+                    className="cursor-pointer"
                   />
                   {/* <p className="mx-2 font-semibold text-sm">
                     {user && user.Username}
