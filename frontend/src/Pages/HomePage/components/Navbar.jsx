@@ -40,7 +40,12 @@ const Navbar = () => {
           </div>
           <div>
             <Dropdown placement="bottom-right ">
-              <Dropdown.Button className="p-0">
+              <Dropdown.Button
+                className="p-0 "
+                style={{
+                  background: "transparent",
+                }}
+              >
                 <Badge color="error" content={0} className="mr-2">
                   <BellIcon className=" fill-none  stroke-black w-6  cursor-pointer " />
                 </Badge>
