@@ -13,9 +13,13 @@ import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import { motion } from "framer-motion";
+import { useLogout } from "../../AuthPage/hooks/useLogout";
 const Navbar = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
+  const { logout } = useLogout();
+  const handelLogout = () => {
+    logout();
+  };
   return (
     <nav className="flex   p-2  justify-between w-full  border-b-2 pb-1 fixed bg-white z-50 ">
       <div className="LogoFont text-2xl  opacity-70 w-1/3 ">closetly</div>
@@ -92,7 +96,10 @@ const Navbar = () => {
               </MenuItem>
               <MenuItem className="flex items-end h-8 pt-3 ">
                 <ArrowRightOnRectangleIcon className="w-5 mr-5 self-start" />
-                <p className="self-start"> logout</p>
+                <p className="self-start" onClick={() => handelLogout()}>
+                  {" "}
+                  logout
+                </p>
               </MenuItem>
               <MenuItem className="flex items-end h-8 pt-3 " disabled>
                 <CogIcon className="w-5 mr-5 self-start" />

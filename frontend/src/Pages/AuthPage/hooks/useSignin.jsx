@@ -26,7 +26,8 @@ export const UseSignIn = () => {
         });
 
         setLoading(false);
-        navigate("/home");
+
+        navigate("/home", { replace: true });
       })
       .catch((error) => {
         toast.dismiss();

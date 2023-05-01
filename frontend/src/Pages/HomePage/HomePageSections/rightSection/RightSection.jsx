@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import React from "react";
+import Tshirt from "../../../../assets/wear.svg";
 const RightSection = () => {
   return (
-    <div className="flex  flex-col items-center px-8 fixed ">
+    <div className="flex  flex-col items-center px-8 ">
       <div className=" border-2  rounded-md h-fit  w-full flex flex-col items-center  p-2  font-semibold">
         <p className="opacity-80">
           Create your own virtual closet by uploading pictures of your own
@@ -10,9 +11,13 @@ const RightSection = () => {
           with others.
         </p>
         <motion.button
-          className=" bg-btnColor w-full h-10 text-white capitalize font-semibold rounded mt-4 "
+          className=" bg-btnColor w-full h-10 text-white capitalize font-semibold rounded mt-4  "
           whileTap={{ scale: 0.9 }}
         >
+          <img
+            src={Tshirt}
+            className="w-8 text-white absolute rotate-45  opacity-60 -translate-x-2 translate-y-1"
+          />
           visit your closet
         </motion.button>
       </div>

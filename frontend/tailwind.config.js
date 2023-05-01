@@ -9,9 +9,11 @@ export default {
         // myWhite: "#FFFFFF",
         loginColor: "#D7DBE7",
         btnColor: "#353A48",
+        homeBg: "#dae0e6",
       },
       width: {
         inherit: "inherit",
+        body: "1024px",
       },
     },
   },

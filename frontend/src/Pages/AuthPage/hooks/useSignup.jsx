@@ -22,7 +22,7 @@ export const UseSignUp = () => {
         toast.dismiss();
         toast.success("Account created successfully");
         setIsLoading(false);
-        navigate("/home");
+        navigate("/home", { replace: true });
       })
       .catch((data) => {
         toast.dismiss();

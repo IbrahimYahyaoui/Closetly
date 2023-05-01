@@ -13,7 +13,7 @@ import {
 import svgOne from "../../assets/AuthAssets/One.svg";
 import svgTwo from "../../assets/AuthAssets/two.svg";
 import shirt from "../../assets/AuthAssets/shirt.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 const SignUp = () => {
   const { signup, isLoading } = UseSignUp();
@@ -22,6 +22,12 @@ const SignUp = () => {
   const passwordRef = useRef();
 
   const handelSignup = async () => {
+    // check if user existe
+    // if user existe then redirect to home page
+    const navigate = useNavigate();
+    if (localStorage.getItem("user")) {
+      navigate("/home", { replace: true });
+    }
     // check if the userRef is between 3 and 10 characters
     console.log(usernameRef.current.value);
     if (

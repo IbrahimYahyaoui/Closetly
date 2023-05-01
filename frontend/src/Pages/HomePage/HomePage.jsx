@@ -1,28 +1,32 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import ClosetlyButton from "./components/ClosetlyButton";
-import LeftSection from "./HomePageSections/leftSection/LeftSection";
+// import LeftSection from "./HomePageSections/leftSection/LeftSection";
 import MainSection from "./HomePageSections/mainSection/MainSection";
 import RightSection from "./HomePageSections/rightSection/RightSection";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  // if user don't exist then redirect to auth page
+  const navigate = useNavigate();
+  if (!localStorage.getItem("user")) {
+    navigate("/", { replace: true });
+  }
   return (
     <div className="">
       <>
-        <div className=" ">
-          <Navbar />
-        </div>
+        <Navbar />
+
         {/*  */}
-        <div className="flex">
-          <section className=" flex-none w-1/4 border-r-2 hidden lg:block pt-16   ">
-            <LeftSection />
-          </section>
-          <section className=" shrink col-span-4  pt-16">
-            <MainSection />
-          </section>
-          <section className=" flex-none w-1/4 border-l-2 hidden lg:block  pt-16 ">
-            <RightSection />
-          </section>
+        <div className=" flex justify-center">
+          <div className="lg:w-body flex pt-24 ">
+            <div className="w-3/3 md:w-2/3 p-2 bg-white">
+              <MainSection />
+            </div>
+            <div className="w-1/3 hidden md:block">
+              <RightSection />
+            </div>
+          </div>
         </div>
       </>
     </div>
