@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Tshirt from "../../../../assets/wear.svg";
 import { motion, useInView } from "framer-motion";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../../AuthPage/context/AuthContext";
 const MainSection = () => {
   const isButtonInViewPort = useRef();
   const isInView = useInView(isButtonInViewPort);
+  const { user } = useContext(AuthContext);
 
   return (
     <div className=" w-full overflow-hidden  ">
@@ -24,14 +27,14 @@ const MainSection = () => {
             src={Tshirt}
             className="w-8 text-white absolute rotate-45  opacity-60 -translate-x-2 translate-y-2"
           />
-          visit your closet
+          {user && <Link to={`/closet/${user.id}`}>visit your closet</Link>}
         </motion.button>
       </div>
       {
         // this section will appear only on desktop
         !isInView && (
           <motion.div
-            className="w-24 h-24  bg-btnColor rounded-full fixed bottom-0 right-0  m-4"
+            className="w-20 h-20  bg-btnColor rounded-full fixed bottom-0 right-0  m-4 md:hidden flex justify-center items-center"
             drag
             dragConstraints={{
               left: 0,
@@ -42,10 +45,13 @@ const MainSection = () => {
             // dragElastic={0.5}
             whileDrag={{ scale: 1.2 }}
           >
-            <p className="text-center font-semibold  text-white p-2">
-              {" "}
-              Visite your closet
-            </p>
+            {user && (
+              <Link to={`/closet/${user.id}`} className="">
+                <p className="text-center font-semibold  text-white p-4 text-sm">
+                  visit your closet
+                </p>
+              </Link>
+            )}
           </motion.div>
         )
       }

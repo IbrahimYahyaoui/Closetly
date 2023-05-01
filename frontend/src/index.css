@@ -14,4 +14,10 @@
   .LogoFont {
     font-family: "Pacifico", cursive;
   }
+  .btnNextUi {
+    /* background: #ccc; */
+    opacity: 0.8;
+    color: black;
+    border: 1px solid grey;
+  }
 }

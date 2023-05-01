@@ -11,6 +11,7 @@ import SignUp from "./Pages/AuthPage/SignUp";
 import SignIn from "./Pages/AuthPage/SignIn";
 import { Toaster } from "react-hot-toast";
 import HomePage from "./Pages/HomePage/HomePage";
+import ClosetPage from "./Pages/ClosetPage/ClosetPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<SignIn />}></Route>
       <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/home" element={<HomePage />}></Route>
+      <Route path="/closet/:id" element={<ClosetPage />}></Route>
 
       <Route path="*" element={<h1>Page not found</h1>}></Route>
     </>

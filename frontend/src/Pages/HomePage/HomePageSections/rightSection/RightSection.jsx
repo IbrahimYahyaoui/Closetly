@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useContext } from "react";
 import Tshirt from "../../../../assets/wear.svg";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../../AuthPage/context/AuthContext";
 const RightSection = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div className="flex  flex-col items-center px-8 ">
       <div className=" border-2  rounded-md h-fit  w-full flex flex-col items-center  p-2  font-semibold">
@@ -18,7 +21,7 @@ const RightSection = () => {
             src={Tshirt}
             className="w-8 text-white absolute rotate-45  opacity-60 -translate-x-2 translate-y-1"
           />
-          visit your closet
+          {user && <Link to={`/closet/${user.id}`}>visit your closet</Link>}
         </motion.button>
       </div>
       {/* Friends List */}
