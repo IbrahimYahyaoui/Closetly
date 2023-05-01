@@ -10,6 +10,9 @@ export default {
         loginColor: "#D7DBE7",
         btnColor: "#353A48",
       },
+      width: {
+        inherit: "inherit",
+      },
     },
   },
   plugins: [],

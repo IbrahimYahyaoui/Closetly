@@ -17,21 +17,23 @@ const Navbar = () => {
   const { user } = useContext(AuthContext);
   console.log(user);
   return (
-    <nav className="flex   lg:mt-4   justify-between w-full pt-2 border-b-2 pb-1 ">
+    <nav className="flex   p-2  justify-between w-full  border-b-2 pb-1 fixed bg-white z-50 ">
       <div className="LogoFont text-2xl  opacity-70 w-1/3 ">closetly</div>
       <section className="flex items-center w-2/3 justify-end ">
         <div className="flex  w-16 justify-between items-center ">
           <div>
             <Dropdown placement="bottom-right ">
-              <Dropdown.Button className="p-0">
+              <Dropdown.Button
+                className="p-0"
+                style={{
+                  background: "transparent",
+                }}
+              >
                 <Badge color="error" content={0}>
                   <HeartIcon className=" fill-none  stroke-black w-6  cursor-pointer" />
                 </Badge>
               </Dropdown.Button>
               <Dropdown.Menu aria-label="Static Actions">
-                <Dropdown.Item key="new">New file</Dropdown.Item>
-                <Dropdown.Item key="copy">Copy link</Dropdown.Item>
-                <Dropdown.Item key="edit">Edit file</Dropdown.Item>
                 <Dropdown.Item key="delete" withDivider color="error">
                   Delete file
                 </Dropdown.Item>
@@ -47,12 +49,7 @@ const Navbar = () => {
                 }}
               >
                 <Badge color="error" content={0} className="mr-2">
-                  <BellIcon
-                    className=" fill-none  stroke-black w-6  cursor-pointer "
-                    style={{
-                      background: "transparent",
-                    }}
-                  />
+                  <BellIcon className=" fill-none  stroke-black w-6  cursor-pointer " />
                 </Badge>
               </Dropdown.Button>
               <Dropdown.Menu aria-label="Static Actions">
@@ -72,6 +69,7 @@ const Navbar = () => {
                 borderRadius: "0.5rem",
                 marginTop: "0.6rem",
                 marginRight: "0.5rem",
+                backgroundColor: "white",
               }}
               menuButton={
                 <MenuButton className="flex items-center  cursor-pointer">
@@ -88,7 +86,7 @@ const Navbar = () => {
               }
               transition
             >
-              <MenuItem className="flex items-end h-8 ">
+              <MenuItem className="flex items-end h-8  ">
                 <UserCircleIcon className="w-5 mr-5 self-start" />
                 <p className="self-start"> Profile</p>
               </MenuItem>
