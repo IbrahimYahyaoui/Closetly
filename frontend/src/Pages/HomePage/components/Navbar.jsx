@@ -47,7 +47,12 @@ const Navbar = () => {
                 }}
               >
                 <Badge color="error" content={0} className="mr-2">
-                  <BellIcon className=" fill-none  stroke-black w-6  cursor-pointer " />
+                  <BellIcon
+                    className=" fill-none  stroke-black w-6  cursor-pointer "
+                    style={{
+                      background: "transparent",
+                    }}
+                  />
                 </Badge>
               </Dropdown.Button>
               <Dropdown.Menu aria-label="Static Actions">
