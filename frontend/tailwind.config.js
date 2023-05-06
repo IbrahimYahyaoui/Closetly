@@ -10,10 +10,12 @@ export default {
         loginColor: "#D7DBE7",
         btnColor: "#353A48",
         homeBg: "#dae0e6",
+        NextInputColor: "#F1F3F5",
       },
       width: {
         inherit: "inherit",
         body: "1024px",
+        200: "1800px",
       },
     },
   },
