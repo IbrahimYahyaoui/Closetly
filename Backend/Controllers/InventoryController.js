@@ -73,31 +73,13 @@ const addCloth = async (req, res) => {
   }
 };
 
-const getCloth = (req, res) => {
-  res.send("get Cloth");
-};
-
-const deleteCloth = (req, res) => {
-  // const { id, clothId } = req.body;
-  // try {
-  //   User.updateOne(
-  //     { _id: id },
-  //     {
-  //       $pull: {
-  //         inventory: { clothId: clothId },
-  //       },
-  //     }
-  //   ).then((result) => {
-  //     res.status(200).json(result);
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  //   res.status(400).json({ error: "Something went wrong" });
-  // }
-  //  select inventory
-
+const getCloths = (req, res) => {
+  const { id } = req.body;
+  console.log(req.body);
   try {
-    const { id, clothId } = req.body;
+    if (!id) {
+      return res.status(400).json({ error: "Please provide a user id" });
+    }
     User.findById(id).then((user) => {
       const inventory = user.inventory;
 
@@ -108,8 +90,27 @@ const deleteCloth = (req, res) => {
   }
 };
 
+const deleteCloth = (req, res) => {
+  const { id, clothId } = req.body;
+  try {
+    User.updateOne(
+      { _id: id },
+      {
+        $pull: {
+          inventory: { clothId: clothId },
+        },
+      }
+    ).then((result) => {
+      res.status(200).json(result);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: "Something went wrong" });
+  }
+};
+
 module.exports = {
   addCloth,
-  getCloth,
+  getCloths,
   deleteCloth,
 };

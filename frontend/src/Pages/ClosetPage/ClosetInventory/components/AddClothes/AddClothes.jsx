@@ -2,7 +2,7 @@ import React, { useState, Fragment, useRef } from "react";
 import { motion } from "framer-motion";
 
 import shirtPlaceholder from "../../../../../assets/closetAssets/shirtPlaceholder.svg";
-import { Input } from "@nextui-org/react";
+import { Input, Loading } from "@nextui-org/react";
 import {
   ArrowUpTrayIcon,
   ChevronUpDownIcon,
@@ -28,7 +28,7 @@ const AddClothes = ({ id }) => {
   const ClotheName = useRef();
   const NewCategory = useRef();
   //
-  const { addClothesHandler } = useAddClothes();
+  const { addClothesHandler, isLoading } = useAddClothes();
   const handelAddClothes = () => {
     //
     toast.dismiss();
@@ -235,14 +235,20 @@ const AddClothes = ({ id }) => {
                 </p>
               )}
 
-              <button
-                className="h-10 bg-btnColor w-80 rounded text-white font-semibold text-md z-10 my-5"
-                onClick={() => {
-                  handelAddClothes();
-                }}
-              >
-                Add it
-              </button>
+              {!isLoading ? (
+                <button
+                  className="h-10 bg-btnColor w-80 rounded text-white font-semibold text-md z-10 my-5"
+                  onClick={() => {
+                    handelAddClothes();
+                  }}
+                >
+                  Add it
+                </button>
+              ) : (
+                <button className="h-10 bg-btnColor w-80 rounded text-white font-semibold text-md z-10 my-5">
+                  <Loading color={"currentColor"} size="sm" />
+                </button>
+              )}
             </Dialog.Panel>
           </div>
         </div>

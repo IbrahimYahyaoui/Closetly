@@ -6,6 +6,7 @@ export const useAddClothes = () => {
   const [isLoading, setLoading] = useState(false);
 
   const addClothesHandler = (formData) => {
+    setLoading(true);
     axios
       .post(
         `${import.meta.env.VITE_APP_Production_ROOT}inventory/addcloth`,
@@ -27,5 +28,5 @@ export const useAddClothes = () => {
         setLoading(false);
       });
   };
-  return { addClothesHandler };
+  return { addClothesHandler, isLoading };
 };

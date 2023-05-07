@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   addCloth,
-  getCloth,
+  getCloths,
   deleteCloth,
 } = require("../Controllers/InventoryController");
 
@@ -14,7 +14,7 @@ const upload = multer({ storage: fileStorageEngine });
 
 router.post("/addCloth", upload.single("image"), addCloth);
 
-router.get("/getCloth", getCloth);
+router.post("/getCloths", getCloths);
 
 router.delete("/deleteCloth/:id", deleteCloth);
 
