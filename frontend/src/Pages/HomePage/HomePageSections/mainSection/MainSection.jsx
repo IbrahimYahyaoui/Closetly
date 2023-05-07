@@ -14,7 +14,6 @@ const MainSection = () => {
       <div
         className="border-2 rounded-md flex flex-col items-center md:hidden "
         ref={isButtonInViewPort}
-        style={{ overflow: "scroll" }}
       >
         <p className="font-semibold p-2">
           Start discover your personal style and then share it with others.

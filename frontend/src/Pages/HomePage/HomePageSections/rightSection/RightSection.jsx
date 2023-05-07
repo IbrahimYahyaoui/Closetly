@@ -7,7 +7,7 @@ const RightSection = () => {
   const { user } = useContext(AuthContext);
   return (
     <div className="flex  flex-col items-center px-8 ">
-      <div className=" border-2  rounded-md h-fit  w-full flex flex-col items-center  p-2  font-semibold">
+      <div className="  border-2  rounded-md h-fit  w-full flex flex-col items-center  p-2  font-semibold">
         <p className="opacity-80">
           Create your own virtual closet by uploading pictures of your own
           clothes. Explore and discover your personal style and then share it
