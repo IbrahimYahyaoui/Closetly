@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
@@ -12,6 +13,13 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    profilePic: {
+      type: String,
+      default: "",
+    },
+    inventory: [],
+    followers: [],
+    following: [],
   },
   { timestamps: true }
 );

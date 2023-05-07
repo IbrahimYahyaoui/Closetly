@@ -7,7 +7,7 @@ const ClosetPage = () => {
   return (
     <div className="flex p-2">
       <section className="border  w-2/4 mr-2  h-screen p-2">
-        <ClosetInventory />
+        <ClosetInventory id={id} />
       </section>
 
       <section className="border w-2/4  h-screen "></section>

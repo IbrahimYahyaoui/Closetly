@@ -9,7 +9,9 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.4",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13"
   },
   "engines": {
     "node": "14.17.6"

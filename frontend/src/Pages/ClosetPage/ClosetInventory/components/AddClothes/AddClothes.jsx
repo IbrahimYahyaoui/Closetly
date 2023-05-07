@@ -1,7 +1,7 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useRef } from "react";
 import { motion } from "framer-motion";
 
-import shirtPlaceholder from "../../../../assets/closetAssets/shirtPlaceholder.svg";
+import shirtPlaceholder from "../../../../../assets/closetAssets/shirtPlaceholder.svg";
 import { Input } from "@nextui-org/react";
 import {
   ArrowUpTrayIcon,
@@ -10,7 +10,9 @@ import {
 } from "@heroicons/react/24/solid";
 
 import { Dialog, Listbox, Transition } from "@headlessui/react";
-const AddClothes = () => {
+import { useAddClothes } from "./hooks/useAddClothes";
+import { toast } from "react-hot-toast";
+const AddClothes = ({ id }) => {
   let [isOpen, setIsOpen] = useState(false);
   const people = [
     { name: "Wade Cooper" },
@@ -21,9 +23,51 @@ const AddClothes = () => {
     { name: "Hellen Schmidt" },
   ];
   const [selected, setSelected] = useState(people[0]);
-  const [isAddCategory, setIsAddCategory] = useState(true);
+  const [isAddCategory, setIsAddCategory] = useState(false);
   const [ClothesPicture, setClothesPicture] = useState();
+  const ClotheName = useRef();
+  const NewCategory = useRef();
+  //
+  const { addClothesHandler } = useAddClothes();
+  const handelAddClothes = () => {
+    //
+    toast.dismiss();
+    if (ClothesPicture === undefined) {
+      toast.error("Please select a picture");
+      return;
+    }
+    if (ClotheName.current.value === "") {
+      toast.error("Please enter a name");
+      return;
+    }
+    if (!isAddCategory) {
+      if (selected.name === "") {
+        toast.error("Please select a category");
+        return;
+      }
+    } else {
+      if (NewCategory.current.value === "") {
+        toast.error("Please enter a category");
+        return;
+      }
+    }
 
+    // formData
+    const formData = new FormData();
+    formData.append("image", ClothesPicture);
+    formData.append("name", ClotheName.current.value);
+    formData.append("id", id);
+    if (!isAddCategory) {
+      formData.append("category", selected.name);
+      console.log(selected.name);
+    } else {
+      formData.append("category", NewCategory.current.value);
+      console.log(NewCategory.current.value);
+    }
+
+    // pass for data to hook
+    addClothesHandler(formData);
+  };
   return (
     <>
       <motion.div
@@ -87,9 +131,10 @@ const AddClothes = () => {
                   label="Full Name"
                   placeholder="set an item name"
                   className="w-60"
+                  ref={ClotheName}
                 />
               </div>
-              {isAddCategory ? (
+              {!isAddCategory ? (
                 <div className="mt-3">
                   <p className="capitalize text-sm">select category</p>
                   <Listbox
@@ -165,6 +210,7 @@ const AddClothes = () => {
                     label="New Category"
                     placeholder="category name"
                     className="w-60"
+                    ref={NewCategory}
                   />
                 </div>
               )}
@@ -178,21 +224,21 @@ const AddClothes = () => {
                   className="text-sm text-blue-400 font-bold cursor-pointer"
                   onClick={() => setIsAddCategory(false)}
                 >
-                  add new category
+                  Select category
                 </p>
               ) : (
                 <p
                   className="text-sm text-blue-400 font-bold  cursor-pointer"
                   onClick={() => setIsAddCategory(true)}
                 >
-                  select category
+                  Add new category
                 </p>
               )}
 
               <button
                 className="h-10 bg-btnColor w-80 rounded text-white font-semibold text-md z-10 my-5"
                 onClick={() => {
-                  console.log("clicked");
+                  handelAddClothes();
                 }}
               >
                 Add it

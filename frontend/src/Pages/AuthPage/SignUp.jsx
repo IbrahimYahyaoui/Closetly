@@ -20,11 +20,11 @@ const SignUp = () => {
 
   const usernameRef = useRef();
   const passwordRef = useRef();
+  const navigate = useNavigate();
 
   const handelSignup = async () => {
     // check if user existe
     // if user existe then redirect to home page
-    const navigate = useNavigate();
     if (localStorage.getItem("user")) {
       navigate("/home", { replace: true });
     }

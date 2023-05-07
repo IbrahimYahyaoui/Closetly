@@ -5,9 +5,14 @@ const {
   deleteCloth,
 } = require("../Controllers/InventoryController");
 
+const multer = require("multer");
+
 const router = express.Router();
 
-router.post("/addCloth", addCloth);
+const fileStorageEngine = multer.memoryStorage({});
+const upload = multer({ storage: fileStorageEngine });
+
+router.post("/addCloth", upload.single("image"), addCloth);
 
 router.get("/getCloth", getCloth);
 

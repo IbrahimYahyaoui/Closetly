@@ -7,7 +7,7 @@ const createToken = (_id) => {
 
 const SignupUser = async (req, res) => {
   const { username, password } = req.body;
-  console.log(req.body);
+
   try {
     const user = await User.signup({
       username,

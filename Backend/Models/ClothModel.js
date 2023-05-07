@@ -2,17 +2,17 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-  picture: {
-    type: string,
+const ClothSchema = new Schema({
+  image: {
+    type: String,
     required: true,
   },
   name: {
-    type: string,
+    type: String,
     required: true,
   },
   Category: {
-    type: string,
+    type: String,
     required: true,
   },
 });
