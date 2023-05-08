@@ -37,7 +37,7 @@ const ClosetInventory = ({ id }) => {
         </div>
         <motion.div
           layout
-          className="container grid gap-6 grid-rows-4  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4  h-screen overflow-scroll pb-32"
+          className="container grid gap-6 grid-rows-4  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4  h-screen overflow-scroll pb-32"
         >
           {id && <AddClothes id={id} />}
           {inventoryItems && inventoryItems.length > 0 && (
