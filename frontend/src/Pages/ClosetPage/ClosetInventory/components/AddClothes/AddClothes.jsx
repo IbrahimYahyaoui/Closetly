@@ -1,4 +1,10 @@
-import React, { useState, Fragment, useRef } from "react";
+import React, {
+  useState,
+  Fragment,
+  useRef,
+  useContext,
+  useEffect,
+} from "react";
 import { motion } from "framer-motion";
 
 import shirtPlaceholder from "../../../../../assets/closetAssets/shirtPlaceholder.svg";
@@ -12,18 +18,23 @@ import {
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { useAddClothes } from "./hooks/useAddClothes";
 import { toast } from "react-hot-toast";
+import { inventoryContext } from "../../context/InventoryContext";
+
 const AddClothes = ({ id }) => {
+  const { categoryListItem } = useContext(inventoryContext);
+  const myObject = categoryListItem.map((item, index) => ({ name: item }));
+  console.log(myObject);
   let [isOpen, setIsOpen] = useState(false);
-  const people = [
-    { name: "Wade Cooper" },
-    { name: "Arlene Mccoy" },
-    { name: "Devon Webb" },
-    { name: "Tom Cook" },
-    { name: "Tanya Fox" },
-    { name: "Hellen Schmidt" },
-  ];
-  const [selected, setSelected] = useState(people[0]);
+
+  const [selected, setSelected] = useState({ name: "select one from here" });
+  console.log(selected, "selected");
   const [isAddCategory, setIsAddCategory] = useState(false);
+  useEffect(() => {
+    if (categoryListItem.length === 0) {
+      setIsAddCategory(true);
+    }
+  }, []);
+
   const [ClothesPicture, setClothesPicture] = useState();
   const ClotheName = useRef();
   const NewCategory = useRef();
@@ -41,7 +52,7 @@ const AddClothes = ({ id }) => {
       return;
     }
     if (!isAddCategory) {
-      if (selected.name === "") {
+      if (selected.name === "" || selected.name === "select one from here") {
         toast.error("Please select a category");
         return;
       }
@@ -59,7 +70,7 @@ const AddClothes = ({ id }) => {
     formData.append("id", id);
     if (!isAddCategory) {
       formData.append("category", selected.name);
-      console.log(selected.name);
+      // console.log(selected.name);
     } else {
       formData.append("category", NewCategory.current.value);
       console.log(NewCategory.current.value);
@@ -132,10 +143,12 @@ const AddClothes = ({ id }) => {
                   placeholder="set an item name"
                   className="w-60"
                   ref={ClotheName}
+                  maxLength="30"
+                  // helperText={"max 20 chars"}
                 />
               </div>
               {!isAddCategory ? (
-                <div className="mt-3">
+                <div className="mt-5">
                   <p className="capitalize text-sm">select category</p>
                   <Listbox
                     value={selected}
@@ -144,7 +157,9 @@ const AddClothes = ({ id }) => {
                   >
                     <div className="relative mt-1">
                       <Listbox.Button className="relative w-60 cursor-default rounded-lg bg-NextInputColor py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                        <span className="block truncate">{selected.name}</span>
+                        <span className="block truncate">
+                          {categoryListItem.length > 0 && selected.name}
+                        </span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 bg-NextInputColor">
                           <ChevronUpDownIcon
                             className="h-5 w-5 text-gray-400"
@@ -159,42 +174,43 @@ const AddClothes = ({ id }) => {
                         leaveTo="opacity-0"
                       >
                         <Listbox.Options className="absolute mt-1 max-h-40 w-full overflow-auto rounded-md bg-white  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {people.map((person, personIdx) => (
-                            <Listbox.Option
-                              key={personIdx}
-                              className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "bg-slate-100  cursor-pointer"
-                                    : "text-gray-900"
-                                }`
-                              }
-                              value={person}
-                            >
-                              {({ selected }) => (
-                                <>
-                                  <span
-                                    className={`block truncate ${
-                                      selected ? "font-medium" : "font-normal"
-                                    }`}
-                                    onClick={() => {
-                                      console.log("clicked");
-                                    }}
-                                  >
-                                    {person.name}
-                                  </span>
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                      <CheckIcon
-                                        className="h-5 w-5"
-                                        aria-hidden="true"
-                                      />
+                          {myObject &&
+                            myObject.map((item) => (
+                              <Listbox.Option
+                                key={item}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                    active
+                                      ? "bg-slate-100  cursor-pointer"
+                                      : "text-gray-900"
+                                  }`
+                                }
+                                value={item}
+                              >
+                                {({ selected }) => (
+                                  <>
+                                    <span
+                                      className={`block truncate ${
+                                        selected ? "font-medium" : "font-normal"
+                                      }`}
+                                      onClick={() => {
+                                        console.log("clicked");
+                                      }}
+                                    >
+                                      {item.name}
                                     </span>
-                                  ) : null}
-                                </>
-                              )}
-                            </Listbox.Option>
-                          ))}
+                                    {selected ? (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                        <CheckIcon
+                                          className="h-5 w-5"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
                         </Listbox.Options>
                       </Transition>
                     </div>
@@ -222,7 +238,15 @@ const AddClothes = ({ id }) => {
               {isAddCategory ? (
                 <p
                   className="text-sm text-blue-400 font-bold cursor-pointer"
-                  onClick={() => setIsAddCategory(false)}
+                  onClick={() => {
+                    if (categoryListItem.length === 0) {
+                      toast.error(
+                        "you don't have any category to select from add one first "
+                      );
+                    } else {
+                      setIsAddCategory(false);
+                    }
+                  }}
                 >
                   Select category
                 </p>

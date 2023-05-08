@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
+import { inventoryContext } from "../../../context/InventoryContext";
 
 export const useAddClothes = () => {
   const [isLoading, setLoading] = useState(false);
-
+  const { dispatch } = useContext(inventoryContext);
   const addClothesHandler = (formData) => {
     setLoading(true);
     axios
@@ -13,7 +14,8 @@ export const useAddClothes = () => {
         formData
       )
       .then((response) => {
-        // dispatch({ type: "SIGNIN", payload: response.data });
+        console.log(response.data);
+        dispatch({ type: "ADD_CLOTHS", payload: response.data });
         // localStorage.setItem("user", JSON.stringify(response.data));
         toast.dismiss();
         toast.success("added successfully ", {

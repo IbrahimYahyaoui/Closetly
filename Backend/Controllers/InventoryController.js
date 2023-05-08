@@ -15,7 +15,7 @@ async function handleUpload(file) {
   const res = await cloudinary.uploader.upload(file, {
     folder,
     resource_type: "auto",
-    transformation: [{ width: 600, height: 600, crop: "limit" }],
+    transformation: [{ height: "0.3", width: "0.3", crop: "pad" }],
   });
   return res;
 }
@@ -66,7 +66,9 @@ const addCloth = async (req, res) => {
       }
     );
 
-    res.status(200).json(user);
+    res
+      .status(200)
+      .json({ clothId, image: imageUrl, name, category, ClothBaseName });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: "Something went wrong" });
@@ -92,6 +94,7 @@ const getCloths = (req, res) => {
 
 const deleteCloth = (req, res) => {
   const { id, clothId } = req.body;
+  // console.log(req.body);
   try {
     User.updateOne(
       { _id: id },
@@ -101,7 +104,7 @@ const deleteCloth = (req, res) => {
         },
       }
     ).then((result) => {
-      res.status(200).json(result);
+      res.status(200).json(clothId);
     });
   } catch (error) {
     console.log(error);

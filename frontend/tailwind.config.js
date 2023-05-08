@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  important: true,
+  // important: true,
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -16,6 +16,10 @@ export default {
         inherit: "inherit",
         body: "1024px",
         200: "1800px",
+      },
+      gridTemplateRows: {
+        // Simple 8 row grid
+        4: "repeat(8, 2fr)",
       },
     },
   },

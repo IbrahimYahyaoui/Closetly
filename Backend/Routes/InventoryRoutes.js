@@ -16,6 +16,6 @@ router.post("/addCloth", upload.single("image"), addCloth);
 
 router.post("/getCloths", getCloths);
 
-router.delete("/deleteCloth/:id", deleteCloth);
+router.post("/deleteCloth", deleteCloth);
 
 module.exports = router;

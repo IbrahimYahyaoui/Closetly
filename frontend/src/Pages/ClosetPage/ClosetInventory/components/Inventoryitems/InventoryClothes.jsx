@@ -1,28 +1,49 @@
 import React, { useContext } from "react";
 import { inventoryContext } from "../../context/InventoryContext";
+import { TrashIcon } from "@heroicons/react/24/solid";
+import { motion } from "framer-motion";
+import { useDeleteCloth } from "./hooks/useDeleteCloth";
 
-const InventoryClothes = () => {
+const InventoryClothes = ({ id }) => {
   const { inventoryItems } = useContext(inventoryContext);
-  console.log(inventoryItems);
+  const { deleteClothHandler } = useDeleteCloth();
+
+  const handelDeleteCloth = (clothId) => {
+    deleteClothHandler(clothId, id);
+  };
   return (
     <>
       {inventoryItems &&
+        inventoryItems.length > 0 &&
         inventoryItems.map((item) => {
           return (
-            <div
-              className="w-40 h-44 rounded-lg bg-slate-200 border-2 border-slate-200 cursor-pointer overflow-hidden flex items-center flex-col"
+            <motion.div
+              className="w-40 h-44 rounded-lg bg-slate-200 border-4 border-slate-200 cursor-pointer overflow-hidden flex items-center flex-col  "
               key={item.clothId}
+              whileHover={{ scale: 1.01 }}
             >
-              <div>
+              <div className="w-full h-3/4 relative ">
+                <motion.div
+                  className=" absolute top-2 right-0 bg-white p-1 rounded-md z-20"
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => {
+                    handelDeleteCloth(item.clothId);
+                  }}
+                >
+                  <p>
+                    <TrashIcon className="w-4 " />
+                  </p>
+                </motion.div>
+                <p className=" w-full h-full absolute top-0   itemOverlay"></p>
                 <img
                   src={item.image}
-                  className="bg-contain h-36 w-full object-contain"
+                  className="bg-contain h-full w-full object-contain"
                 ></img>
               </div>
-              <div>
-                <p className="font-semibold text-sm">{item.name}</p>
+              <div className=" shadow-xl w-full h-1/4 grid  place-content-center">
+                <p className="font-semibold text-sm  ">{item.name}</p>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       <style jsx>{`
