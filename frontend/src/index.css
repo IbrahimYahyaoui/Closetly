@@ -20,7 +20,7 @@
     color: black;
     border: 1px solid grey;
   }
-}
-.itemOverlay {
-  background: linear-gradient(transparent 0%, #e2e8f0 150%);
+  .itemOverlay {
+    background: linear-gradient(transparent 0%, #e2e8f0 150%);
+  }
 }
