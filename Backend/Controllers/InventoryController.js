@@ -71,7 +71,7 @@ const addCloth = async (req, res) => {
       .json({ clothId, image: imageUrl, name, category, ClothBaseName });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: "Something went wrong" });
+    res.status(400).json({ error: error });
   }
 };
 
