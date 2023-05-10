@@ -21,11 +21,11 @@ const HomePage = () => {
 
         {/*  */}
         <div className=" flex justify-center">
-          <div className="lg:w-body flex pt-20 ">
-            <div className="w-3/3 md:w-2/3 p-2 bg-white overflow-hidden">
+          <div className="flex pt-20 lg:w-body ">
+            <div className="w-3/3 overflow-hidden bg-white p-2 md:w-2/3">
               <MainSection />
             </div>
-            <div className="w-1/3 hidden md:block">
+            <div className="hidden w-1/3 md:block">
               <RightSection />
             </div>
           </div>

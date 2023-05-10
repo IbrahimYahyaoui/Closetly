@@ -51,17 +51,17 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col md:h-screen md:justify-center overflow-hidden md:relative ">
-      <section className=" w-screen grid place-content-end">
-        <img src={svgOne} className=" w-60 pt-10 md:hidden justify-end " />
+    <div className="flex flex-col overflow-hidden md:relative md:h-screen md:justify-center ">
+      <section className=" grid w-screen place-content-end">
+        <img src={svgOne} className=" w-60 justify-end pt-10 md:hidden " />
 
         <img
           src={shirt}
-          className=" w-70 pt-10  absolute bottom-0 translate-y-16 -translate-x-12 rotate-45 opacity-20 hidden md:block "
+          className=" w-70 absolute  bottom-0 hidden -translate-x-12 translate-y-16 rotate-45 pt-10 opacity-20 md:block "
         />
       </section>
       <section className=" flex flex-col items-center">
-        <p className="text-black font-bold  text-6xl opacity-30 my-6">
+        <p className="my-6 text-6xl  font-bold text-black opacity-30">
           Let’s Start
         </p>
         <div className="py-4">
@@ -70,7 +70,7 @@ const SignUp = () => {
             clearable
             underlined
             placeholder="Username"
-            className="w-80 h-12 "
+            className="h-12 w-80 "
             contentRight={<UserIcon className="w-32" />}
             ref={usernameRef}
           />
@@ -83,32 +83,32 @@ const SignUp = () => {
             placeholder="Password"
             visibleIcon={<LockOpenIcon fill="currentColor " className="w-32" />}
             hiddenIcon={<LockClosedIcon fill="currentColor" className="w-32" />}
-            className="w-80 h-12  "
+            className="h-12 w-80  "
             ref={passwordRef}
           />
         </div>
         {isLoading ? (
-          <button className=" bg-btnColor w-80 h-12 rounded text-white font-semibold mt-8">
+          <button className=" mt-8 h-12 w-80 rounded bg-btnColor font-semibold text-white">
             <Loading color={"currentColor"} />
           </button>
         ) : (
           <motion.button
-            className=" bg-btnColor w-80 h-12 rounded text-white font-semibold mt-8"
+            className=" mt-8 h-12 w-80 rounded bg-btnColor font-semibold text-white"
             onClick={() => handelSignup()}
             whileTap={{ scale: 0.9 }}
           >
             Create an account
           </motion.button>
         )}
-        <p className="text-btnColor flex mt-4 text-sm">
+        <p className="mt-4 flex text-sm text-btnColor">
           Already had an account ?
-          <Link to="/" className="pl-2 font-semibold flex">
+          <Link to="/" className="flex pl-2 font-semibold">
             sign in <LinkIcon className="w-4 pl-1" />
           </Link>
         </p>
-        <div className="   absolute bottom-0 mb-5 text-2xl opacity-40 flex flex-col items-center">
+        <div className="   absolute bottom-0 mb-5 flex flex-col items-center text-2xl opacity-40">
           <p className="LogoFont mx-2">closetly</p>
-          <p className="text-xs opacity-60   font-bold pt-2">
+          <p className="pt-2 text-xs   font-bold opacity-60">
             Your virtual closet.
           </p>
         </div>

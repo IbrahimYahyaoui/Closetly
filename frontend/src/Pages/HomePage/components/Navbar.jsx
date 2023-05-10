@@ -21,10 +21,10 @@ const Navbar = () => {
     logout();
   };
   return (
-    <nav className="flex   p-2  justify-between w-full  border-b-2 pb-1 fixed bg-white z-50 ">
-      <div className="LogoFont text-2xl  opacity-70 w-1/3 ">closetly</div>
-      <section className="flex items-center w-2/3 justify-end ">
-        <div className="flex  w-16 justify-between items-center ">
+    <nav className="fixed   z-50  flex w-full  justify-between border-b-2 bg-white p-2 pb-1 ">
+      <div className="LogoFont w-1/3  text-2xl opacity-70 ">closetly</div>
+      <section className="flex w-2/3 items-center justify-end ">
+        <div className="flex  w-16 items-center justify-between ">
           <div>
             <Dropdown placement="bottom-right ">
               <Dropdown.Button
@@ -34,7 +34,7 @@ const Navbar = () => {
                 }}
               >
                 <Badge color="error" content={0}>
-                  <HeartIcon className=" fill-none  stroke-black w-6  cursor-pointer" />
+                  <HeartIcon className=" w-6  cursor-pointer fill-none  stroke-black" />
                 </Badge>
               </Dropdown.Button>
               <Dropdown.Menu aria-label="Static Actions">
@@ -53,7 +53,7 @@ const Navbar = () => {
                 }}
               >
                 <Badge color="error" content={0} className="mr-2">
-                  <BellIcon className=" fill-none  stroke-black w-6  cursor-pointer " />
+                  <BellIcon className=" w-6  cursor-pointer fill-none  stroke-black " />
                 </Badge>
               </Dropdown.Button>
               <Dropdown.Menu aria-label="Static Actions">
@@ -65,8 +65,8 @@ const Navbar = () => {
           </div>
         </div>
         {user && (
-          <div className="flex items-center mr-2">
-            <p className="h-8 bg-slate-300 w-1 rounded mx-4 opacity-50  ml-5"></p>
+          <div className="mr-2 flex items-center">
+            <p className="mx-4 ml-5 h-8 w-1 rounded bg-slate-300  opacity-50"></p>
             <Menu
               // menu styles
               menuStyle={{
@@ -76,7 +76,7 @@ const Navbar = () => {
                 backgroundColor: "white",
               }}
               menuButton={
-                <MenuButton className="flex items-center  cursor-pointer">
+                <MenuButton className="flex cursor-pointer  items-center">
                   <Avatar
                     src={`https://eu.ui-avatars.com/api/?name=${user.Username}&size=300`}
                     // name={user.Username}
@@ -85,24 +85,24 @@ const Navbar = () => {
                   {/* <p className="mx-2 font-semibold text-sm">
                     {user && user.Username}
                   </p> */}
-                  <ChevronDownIcon className="w-4 ml-2" />
+                  <ChevronDownIcon className="ml-2 w-4" />
                 </MenuButton>
               }
               transition
             >
-              <MenuItem className="flex items-end h-8  ">
-                <UserCircleIcon className="w-5 mr-5 self-start" />
+              <MenuItem className="flex h-8 items-end  ">
+                <UserCircleIcon className="mr-5 w-5 self-start" />
                 <p className="self-start"> Profile</p>
               </MenuItem>
-              <MenuItem className="flex items-end h-8 pt-3 ">
-                <ArrowRightOnRectangleIcon className="w-5 mr-5 self-start" />
+              <MenuItem className="flex h-8 items-end pt-3 ">
+                <ArrowRightOnRectangleIcon className="mr-5 w-5 self-start" />
                 <p className="self-start" onClick={() => handelLogout()}>
                   {" "}
                   logout
                 </p>
               </MenuItem>
-              <MenuItem className="flex items-end h-8 pt-3 " disabled>
-                <CogIcon className="w-5 mr-5 self-start" />
+              <MenuItem className="flex h-8 items-end pt-3 " disabled>
+                <CogIcon className="mr-5 w-5 self-start" />
                 <p className="self-start">V 1.0.0</p>
               </MenuItem>
             </Menu>

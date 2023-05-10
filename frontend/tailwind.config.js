@@ -16,6 +16,15 @@ export default {
         inherit: "inherit",
         body: "1024px",
         200: "1800px",
+        container: "37.5rem",
+        item: "7.813rem",
+      },
+      height: {
+        inherit: "inherit",
+        body: "1024px",
+        200: "1800px",
+        container: "33rem",
+        item: "11rem",
       },
       gridTemplateRows: {
         // Simple 8 row grid
@@ -23,5 +32,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("prettier-plugin-tailwindcss")],
 };

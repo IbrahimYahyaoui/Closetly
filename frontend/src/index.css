@@ -23,4 +23,12 @@
   .itemOverlay {
     background: linear-gradient(transparent 0%, #e2e8f0 150%);
   }
+  .bgPattern {
+    background-color: #fff;
+    /* opacity: 0.5; */
+    background-image: radial-gradient(#000000 0.5px, transparent 0.5px),
+      radial-gradient(#000000 0.5px, #fff 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+  }
 }

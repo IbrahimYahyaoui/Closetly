@@ -48,16 +48,16 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex flex-col md:h-screen md:justify-center overflow-hidden md:relative ">
+    <div className="flex flex-col overflow-hidden md:relative md:h-screen md:justify-center ">
       <section>
         <img src={svgTwo} className=" w-70 pt-10 md:hidden" />
         <img
           src={shirt}
-          className=" w-70 pt-10  absolute bottom-0 translate-y-16 -translate-x-12 rotate-45 opacity-20 hidden md:block "
+          className=" w-70 absolute  bottom-0 hidden -translate-x-12 translate-y-16 rotate-45 pt-10 opacity-20 md:block "
         />
       </section>
       <section className=" flex flex-col items-center ">
-        <p className="text-black font-bold  text-6xl opacity-30 my-2 ml-8  leading-tight">
+        <p className="my-2 ml-8  text-6xl font-bold leading-tight text-black  opacity-30">
           welcome back!
         </p>
         <div className="py-4">
@@ -80,32 +80,32 @@ const SignIn = () => {
             placeholder="Password"
             visibleIcon={<LockOpenIcon fill="currentColor " className="w-32" />}
             hiddenIcon={<LockClosedIcon fill="currentColor" className="w-32" />}
-            className="w-80 h-12  placeholder-black::placeholder"
+            className="placeholder-black::placeholder h-12  w-80"
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         {isLoading ? (
-          <button className=" bg-btnColor w-80 h-12 rounded text-white font-semibold mt-8">
+          <button className=" mt-8 h-12 w-80 rounded bg-btnColor font-semibold text-white">
             <Loading color={"currentColor"} />
           </button>
         ) : (
           <motion.button
-            className=" bg-btnColor w-80 h-12 rounded text-white font-semibold mt-8"
+            className=" mt-8 h-12 w-80 rounded bg-btnColor font-semibold text-white"
             onClick={() => handelSignin()}
             whileTap={{ scale: 0.9 }}
           >
             Sign In
           </motion.button>
         )}
-        <p className="text-btnColor flex mt-4 text-sm">
+        <p className="mt-4 flex text-sm text-btnColor">
           Don't have an account ?
-          <Link to="/signup" className="pl-2 font-semibold flex">
+          <Link to="/signup" className="flex pl-2 font-semibold">
             sign up <LinkIcon className="w-4 pl-1" />
           </Link>
         </p>
-        <div className="   absolute bottom-0 mb-5 text-2xl opacity-40 flex flex-col items-center">
+        <div className="   absolute bottom-0 mb-5 flex flex-col items-center text-2xl opacity-40">
           <p className="LogoFont mx-2">closetly</p>
-          <p className="text-xs opacity-60   font-bold pt-2">
+          <p className="pt-2 text-xs   font-bold opacity-60">
             Your virtual closet.
           </p>
         </div>

@@ -4,25 +4,34 @@ import AddClothes from "./components/AddClothes/AddClothes";
 import InventoryClothes from "./components/Inventoryitems/InventoryClothes";
 import { inventoryContext } from "./context/InventoryContext";
 import { AuthContext } from "../../AuthPage/context/AuthContext";
+import { ArrowLongUpIcon } from "@heroicons/react/24/solid";
 const ClosetInventory = ({ id }) => {
   const { categoryListItem, inventoryItems } = useContext(inventoryContext);
   const { user } = useContext(AuthContext);
-  console.log(categoryListItem, "state");
+
   return (
     <AnimatePresence>
-      <motion.div layout>
-        <h1 className="font-bold  text-2xl mb-5">
+      {/* <div className="flex justify-center">
+        <ArrowLongUpIcon className="w-8" />
+        <p className="text-lg font-bold">Slide up to open your clothe</p>
+        <ArrowLongUpIcon className="w-8" />
+      </div> */}
+      <motion.div
+        // layout
+        className="z-20 bg-white"
+      >
+        <h1 className="mb-5  text-2xl font-bold">
           {user && user.Username}'s Closet
         </h1>
-        <div className="mt-2 mb-5 flex">
+        <div className="mb-5 mt-2 flex">
           {categoryListItem && categoryListItem.length > 0 && (
-            <p className="px-2 mx-1 border-2 rounded-xl cursor-pointer">All</p>
+            <p className="mx-1 cursor-pointer rounded-xl border-2 px-2">All</p>
           )}
           {categoryListItem && categoryListItem.length > 0 ? (
             categoryListItem.map((item) => {
               return (
                 <p
-                  className="px-2 mx-1 border-2 rounded-xl cursor-pointer"
+                  className="mx-1 cursor-pointer rounded-xl border-2 px-2"
                   key={item}
                 >
                   {item}
@@ -30,14 +39,14 @@ const ClosetInventory = ({ id }) => {
               );
             })
           ) : (
-            <p className="text-2xl font-bold text-center ">
+            <p className="text-center text-2xl font-bold ">
               You have no clothes upload some🤷‍♂️
             </p>
           )}
         </div>
         <motion.div
           layout
-          className="container grid gap-6 grid-rows-4  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4  h-screen overflow-scroll pb-32"
+          className="container grid  h-screen grid-cols-2 grid-rows-4  gap-6 overflow-scroll bg-white pb-32  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4"
         >
           {id && <AddClothes id={id} />}
           {inventoryItems && inventoryItems.length > 0 && (

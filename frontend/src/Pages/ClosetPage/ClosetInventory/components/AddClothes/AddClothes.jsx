@@ -23,11 +23,11 @@ import { inventoryContext } from "../../context/InventoryContext";
 const AddClothes = ({ id }) => {
   const { categoryListItem } = useContext(inventoryContext);
   const myObject = categoryListItem.map((item, index) => ({ name: item }));
-  console.log(myObject);
+
   let [isOpen, setIsOpen] = useState(false);
 
   const [selected, setSelected] = useState({ name: "select one from here" });
-  console.log(selected, "selected");
+
   const [isAddCategory, setIsAddCategory] = useState(false);
   useEffect(() => {
     if (categoryListItem.length === 0) {
@@ -82,7 +82,7 @@ const AddClothes = ({ id }) => {
   return (
     <>
       <motion.div
-        className=" bg-slate-200 w-40 h-44 rounded-lg flex flex-col justify-center items-center cursor-pointer"
+        className=" z-20 flex h-44 w-40 cursor-pointer flex-col items-center justify-center rounded-lg bg-slate-200"
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
@@ -105,14 +105,14 @@ const AddClothes = ({ id }) => {
           {/* Container to center the panel */}
           <div className="flex min-h-full items-center justify-center p-4">
             {/* The actual dialog panel  */}
-            <Dialog.Panel className="mx-auto  rounded bg-white w-96 flex flex-col items-center">
+            <Dialog.Panel className="mx-auto  flex w-96 flex-col items-center rounded bg-white">
               <div
-                className="absolute bottom-5 bg-white py-2 px-2 rounded-full "
+                className="absolute bottom-5 rounded-full bg-white px-2 py-2 "
                 onClick={() => setIsOpen(false)}
               >
                 <XMarkIcon className="w-4" />
               </div>
-              <Dialog.Title className="font-semibold  uppercase mt-5">
+              <Dialog.Title className="mt-5  font-semibold uppercase">
                 Add your clothes
               </Dialog.Title>
               <label className="mt-5">
@@ -125,11 +125,11 @@ const AddClothes = ({ id }) => {
                 {ClothesPicture ? (
                   <img
                     src={URL.createObjectURL(ClothesPicture)}
-                    className="w-40 h-40 object-cover"
+                    className="h-40 w-40 object-cover"
                   />
                 ) : (
-                  <p className="h-36  rounded w-40 flex items-center justify-center border-2 border-dashed  border-blue-400 ">
-                    <ArrowUpTrayIcon className="text-black stroke-none w-8 " />
+                  <p className="flex  h-36 w-40 items-center justify-center rounded border-2 border-dashed  border-blue-400 ">
+                    <ArrowUpTrayIcon className="w-8 stroke-none text-black " />
                   </p>
                 )}
               </label>
@@ -149,7 +149,7 @@ const AddClothes = ({ id }) => {
               </div>
               {!isAddCategory ? (
                 <div className="mt-5">
-                  <p className="capitalize text-sm">select category</p>
+                  <p className="text-sm capitalize">select category</p>
                   <Listbox
                     value={selected}
                     onChange={setSelected}
@@ -160,7 +160,7 @@ const AddClothes = ({ id }) => {
                         <span className="block truncate">
                           {categoryListItem.length > 0 && selected.name}
                         </span>
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 bg-NextInputColor">
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center bg-NextInputColor pr-2">
                           <ChevronUpDownIcon
                             className="h-5 w-5 text-gray-400"
                             aria-hidden="true"
@@ -181,7 +181,7 @@ const AddClothes = ({ id }) => {
                                 className={({ active }) =>
                                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                     active
-                                      ? "bg-slate-100  cursor-pointer"
+                                      ? "cursor-pointer  bg-slate-100"
                                       : "text-gray-900"
                                   }`
                                 }
@@ -230,14 +230,14 @@ const AddClothes = ({ id }) => {
                   />
                 </div>
               )}
-              <div className="flex items-center w-3/4 mx-auto my-2">
+              <div className="mx-auto my-2 flex w-3/4 items-center">
                 <hr className="flex-grow border-t-2  border-slate-300" />
                 <span className="mx-4 font-bold text-slate-300">or</span>
                 <hr className="flex-grow border-t-2 border-slate-300" />
               </div>
               {isAddCategory ? (
                 <p
-                  className="text-sm text-blue-400 font-bold cursor-pointer"
+                  className="cursor-pointer text-sm font-bold text-blue-400"
                   onClick={() => {
                     if (categoryListItem.length === 0) {
                       toast.error(
@@ -252,7 +252,7 @@ const AddClothes = ({ id }) => {
                 </p>
               ) : (
                 <p
-                  className="text-sm text-blue-400 font-bold  cursor-pointer"
+                  className="cursor-pointer text-sm font-bold  text-blue-400"
                   onClick={() => setIsAddCategory(true)}
                 >
                   Add new category
@@ -261,7 +261,7 @@ const AddClothes = ({ id }) => {
 
               {!isLoading ? (
                 <button
-                  className="h-10 bg-btnColor w-80 rounded text-white font-semibold text-md z-10 my-5"
+                  className="text-md z-10 my-5 h-10 w-80 rounded bg-btnColor font-semibold text-white"
                   onClick={() => {
                     handelAddClothes();
                   }}
@@ -269,7 +269,7 @@ const AddClothes = ({ id }) => {
                   Add it
                 </button>
               ) : (
-                <button className="h-10 bg-btnColor w-80 rounded text-white font-semibold text-md z-10 my-5">
+                <button className="text-md z-10 my-5 h-10 w-80 rounded bg-btnColor font-semibold text-white">
                   <Loading color={"currentColor"} size="sm" />
                 </button>
               )}
