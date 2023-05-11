@@ -6,25 +6,33 @@ import { toast } from "react-hot-toast";
 const WearBoard = () => {
   const { readyToWear } = useContext(CurrentWearContext);
   // console.log(readyToWear, "ready to wear");
-  const [inventory, setInventory] = useState([]);
+  const [itemTodropOver, setItemTodropOver] = useState(null);
   //  all the logic below is related to drag and drop the item from the inventory to the wear board
-  // 1- set the item to be ready to wear
-
-  //
   const [ChildAry, setChildAry] = useState([]);
   const DropZoneRef = useRef(null);
   const childRefs = useRef([]);
   const handleDrop = (event) => {
-    event.preventDefault();
-    const itemId = event.dataTransfer.getData("itemId");
-    console.log(itemId);
-    const item = inventory.find((item) => item.id === itemId);
-    console.log(item, "item");
-    setReadyToWear(item);
-
-    // Add the dropped item to the inventory
-    setInventory([...inventory, item]);
+    console.log("dropped");
+    console.log(ChildAry);
+    childRefs.current.forEach((childRef, i) => {
+      if (i === itemTodropOver) {
+        childRef.style.backgroundImage = `url(${readyToWear.image})`;
+        childRef.style.backgroundSize = "contain";
+        childRef.style.backgroundPosition = "center";
+        childRef.style.backgroundRepeat = "no-repeat";
+        // clear html
+        // childRef.innerHTML = "";
+      } else {
+        if (childRef.style.backgroundImage === `url(${shirt})`) {
+          childRef.style.backgroundImage = `url(${shirt})`;
+          childRef.style.backgroundSize = "24px";
+          childRef.style.backgroundPosition = "center";
+          childRef.style.backgroundRepeat = "no-repeat";
+        }
+      }
+    });
   };
+  // get all the child nodes coordinates to Drag over Them
   useEffect(() => {
     function handleClick() {
       const childNodes = DropZoneRef.current.childNodes;
@@ -33,15 +41,14 @@ const WearBoard = () => {
         const { scrollX, scrollY } = window;
         const clientX = left + scrollX;
         const clientY = top + scrollY;
-        // console.log(`Child node coordinates: (${clientX}, ${clientY})`);
+
         return { id: i, X: clientX, Y: clientY };
       });
       setChildAry(newChildAry);
     }
-
     handleClick();
   }, [DropZoneRef]);
-
+  //
   useEffect(() => {
     if (!readyToWear || ChildAry.length === 0) return;
 
@@ -51,27 +58,12 @@ const WearBoard = () => {
         readyToWear.X >= child.X &&
         readyToWear.X <= child.X + childRef.offsetWidth &&
         readyToWear.Y >= child.Y &&
-        readyToWear.Y <= child.Y + childRef.offsetHeight &&
-        childRef.style.backgroundImage !== `url(${readyToWear.image})`
-        // childRef.style.backgroundImage !== ""
+        readyToWear.Y <= child.Y + childRef.offsetHeight
       ) {
-        // childRef.style.backgroundColor = "red";
-        childRef.style.backgroundImage = `url(${readyToWear.image})`;
-        childRef.style.backgroundSize = "contain";
-        childRef.style.backgroundPosition = "center";
-        childRef.style.backgroundRepeat = "no-repeat";
-        // cler child nodes
-        childRef.innerHTML = "";
-      } else {
-        childRef.style.backgroundImage = `url(${shirt})`;
-        // childRef.style.backgroundSize = "contain";
-        childRef.style.backgroundPosition = "center";
-        childRef.style.backgroundRepeat = "no-repeat";
-        // bg size 10px
-        childRef.style.backgroundSize = "25px";
+        setItemTodropOver(i);
       }
     });
-  }, [readyToWear, ChildAry]);
+  }, [readyToWear]);
 
   return (
     <div className=" relative h-full w-full">
@@ -105,7 +97,7 @@ const WearBoard = () => {
                 className="flex h-36 w-36 items-center justify-center border "
                 ref={(ref) => (childRefs.current[item] = ref)}
               >
-                <img src={shirt} alt="" className="z-1 h-4 w-4" />
+                <img src={shirt} alt="" className="z-1 h-6 w-6" />
               </div>
             );
           })}
