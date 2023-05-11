@@ -6,7 +6,7 @@ import { useDeleteCloth } from "./hooks/useDeleteCloth";
 import wearIcon from "../../../../../assets/closetAssets/shirtPlaceholder.svg";
 import { CurrentWearContext } from "../../../CurrentWear/Context/CurrentWearContext";
 
-const InventoryClothes = ({ id }) => {
+const InventoryClothes = ({ id, selectedCategory }) => {
   // get the inventory items from the context
   const { inventoryItems } = useContext(inventoryContext);
   // get the dispatch to update what user want to wear in the the context
@@ -25,12 +25,15 @@ const InventoryClothes = ({ id }) => {
       payload: { X: event.clientX, Y: event.clientY, image: draggabelImage },
     });
   }
-
+  const filteredItems =
+    selectedCategory === "All"
+      ? inventoryItems
+      : inventoryItems.filter((item) => item.category === selectedCategory);
   return (
     <>
-      {inventoryItems &&
-        inventoryItems.length > 0 &&
-        inventoryItems.map((item) => {
+      {filteredItems &&
+        filteredItems.length > 0 &&
+        filteredItems.map((item) => {
           return (
             <motion.div
               className="z-50 flex  h-44   w-40 cursor-pointer flex-col items-center overflow-hidden rounded-lg border-4 border-slate-200 bg-slate-200  "
@@ -68,7 +71,7 @@ const InventoryClothes = ({ id }) => {
             </motion.div>
           );
         })}
-      <style jsx>{`
+      <style>{`
         /* Firefox */
         * {
           scrollbar-width: thin;

@@ -8,6 +8,7 @@ import { ArrowLongUpIcon } from "@heroicons/react/24/solid";
 const ClosetInventory = ({ id }) => {
   const { categoryListItem, inventoryItems } = useContext(inventoryContext);
   const { user } = useContext(AuthContext);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   return (
     <AnimatePresence>
@@ -16,23 +17,35 @@ const ClosetInventory = ({ id }) => {
         <p className="text-lg font-bold">Slide up to open your clothe</p>
         <ArrowLongUpIcon className="w-8" />
       </div> */}
-      <motion.div
-        // layout
-        className="z-20 bg-white"
-      >
+      <motion.div layout className="z-20 bg-white">
         <h1 className="mb-5  text-2xl font-bold">
           {user && user.Username}'s Closet
         </h1>
         <div className="mb-5 mt-2 flex">
           {categoryListItem && categoryListItem.length > 0 && (
-            <p className="mx-1 cursor-pointer rounded-xl border-2 px-2">All</p>
+            <p
+              className={`mx-1 cursor-pointer rounded-xl border-2 px-2 ${
+                selectedCategory === "All" && "bg-gray-200"
+              }`}
+              onClick={(e) => {
+                setSelectedCategory("All");
+              }}
+            >
+              All
+            </p>
           )}
           {categoryListItem && categoryListItem.length > 0 ? (
             categoryListItem.map((item) => {
               return (
                 <p
-                  className="mx-1 cursor-pointer rounded-xl border-2 px-2"
+                  className={`mx-1 cursor-pointer rounded-xl border-2 px-2 ${
+                    selectedCategory === item && "bg-gray-200"
+                  }`}
                   key={item}
+                  onClick={(e) => {
+                    setSelectedCategory(item);
+                    // console.log(e.target.value);
+                  }}
                 >
                   {item}
                 </p>
@@ -50,7 +63,7 @@ const ClosetInventory = ({ id }) => {
         >
           {id && <AddClothes id={id} />}
           {inventoryItems && inventoryItems.length > 0 && (
-            <InventoryClothes id={id} />
+            <InventoryClothes id={id} selectedCategory={selectedCategory} />
           )}
         </motion.div>
       </motion.div>
