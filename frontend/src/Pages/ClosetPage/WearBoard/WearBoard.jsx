@@ -1,34 +1,59 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
+
 import { CurrentWearContext } from "../CurrentWear/Context/CurrentWearContext";
 import shirt from "../../../assets/closetAssets/shirtPlaceholder.svg";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { PaperAirplaneIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";
 const WearBoard = () => {
   const { readyToWear } = useContext(CurrentWearContext);
   // console.log(readyToWear, "ready to wear");
   const [itemTodropOver, setItemTodropOver] = useState(null);
   //  all the logic below is related to drag and drop the item from the inventory to the wear board
-  const [ChildAry, setChildAry] = useState([]);
+  const [coordinateAry, setCoordinateAry] = useState([]);
   const DropZoneRef = useRef(null);
   const childRefs = useRef([]);
+  // console log Background image of child nodes
+  useEffect(() => {
+    childRefs.current.forEach((childRef) => {
+      if (!childRef.style.backgroundImage) {
+        childRef.style.backgroundImage = `url(${shirt})`;
+        childRef.style.backgroundSize = "24px";
+        childRef.style.backgroundPosition = "center";
+        childRef.style.backgroundRepeat = "no-repeat";
+      }
+    });
+  }, []);
+
   const handleDrop = (event) => {
     console.log("dropped");
-    console.log(ChildAry);
+    // console.log(coordinateAry);
     childRefs.current.forEach((childRef, i) => {
+      console.log(childRef.style.backgroundImage);
       if (i === itemTodropOver) {
         childRef.style.backgroundImage = `url(${readyToWear.image})`;
         childRef.style.backgroundSize = "contain";
         childRef.style.backgroundPosition = "center";
         childRef.style.backgroundRepeat = "no-repeat";
+        // add delete icon to each item
+
         // clear html
-        // childRef.innerHTML = "";
+        const xMarkIcon = (
+          <XMarkIcon
+            className="w-' full absolute right-2 top-2 h-4 cursor-pointer rounded
+           bg-black text-white"
+            onClick={() => {
+              childRef.style.backgroundImage = `url(${shirt})`;
+              childRef.style.backgroundSize = "24px";
+              childRef.style.backgroundPosition = "center";
+              childRef.style.backgroundRepeat = "no-repeat";
+              // clear html
+              ReactDOM.render("", childRef);
+            }}
+          />
+        );
+        ReactDOM.render(xMarkIcon, childRef);
       } else {
-        if (childRef.style.backgroundImage === `url(${shirt})`) {
-          childRef.style.backgroundImage = `url(${shirt})`;
-          childRef.style.backgroundSize = "24px";
-          childRef.style.backgroundPosition = "center";
-          childRef.style.backgroundRepeat = "no-repeat";
-        }
       }
     });
   };
@@ -36,7 +61,7 @@ const WearBoard = () => {
   useEffect(() => {
     function handleClick() {
       const childNodes = DropZoneRef.current.childNodes;
-      const newChildAry = Array.from(childNodes).map((childNode, i) => {
+      const newCoordinateAry = Array.from(childNodes).map((childNode, i) => {
         const { left, top } = childNode.getBoundingClientRect();
         const { scrollX, scrollY } = window;
         const clientX = left + scrollX;
@@ -44,15 +69,15 @@ const WearBoard = () => {
 
         return { id: i, X: clientX, Y: clientY };
       });
-      setChildAry(newChildAry);
+      setCoordinateAry(newCoordinateAry);
     }
     handleClick();
   }, [DropZoneRef]);
   //
   useEffect(() => {
-    if (!readyToWear || ChildAry.length === 0) return;
+    if (!readyToWear || coordinateAry.length === 0) return;
 
-    ChildAry.forEach((child, i) => {
+    coordinateAry.forEach((child, i) => {
       const childRef = childRefs.current[i];
       if (
         readyToWear.X >= child.X &&
@@ -94,11 +119,13 @@ const WearBoard = () => {
           {Array.from(Array(20).keys()).map((item) => {
             return (
               <div
-                className="flex h-36 w-36 items-center justify-center border "
+                className="relative flex h-36 w-36 items-center justify-center border"
                 ref={(ref) => (childRefs.current[item] = ref)}
-              >
-                <img src={shirt} alt="" className="z-1 h-6 w-6" />
-              </div>
+                key={item}
+                onClick={() => {
+                  console.log(item);
+                }}
+              ></div>
             );
           })}
         </div>
