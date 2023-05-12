@@ -6,7 +6,7 @@ import { inventoryContext } from "./context/InventoryContext";
 import { AuthContext } from "../../AuthPage/context/AuthContext";
 import { ArrowLongUpIcon } from "@heroicons/react/24/solid";
 
-const ClosetInventory = ({ id }) => {
+const ClosetInventory = ({ id, isShowing, setIsShowing }) => {
   const { categoryListItem, inventoryItems } = useContext(inventoryContext);
   const { user } = useContext(AuthContext);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -24,6 +24,12 @@ const ClosetInventory = ({ id }) => {
   return (
     <AnimatePresence>
       <motion.div layout className="z-20 bg-white">
+        <button
+          className=" top-0 z-50 h-12  w-full bg-slate-200 md:hidden"
+          onClick={() => setIsShowing(!isShowing)}
+        >
+          Close Your Closet
+        </button>
         <h1 className="mb-5  text-2xl font-bold">
           {user && user.Username}'s Closet
         </h1>

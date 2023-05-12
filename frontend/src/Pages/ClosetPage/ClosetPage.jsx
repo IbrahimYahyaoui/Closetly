@@ -10,39 +10,49 @@ const ClosetPage = () => {
   const [isShowing, setIsShowing] = useState(false);
 
   const { readyToWear, isDragging } = useContext(CurrentWearContext);
+
   useEffect(() => {
     // setIsDragging(!isDragging);
-    console.log("isDragging", isDragging);
+    console.log("isDragging a", isDragging);
+    // if (!isDragging) {
+    //   setIsShowing(false);
+    // }
   }, [isDragging]);
-  return (
-    <div className="flex h-screen overflow-hidden md:flex-row">
-      <button
-        className="absolute bottom-0 z-50  h-12 w-full bg-slate-200 md:hidden"
-        onClick={() => setIsShowing(!isShowing)}
-      >
-        {isShowing ? "Close Your Closet" : "Open Your Closet"}
-      </button>
 
+  return (
+    <div className="flex h-screen w-screen overflow-hidden bg-black  md:flex-row">
+      {!isShowing && (
+        <button
+          className="absolute bottom-0 z-50  h-12 w-full bg-slate-200 md:hidden"
+          onClick={() => setIsShowing(!isShowing)}
+        >
+          Open Your Closet
+        </button>
+      )}
+      {/* mobile device */}
       <AnimatePresence>
         {isShowing && (
           <motion.div
-            className={`inv  bottom-0 z-20
-              border-2 bg-white p-4 md:mt-0 md:hidden
-            md:w-2/4`}
+            className={`inv absolute bottom-0 left-0 z-10 w-screen overflow-hidden border-2 bg-white p-4 md:mt-0 md:hidden md:w-2/4`}
             initial={{ y: window.innerHeight }}
             animate={{ y: 150 }}
             exit={{ y: window.innerHeight }}
-            // while isDragging is true translate the inventory to the bottom of the screen then back to the top when their place
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            style={isDragging ? { zIndex: -1, top: "100%" } : { top: "0%" }}
           >
-            <ClosetInventory id={id} />
+            <ClosetInventory
+              id={id}
+              isShowing={isShowing}
+              setIsShowing={setIsShowing}
+            />
           </motion.div>
         )}
       </AnimatePresence>
-
+      {/* desktop */}
       <div className="inv bottom-0 z-20 hidden border-2 bg-white p-4 md:mt-0 md:block md:w-2/4">
         <ClosetInventory id={id} />
       </div>
-      <section className="bgPattern w-4/4 fixed h-screen md:right-0 md:w-2/4">
+      <section className="bgPattern w-4/4 fixed h-screen w-screen md:right-0 md:w-2/4">
         <WearBoard />
       </section>
     </div>

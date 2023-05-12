@@ -1,4 +1,3 @@
-// require("dotenv").config();
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -28,11 +27,14 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  // polyfill({
+  //   // use this to make use of the scroll behaviour
+  //   dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride,
+  // });
   useEffect(() => {
     const script = document.createElement("script");
 
-    script.src =
-      "https://bernardo-castilho.github.io/DragDropTouch/DragDropTouch.js";
+    script.src = "../DragAndDropForMobile/DragDropTouch";
     script.async = true;
 
     document.body.appendChild(script);

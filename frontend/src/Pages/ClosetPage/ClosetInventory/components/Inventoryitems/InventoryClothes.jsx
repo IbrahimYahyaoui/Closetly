@@ -24,6 +24,10 @@ const InventoryClothes = ({ id, selectedCategory }) => {
       type: "SET_READY_TO_WEAR",
       payload: { X: event.clientX, Y: event.clientY, image: draggabelImage },
     });
+    dispatch({
+      type: "SET_IS_DRAGGING",
+      payload: true,
+    });
   }
 
   const filteredItems =
@@ -37,6 +41,10 @@ const InventoryClothes = ({ id, selectedCategory }) => {
       type: "SET_READY_TO_WEAR",
       payload: { X: touch.clientX, Y: touch.clientY, image: draggabelImage },
     });
+    dispatch({
+      type: "SET_IS_DRAGGING",
+      payload: true,
+    });
   }
   function handleTouchMove(event) {
     // event.preventDefault();
@@ -44,6 +52,10 @@ const InventoryClothes = ({ id, selectedCategory }) => {
     dispatch({
       type: "SET_READY_TO_WEAR",
       payload: { X: touch.clientX, Y: touch.clientY, image: draggabelImage },
+    });
+    dispatch({
+      type: "SET_IS_DRAGGING",
+      payload: true,
     });
   }
   const ref = useRef();
@@ -66,15 +78,27 @@ const InventoryClothes = ({ id, selectedCategory }) => {
               onDrag={handleDragStart}
               onDragStart={() => {
                 setDraggabelImage(item.image);
-                // CurrentWearDispatch &&
-                //   CurrentWearDispatch({
-                //     type: "SET_IS_DRAGGING",
-                //     payload: true,
-                //   });
+
+                dispatch({
+                  type: "SET_IS_DRAGGING",
+                  payload: true,
+                });
               }}
               whileHover={{ scale: 1.01 }}
               onTouchStart={handleTouchStart}
               ref={ref}
+              onTouchEnd={() => {
+                dispatch({
+                  type: "SET_IS_DRAGGING",
+                  payload: false,
+                });
+              }}
+              onDragEnd={() => {
+                dispatch({
+                  type: "SET_IS_DRAGGING",
+                  payload: false,
+                });
+              }}
             >
               <div className="relative h-3/4 w-full ">
                 <motion.div

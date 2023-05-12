@@ -7,28 +7,37 @@ const RightSection = () => {
   const { user } = useContext(AuthContext);
   return (
     <div className="flex  flex-col items-center px-8 ">
-      <div className="  border-2  rounded-md h-fit  w-full flex flex-col items-center  p-2  font-semibold">
+      <div className="  flex  h-fit w-full  flex-col items-center rounded-md border-2  p-2  font-semibold">
         <p className="opacity-80">
           Create your own virtual closet by uploading pictures of your own
           clothes. Explore and discover your personal style and then share it
           with others.
         </p>
         <motion.button
-          className=" bg-btnColor w-full h-10 text-white capitalize font-semibold rounded mt-4  "
+          className=" mt-4 h-10 w-full rounded bg-btnColor font-semibold capitalize text-white  "
           whileTap={{ scale: 0.9 }}
         >
           <img
             src={Tshirt}
-            className="w-8 text-white absolute rotate-45  opacity-60 -translate-x-2 translate-y-1"
+            className="absolute w-8 -translate-x-2 translate-y-1  rotate-45 text-white opacity-60"
           />
-          {user && <Link to={`/closet/${user.id}`}>visit your closet</Link>}
+          {user && (
+            <Link
+              onClick={() => {
+                console.log("clicked");
+              }}
+              to={`/closet/${user.id}`}
+            >
+              visit your closet
+            </Link>
+          )}
         </motion.button>
       </div>
       {/* Friends List */}
-      <div className="border-2 rounded-md h-80 mt-10 w-full ">
-        <h3 className="font-semibold m-4 flex justify-between items-center cursor-pointer">
+      <div className="mt-10 h-80 w-full rounded-md border-2 ">
+        <h3 className="m-4 flex cursor-pointer items-center justify-between font-semibold">
           <p>My Friends</p>
-          <p className="text-xs cursor-pointer">sell all</p>
+          <p className="cursor-pointer text-xs">sell all</p>
         </h3>
       </div>
     </div>

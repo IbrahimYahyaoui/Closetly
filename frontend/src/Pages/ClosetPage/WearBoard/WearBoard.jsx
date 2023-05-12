@@ -22,7 +22,7 @@ const WearBoard = () => {
   const [coordinateAry, setCoordinateAry] = useState([]);
   const DropZoneRef = useRef(null);
   const childRefs = useRef([]);
-  // console log Background image of child nodes
+  // add empty background image
   useEffect(() => {
     childRefs.current.forEach((childRef) => {
       if (!childRef.style.backgroundImage) {
@@ -41,7 +41,7 @@ const WearBoard = () => {
       CurrentWearDispatch({ type: "SET_IS_DRAGGING", payload: false });
     // console.log(coordinateAry);
     childRefs.current.forEach((childRef, i) => {
-      console.log(childRef.style.backgroundImage);
+      // console.log(childRef.style.backgroundImage);
       if (i === itemTodropOver) {
         childRef.style.backgroundImage = `url(${readyToWear.image})`;
         childRef.style.backgroundSize = "contain";
