@@ -26,9 +26,7 @@ const ClosetPage = () => {
       <AnimatePresence>
         {isShowing && (
           <motion.div
-            className={`inv ${
-              isDragging ? "-translate-y-768 opacity-50" : ""
-            } bottom-0 z-20
+            className={`inv  bottom-0 z-20
               border-2 bg-white p-4 md:mt-0 md:hidden
             md:w-2/4`}
             initial={{ y: window.innerHeight }}
