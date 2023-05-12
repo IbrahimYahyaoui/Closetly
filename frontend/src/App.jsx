@@ -31,18 +31,7 @@ function App() {
   //   // use this to make use of the scroll behaviour
   //   dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride,
   // });
-  useEffect(() => {
-    const script = document.createElement("script");
 
-    script.src = "../DragAndDropForMobile/DragDropTouch";
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
   return (
     <>
       <Toaster
