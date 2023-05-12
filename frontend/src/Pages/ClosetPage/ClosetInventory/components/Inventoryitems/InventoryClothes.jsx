@@ -36,6 +36,13 @@ const InventoryClothes = ({ id, selectedCategory }) => {
       : inventoryItems.filter((item) => item.category === selectedCategory);
 
   function handleTouchStart(event) {
+    const cursorPosition = event.clientX + window.pageXOffset;
+
+    // Set the `style.left` and `style.top` properties of the draggable element to the current position of the cursor.
+    document.getElementById("dragged-element").style.left =
+      cursorPosition + "px";
+    document.getElementById("dragged-element").style.top =
+      cursorPosition + "px";
     const touch = event.touches[0];
     dispatch({
       type: "SET_READY_TO_WEAR",
