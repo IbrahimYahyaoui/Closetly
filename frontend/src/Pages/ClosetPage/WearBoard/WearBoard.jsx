@@ -5,10 +5,19 @@ import { CurrentWearContext } from "../CurrentWear/Context/CurrentWearContext";
 import shirt from "../../../assets/closetAssets/shirtPlaceholder.svg";
 import { PaperAirplaneIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";
+
 const WearBoard = () => {
-  const { readyToWear } = useContext(CurrentWearContext);
+  const {
+    readyToWear,
+    isDragging,
+    dispatch: CurrentWearDispatch,
+  } = useContext(CurrentWearContext);
+  // how many cloth spot to wear are available
+  const [clothSpot, setClothSpot] = useState(12);
+
   // console.log(readyToWear, "ready to wear");
   const [itemTodropOver, setItemTodropOver] = useState(null);
+
   //  all the logic below is related to drag and drop the item from the inventory to the wear board
   const [coordinateAry, setCoordinateAry] = useState([]);
   const DropZoneRef = useRef(null);
@@ -26,7 +35,10 @@ const WearBoard = () => {
   }, []);
 
   const handleDrop = (event) => {
-    console.log("dropped");
+    console.log("drop");
+    //
+    CurrentWearDispatch &&
+      CurrentWearDispatch({ type: "SET_IS_DRAGGING", payload: false });
     // console.log(coordinateAry);
     childRefs.current.forEach((childRef, i) => {
       console.log(childRef.style.backgroundImage);
@@ -40,8 +52,7 @@ const WearBoard = () => {
         // clear html
         const xMarkIcon = (
           <XMarkIcon
-            className="w-' full absolute right-2 top-2 h-4 cursor-pointer rounded
-           bg-black text-white"
+            className="absolute right-2 top-2 h-4 w-4 cursor-pointer rounded bg-black text-white"
             onClick={() => {
               childRef.style.backgroundImage = `url(${shirt})`;
               childRef.style.backgroundSize = "24px";
@@ -91,13 +102,13 @@ const WearBoard = () => {
   }, [readyToWear]);
 
   return (
-    <div className=" relative h-full w-full">
+    <div className="  h-full w-full p-2">
       <nav className="flex h-16 w-full items-center  justify-between border-b-2 bg-white  shadow-xl">
-        <p className="p-4 font-bold">
+        <p className="p-4 text-xs  font-bold md:text-lg">
           Drag from your inventory and make your style
         </p>
         <p
-          className="  mr-4 flex cursor-pointer items-center rounded bg-slate-400 px-8 py-2 font-bold text-white"
+          className="  mr-4 flex cursor-pointer items-center whitespace-nowrap rounded bg-slate-400 px-8 py-2 text-sm font-bold text-white"
           onClick={() => {
             toast.dismiss();
             toast("under development ", {
@@ -111,15 +122,16 @@ const WearBoard = () => {
       </nav>
       <div className="flex justify-center">
         <div
-          className="   mt-10 grid grid-cols-5  border-2"
+          className="  grid-row-4   mt-10 grid w-full  grid-cols-3 border-2"
+          w-full
           ref={DropZoneRef}
           onDrop={handleDrop}
           onDragOver={(event) => event.preventDefault()}
         >
-          {Array.from(Array(20).keys()).map((item) => {
+          {Array.from(Array(clothSpot).keys()).map((item) => {
             return (
               <div
-                className="relative flex h-36 w-36 items-center justify-center border"
+                className=" w-3/3 lg: relative  flex h-36 items-center justify-center  border"
                 ref={(ref) => (childRefs.current[item] = ref)}
                 key={item}
                 onClick={() => {

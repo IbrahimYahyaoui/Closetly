@@ -26,9 +26,8 @@ export default {
         container: "33rem",
         item: "11rem",
       },
-      gridTemplateRows: {
-        // Simple 8 row grid
-        4: "repeat(8, 2fr)",
+      translate: {
+        768: "42rem",
       },
     },
   },

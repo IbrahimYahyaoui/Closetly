@@ -8,6 +8,9 @@ const ClosetItemsReducer = (state, action) => {
       return { readyToWear: action.payload };
     case "SET_TODAY_WEAR":
       return { ...state, TodayWear: action.payload };
+    case "SET_IS_DRAGGING":
+      console.log(action.payload, "is dragging");
+      return { ...state, isDragging: action.payload };
     default:
       return state;
   }
@@ -16,7 +19,8 @@ const ClosetItemsReducer = (state, action) => {
 export const CurrentWearContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(ClosetItemsReducer, {
     readyToWear: null,
-    TodayWear: null,
+    TodayWear: null, // still need to implement
+    isDragging: false,
   });
   //   console.log(state, "current wear context");
   return (

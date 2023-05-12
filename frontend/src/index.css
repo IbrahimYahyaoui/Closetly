@@ -32,3 +32,8 @@
     background-position: 0 0, 10px 10px;
   }
 }
+@layer utilities {
+  .touch-none {
+    touch-action: none;
+  }
+}

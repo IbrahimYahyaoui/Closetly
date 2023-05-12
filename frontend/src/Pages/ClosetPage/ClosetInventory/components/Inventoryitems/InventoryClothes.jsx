@@ -10,7 +10,7 @@ const InventoryClothes = ({ id, selectedCategory }) => {
   // get the inventory items from the context
   const { inventoryItems } = useContext(inventoryContext);
   // get the dispatch to update what user want to wear in the the context
-  const { dispatch } = useContext(CurrentWearContext);
+  const { dispatch: CurrentWearDispatch } = useContext(CurrentWearContext);
   // call the hook to delete the cloth
   const { deleteClothHandler } = useDeleteCloth();
   // handel the delete cloth
@@ -20,15 +20,17 @@ const InventoryClothes = ({ id, selectedCategory }) => {
   // set the image to be dragged
   const [draggabelImage, setDraggabelImage] = useState(null);
   function handleDragStart(event) {
-    dispatch({
+    CurrentWearDispatch({
       type: "SET_READY_TO_WEAR",
       payload: { X: event.clientX, Y: event.clientY, image: draggabelImage },
     });
   }
+
   const filteredItems =
     selectedCategory === "All"
       ? inventoryItems
       : inventoryItems.filter((item) => item.category === selectedCategory);
+
   return (
     <>
       {filteredItems &&
@@ -36,13 +38,18 @@ const InventoryClothes = ({ id, selectedCategory }) => {
         filteredItems.map((item) => {
           return (
             <motion.div
-              className="z-50 flex  h-44   w-40 cursor-pointer flex-col items-center overflow-hidden rounded-lg border-4 border-slate-200 bg-slate-200  "
+              className="   z-50 flex h-44  w-40 cursor-pointer touch-none flex-col items-center overflow-hidden rounded-lg border-4 border-slate-200 bg-slate-200  "
               key={item.clothId}
               id="dragged-element"
               draggable
               onDrag={handleDragStart}
               onDragStart={() => {
                 setDraggabelImage(item.image);
+                CurrentWearDispatch &&
+                  CurrentWearDispatch({
+                    type: "SET_IS_DRAGGING",
+                    payload: true,
+                  });
               }}
               whileHover={{ scale: 1.01 }}
             >
