@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { inventoryContext } from "../../context/InventoryContext";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
@@ -10,7 +10,7 @@ const InventoryClothes = ({ id, selectedCategory }) => {
   // get the inventory items from the context
   const { inventoryItems } = useContext(inventoryContext);
   // get the dispatch to update what user want to wear in the the context
-  const { dispatch: CurrentWearDispatch } = useContext(CurrentWearContext);
+  const { dispatch } = useContext(CurrentWearContext);
   // call the hook to delete the cloth
   const { deleteClothHandler } = useDeleteCloth();
   // handel the delete cloth
@@ -20,7 +20,7 @@ const InventoryClothes = ({ id, selectedCategory }) => {
   // set the image to be dragged
   const [draggabelImage, setDraggabelImage] = useState(null);
   function handleDragStart(event) {
-    CurrentWearDispatch({
+    dispatch({
       type: "SET_READY_TO_WEAR",
       payload: { X: event.clientX, Y: event.clientY, image: draggabelImage },
     });
@@ -30,9 +30,10 @@ const InventoryClothes = ({ id, selectedCategory }) => {
     selectedCategory === "All"
       ? inventoryItems
       : inventoryItems.filter((item) => item.category === selectedCategory);
+
   function handleTouchStart(event) {
     const touch = event.touches[0];
-    CurrentWearDispatch({
+    dispatch({
       type: "SET_READY_TO_WEAR",
       payload: { X: touch.clientX, Y: touch.clientY, image: draggabelImage },
     });
@@ -40,11 +41,17 @@ const InventoryClothes = ({ id, selectedCategory }) => {
   function handleTouchMove(event) {
     // event.preventDefault();
     const touch = event.touches[0];
-    CurrentWearDispatch({
+    dispatch({
       type: "SET_READY_TO_WEAR",
       payload: { X: touch.clientX, Y: touch.clientY, image: draggabelImage },
     });
   }
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current.addEventListener("touchmove", handleTouchMove);
+  }, []);
+
   return (
     <>
       {filteredItems &&
@@ -59,15 +66,15 @@ const InventoryClothes = ({ id, selectedCategory }) => {
               onDrag={handleDragStart}
               onDragStart={() => {
                 setDraggabelImage(item.image);
-                CurrentWearDispatch &&
-                  CurrentWearDispatch({
-                    type: "SET_IS_DRAGGING",
-                    payload: true,
-                  });
+                // CurrentWearDispatch &&
+                //   CurrentWearDispatch({
+                //     type: "SET_IS_DRAGGING",
+                //     payload: true,
+                //   });
               }}
               whileHover={{ scale: 1.01 }}
               onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
+              ref={ref}
             >
               <div className="relative h-3/4 w-full ">
                 <motion.div

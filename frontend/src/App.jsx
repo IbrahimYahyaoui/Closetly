@@ -12,6 +12,7 @@ import SignIn from "./Pages/AuthPage/SignIn";
 import { Toaster } from "react-hot-toast";
 import HomePage from "./Pages/HomePage/HomePage";
 import ClosetPage from "./Pages/ClosetPage/ClosetPage";
+import { useEffect } from "react";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,19 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  useEffect(() => {
+    const script = document.createElement("script");
+
+    script.src =
+      "https://bernardo-castilho.github.io/DragDropTouch/DragDropTouch.js";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
   return (
     <>
       <Toaster
