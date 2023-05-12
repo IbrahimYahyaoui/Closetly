@@ -33,12 +33,11 @@ const ClosetPage = () => {
       <AnimatePresence>
         {isShowing && (
           <motion.div
-            className={`inv absolute bottom-0 left-0 z-10 w-screen overflow-hidden border-2 bg-white p-4 md:mt-0 md:hidden md:w-2/4`}
+            className={`inv absolute bottom-0 left-0 top-20 z-10 mb-20 w-screen overflow-hidden border-2 bg-white p-4 md:mt-0 md:hidden md:w-2/4`}
             initial={{ y: window.innerHeight }}
             animate={{ y: 150 }}
             exit={{ y: window.innerHeight }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            style={isDragging ? { zIndex: -1, top: "100%" } : { top: "0%" }}
           >
             <ClosetInventory
               id={id}
@@ -52,7 +51,11 @@ const ClosetPage = () => {
       <div className="inv bottom-0 z-20 hidden border-2 bg-white p-4 md:mt-0 md:block md:w-2/4">
         <ClosetInventory id={id} />
       </div>
-      <section className="bgPattern w-4/4 fixed h-screen w-screen md:right-0 md:w-2/4">
+      <section
+        className={`bgPattern w-4/4 fixed  h-screen w-screen md:right-0 md:w-2/4 ${
+          isDragging && "z-20"
+        }`}
+      >
         <WearBoard />
       </section>
     </div>

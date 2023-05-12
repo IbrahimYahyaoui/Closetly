@@ -123,7 +123,6 @@ const WearBoard = () => {
       <div className="flex justify-center">
         <div
           className="  grid-row-4   mt-10 grid w-full  grid-cols-3 border-2"
-          w-full
           ref={DropZoneRef}
           onDrop={handleDrop}
           onDragOver={(event) => event.preventDefault()}
