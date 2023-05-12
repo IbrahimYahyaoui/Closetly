@@ -30,7 +30,21 @@ const InventoryClothes = ({ id, selectedCategory }) => {
     selectedCategory === "All"
       ? inventoryItems
       : inventoryItems.filter((item) => item.category === selectedCategory);
-
+  function handleTouchStart(event) {
+    const touch = event.touches[0];
+    CurrentWearDispatch({
+      type: "SET_READY_TO_WEAR",
+      payload: { X: touch.clientX, Y: touch.clientY, image: draggabelImage },
+    });
+  }
+  function handleTouchMove(event) {
+    // event.preventDefault();
+    const touch = event.touches[0];
+    CurrentWearDispatch({
+      type: "SET_READY_TO_WEAR",
+      payload: { X: touch.clientX, Y: touch.clientY, image: draggabelImage },
+    });
+  }
   return (
     <>
       {filteredItems &&
@@ -52,6 +66,8 @@ const InventoryClothes = ({ id, selectedCategory }) => {
                   });
               }}
               whileHover={{ scale: 1.01 }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
             >
               <div className="relative h-3/4 w-full ">
                 <motion.div
