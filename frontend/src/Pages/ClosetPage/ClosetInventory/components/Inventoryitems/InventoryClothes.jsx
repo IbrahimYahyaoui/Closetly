@@ -73,7 +73,7 @@ const InventoryClothes = ({ id, selectedCategory }) => {
         filteredItems.map((item) => {
           return (
             <motion.div
-              className="   z-50 flex h-44  w-40 cursor-pointer touch-none flex-col items-center overflow-hidden rounded-lg border-4 border-slate-200 bg-slate-200  "
+              className="   z-50 mx-2 flex  h-44 w-40 cursor-pointer touch-none flex-col items-center overflow-hidden rounded-lg border-4 border-slate-200  bg-slate-200"
               key={item.clothId}
               id="dragged-element"
               draggable
@@ -127,31 +127,6 @@ const InventoryClothes = ({ id, selectedCategory }) => {
             </motion.div>
           );
         })}
-      <style>{`
-        /* Firefox */
-        * {
-          scrollbar-width: thin;
-          scrollbar-color: black;
-        }
-
-        /* Chrome, Edge, and Safari */
-        *::-webkit-scrollbar {
-          width: 5px;
-          border-radius: 80px;
-        }
-
-        *::-webkit-scrollbar-track {
-          background-color: rgba(0, 0, 0, 0.2);
-          border-radius: 80px;
-        }
-
-        *::-webkit-scrollbar-thumb {
-          background-color: black;
-          border-radius: 20px;
-          border: 1px solid black;
-          //   opacity: 0.3;
-        }
-      `}</style>
     </>
   );
 };

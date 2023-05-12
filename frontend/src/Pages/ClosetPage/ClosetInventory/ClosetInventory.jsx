@@ -79,6 +79,34 @@ const ClosetInventory = ({ id, isShowing, setIsShowing }) => {
           )}
         </motion.div>
       </motion.div>
+      <style>{`
+      <style>
+      /* Firefox */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: black;
+      }
+    
+      /* Chrome, Edge, and Safari */
+      *::-webkit-scrollbar {
+        width: 10px; /* increase the width */
+        border-radius: 20px; /* increase the border-radius */
+      }
+    
+      *::-webkit-scrollbar-track {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+      }
+    
+      *::-webkit-scrollbar-thumb {
+        background-color: black;
+        border-radius: 10px;
+        border: 1px solid black;
+        //   opacity: 0.3;
+      }
+    </style>
+    
+      `}</style>
     </AnimatePresence>
   );
 };

@@ -33,7 +33,7 @@ const ClosetPage = () => {
       <AnimatePresence>
         {isShowing && (
           <motion.div
-            className={`inv absolute bottom-0 left-0 top-20 z-10 mb-20 w-screen overflow-hidden border-2 bg-white p-4 md:mt-0 md:hidden md:w-2/4`}
+            className={`inv absolute bottom-0 left-0 top-20 z-10 mb-20 h-fit w-screen overflow-hidden  border-2 bg-white p-1 py-4 md:mt-0 md:hidden md:w-2/4`}
             initial={{ y: window.innerHeight }}
             animate={{ y: 150 }}
             exit={{ y: window.innerHeight }}
