@@ -18,16 +18,16 @@ const MainSection = () => {
         <p className="p-2 font-semibold">
           Start discover your personal style and then share it with others.
         </p>
-        <motion.button
-          className=" my-4 h-12 w-11/12 rounded bg-btnColor font-semibold capitalize text-white  "
-          whileTap={{ scale: 0.9 }}
+        <Link
+          to="/closet"
+          className="relative my-4 flex h-12 w-11/12 items-center justify-center rounded bg-btnColor font-semibold capitalize text-white  "
         >
           <img
             src={Tshirt}
-            className="absolute w-8 -translate-x-2 translate-y-2  rotate-45 text-white opacity-60"
+            className="absolute -bottom-1  -left-3 w-8  rotate-45 text-white opacity-60"
           />
-          <Link to="/closet">visit your closet</Link>
-        </motion.button>
+          visit your closet
+        </Link>
       </div>
       {
         // this section will appear only on desktop
@@ -45,7 +45,7 @@ const MainSection = () => {
             whileDrag={{ scale: 1.2 }}
           >
             <Link to={`/closet`} className="">
-              <p className="p-4 text-center  text-sm font-semibold text-white">
+              <p className="p-20 text-center  text-sm font-semibold text-white">
                 visit your closet
               </p>
             </Link>

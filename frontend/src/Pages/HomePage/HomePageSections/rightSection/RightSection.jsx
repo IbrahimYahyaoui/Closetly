@@ -13,25 +13,16 @@ const RightSection = () => {
           clothes. Explore and discover your personal style and then share it
           with others.
         </p>
-        <motion.button
-          className=" mt-4 h-10 w-full rounded bg-btnColor font-semibold capitalize text-white  "
-          whileTap={{ scale: 0.9 }}
+        <Link
+          to="/closet"
+          className="relative my-4 flex h-12 w-64 items-center justify-center rounded bg-btnColor font-semibold capitalize text-white  "
         >
           <img
             src={Tshirt}
-            className="absolute w-8 -translate-x-2 translate-y-1  rotate-45 text-white opacity-60"
+            className="absolute -bottom-1  -left-3 w-8  rotate-45 text-white opacity-60"
           />
-          {user && (
-            <Link
-              onClick={() => {
-                console.log("clicked");
-              }}
-              to={`/closet`}
-            >
-              visit your closet
-            </Link>
-          )}
-        </motion.button>
+          visit your closet
+        </Link>
       </div>
       {/* Friends List */}
       <div className="mt-10 h-80 w-full rounded-md border-2 ">
