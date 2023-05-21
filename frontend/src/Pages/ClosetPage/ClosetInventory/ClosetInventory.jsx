@@ -71,7 +71,7 @@ const ClosetInventory = ({ isShowing, setIsShowing }) => {
         </div>
         <motion.div
           layout
-          className="container  grid h-full touch-none grid-cols-2 gap-6 overflow-scroll overflow-x-hidden bg-white p-4 pb-32 md:grid-cols-2 md:pr-4 lg:grid-cols-3 xl:grid-cols-4"
+          className="wrapper grid h-full touch-none grid-cols-2 gap-6 overflow-x-hidden bg-white p-4 pb-32 md:grid-cols-2 md:pr-4 lg:grid-cols-3 xl:grid-cols-4"
         >
           <AddClothes />
           {inventoryItems && inventoryItems.length > 0 && (
