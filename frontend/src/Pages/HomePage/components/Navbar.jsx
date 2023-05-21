@@ -94,12 +94,12 @@ const Navbar = () => {
                 <UserCircleIcon className="mr-5 w-5 self-start" />
                 <p className="self-start"> Profile</p>
               </MenuItem>
-              <MenuItem className="flex h-8 items-end pt-3 ">
-                <ArrowRightOnRectangleIcon className="mr-5 w-5 self-start" />
-                <p className="self-start" onClick={() => handelLogout()}>
-                  {" "}
-                  logout
-                </p>
+              <MenuItem
+                className="flex h-8  items-center pt-3 "
+                onClick={() => handelLogout()}
+              >
+                <ArrowRightOnRectangleIcon className="self-star mr-5 w-5 " />
+                <p className=""> logout</p>
               </MenuItem>
               <MenuItem className="flex h-8 items-end pt-3 " disabled>
                 <CogIcon className="mr-5 w-5 self-start" />
