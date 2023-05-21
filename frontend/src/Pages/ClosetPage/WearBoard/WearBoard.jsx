@@ -5,14 +5,16 @@ import { CurrentWearContext } from "../CurrentWear/Context/CurrentWearContext";
 import shirt from "../../../assets/closetAssets/shirtPlaceholder.svg";
 import { PaperAirplaneIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";
+import WearBoardNavbar from "./components/WearBoardNavbar";
 
 const WearBoard = () => {
   const {
     readyToWear,
-    isDragging,
+    TodayOutfit: TodayOutfitContext,
     dispatch: CurrentWearDispatch,
   } = useContext(CurrentWearContext);
   // how many cloth spot to wear are available
+  // help in future to add more cloth spot dynamically
   const [clothSpot, setClothSpot] = useState(12);
 
   // console.log(readyToWear, "ready to wear");
@@ -35,7 +37,6 @@ const WearBoard = () => {
   }, []);
 
   const handleDrop = (event) => {
-    console.log("drop");
     //
     CurrentWearDispatch &&
       CurrentWearDispatch({ type: "SET_IS_DRAGGING", payload: false });
@@ -67,6 +68,8 @@ const WearBoard = () => {
       } else {
       }
     });
+    // set the current outfit to the context
+    TodayOutfitHandler();
   };
   // get all the child nodes coordinates to Drag over Them
   useEffect(() => {
@@ -100,26 +103,34 @@ const WearBoard = () => {
       }
     });
   }, [readyToWear]);
+  // extract the current wear background from the wareBoard and send it to the currentWearContext
+  const [TodayOutfit, setTodayOutfit] = useState({});
+  const TodayOutfitHandler = () => {
+    childRefs.current.map((childRef, i) => {
+      const backgroundImage = childRef.style.backgroundImage;
 
+      if (!backgroundImage.includes("shirtPlaceholder.svg")) {
+        const urlStartIdx = backgroundImage.indexOf('"') + 1;
+        const urlEndIdx = backgroundImage.lastIndexOf('"');
+        const url = backgroundImage.substring(urlStartIdx, urlEndIdx);
+        setTodayOutfit((prev) => ({
+          ...prev,
+          [i]: url,
+        }));
+      } else {
+        setTodayOutfit((prev) => ({
+          ...prev,
+          [i]: "none",
+        }));
+      }
+    });
+  };
+  useEffect(() => {
+    CurrentWearDispatch({ type: "SET_TODAY_OUTFIT", payload: TodayOutfit });
+  }, [TodayOutfit]);
   return (
     <div className="  h-full w-full p-2">
-      <nav className="flex h-16 w-full items-center  justify-between border-b-2 bg-white  shadow-xl">
-        <p className="p-4 text-xs  font-bold md:text-lg">
-          Drag from your inventory and make your style
-        </p>
-        <p
-          className="  mr-4 flex cursor-pointer items-center whitespace-nowrap rounded bg-slate-400 px-8 py-2 text-sm font-bold text-white"
-          onClick={() => {
-            toast.dismiss();
-            toast("under development ", {
-              icon: "🚧",
-            });
-          }}
-        >
-          Share it
-          <PaperAirplaneIcon className="ml-2 h-6  w-6" />
-        </p>
-      </nav>
+      <WearBoardNavbar />
       <div className="flex justify-center">
         <div
           className="  grid-row-4   mt-10 grid w-full  grid-cols-3 border-2"
