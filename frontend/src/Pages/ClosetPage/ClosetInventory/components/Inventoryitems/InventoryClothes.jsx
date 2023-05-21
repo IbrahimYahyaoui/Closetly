@@ -77,7 +77,7 @@ const InventoryClothes = ({ id, selectedCategory }) => {
         filteredItems.map((item) => {
           return (
             <motion.div
-              className="   z-50 mx-2 flex  h-44 w-40 cursor-pointer touch-none flex-col items-center overflow-hidden rounded-lg border-4 border-slate-200  bg-slate-200"
+              className="   z-50  flex  h-44 w-40 cursor-pointer touch-none flex-col items-center overflow-hidden rounded-lg border-4 border-slate-200  bg-slate-200"
               key={item.clothId}
               id="dragged-element"
               draggable

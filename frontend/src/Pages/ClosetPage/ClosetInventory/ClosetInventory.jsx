@@ -23,7 +23,7 @@ const ClosetInventory = ({ isShowing, setIsShowing }) => {
   }, [ChildrenRef]);
   return (
     <>
-      <motion.div layout className="z-20 bg-white">
+      <motion.div layout className="z-20 h-3/4 md:h-full ">
         <button
           className=" top-0 z-50 h-12  w-full bg-slate-200 md:hidden"
           onClick={() => setIsShowing(!isShowing)}
@@ -71,7 +71,7 @@ const ClosetInventory = ({ isShowing, setIsShowing }) => {
         </div>
         <motion.div
           layout
-          className=" container grid h-screen touch-none grid-cols-2  gap-6   overflow-scroll bg-white  pb-32 pr-4  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          className="container  grid h-full touch-none grid-cols-2 gap-6 overflow-scroll overflow-x-hidden bg-white p-4 pb-32 md:grid-cols-2 md:pr-4 lg:grid-cols-3 xl:grid-cols-4"
         >
           <AddClothes />
           {inventoryItems && inventoryItems.length > 0 && (

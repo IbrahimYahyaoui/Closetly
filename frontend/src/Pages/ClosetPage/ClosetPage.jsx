@@ -24,7 +24,7 @@ const ClosetPage = () => {
     <div className="flex h-screen w-screen overflow-hidden bg-black  md:flex-row">
       {!isShowing && (
         <button
-          className="absolute bottom-0 right-0  z-50 h-12 w-1/2 bg-slate-200 md:hidden"
+          className="fixed bottom-0 right-0  z-50 h-12 w-full bg-slate-200 md:hidden"
           onClick={() => setIsShowing(!isShowing)}
         >
           Open Your Closet
