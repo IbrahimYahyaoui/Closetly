@@ -106,7 +106,7 @@ const SignUp = () => {
             sign in <LinkIcon className="w-4 pl-1" />
           </Link>
         </p>
-        <div className="   absolute bottom-0 mb-5 flex flex-col items-center text-2xl opacity-40">
+        <div className="   fixed bottom-0 mb-5 flex flex-col items-center text-2xl opacity-40">
           <p className="LogoFont mx-2">closetly</p>
           <p className="pt-2 text-xs   font-bold opacity-60">
             Your virtual closet.
