@@ -71,9 +71,10 @@ const ClosetInventory = ({ isShowing, setIsShowing }) => {
         </div>
         <motion.div
           layout
-          className="wrapper grid h-full touch-none grid-cols-2 gap-6 overflow-x-hidden bg-white p-4 pb-32 md:grid-cols-2 md:pr-4 lg:grid-cols-3 xl:grid-cols-4"
+          className="wrapper grid h-full  grid-cols-2  overflow-x-hidden bg-white p-4 md:grid-cols-2 md:pb-32 md:pr-4 lg:grid-cols-3 xl:grid-cols-4"
         >
           <AddClothes />
+
           {inventoryItems && inventoryItems.length > 0 && (
             <InventoryClothes selectedCategory={selectedCategory} />
           )}

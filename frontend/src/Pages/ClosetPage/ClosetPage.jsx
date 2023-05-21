@@ -10,7 +10,7 @@ const ClosetPage = () => {
 
   const [isShowing, setIsShowing] = useState(false);
 
-  const { readyToWear, isDragging } = useContext(CurrentWearContext);
+  const { isDragging } = useContext(CurrentWearContext);
 
   // useEffect(() => {
   //   // setIsDragging(!isDragging);

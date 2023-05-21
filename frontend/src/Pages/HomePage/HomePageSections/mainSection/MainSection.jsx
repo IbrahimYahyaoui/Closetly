@@ -26,7 +26,7 @@ const MainSection = () => {
             src={Tshirt}
             className="absolute w-8 -translate-x-2 translate-y-2  rotate-45 text-white opacity-60"
           />
-          {user && <Link to={`/closet`}>visit your closet</Link>}
+          <Link to="/closet">visit your closet</Link>
         </motion.button>
       </div>
       {
@@ -44,13 +44,11 @@ const MainSection = () => {
             // dragElastic={0.5}
             whileDrag={{ scale: 1.2 }}
           >
-            {user && (
-              <Link to={`/closet/${user.id}`} className="">
-                <p className="p-4 text-center  text-sm font-semibold text-white">
-                  visit your closet
-                </p>
-              </Link>
-            )}
+            <Link to={`/closet`} className="">
+              <p className="p-4 text-center  text-sm font-semibold text-white">
+                visit your closet
+              </p>
+            </Link>
           </motion.div>
         )
       }
