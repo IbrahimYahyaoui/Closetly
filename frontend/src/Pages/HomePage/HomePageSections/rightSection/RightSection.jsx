@@ -26,7 +26,7 @@ const RightSection = () => {
               onClick={() => {
                 console.log("clicked");
               }}
-              to={`/closet/${user.id}`}
+              to={`/closet`}
             >
               visit your closet
             </Link>

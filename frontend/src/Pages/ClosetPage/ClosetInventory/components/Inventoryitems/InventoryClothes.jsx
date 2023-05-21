@@ -5,8 +5,12 @@ import { motion } from "framer-motion";
 import { useDeleteCloth } from "./hooks/useDeleteCloth";
 import wearIcon from "../../../../../assets/closetAssets/shirtPlaceholder.svg";
 import { CurrentWearContext } from "../../../CurrentWear/Context/CurrentWearContext";
+import { AuthContext } from "../../../../AuthPage/context/AuthContext";
 
 const InventoryClothes = ({ id, selectedCategory }) => {
+  // user id
+  const { user } = useContext(AuthContext);
+
   // get the inventory items from the context
   const { inventoryItems } = useContext(inventoryContext);
   // get the dispatch to update what user want to wear in the the context
@@ -15,7 +19,7 @@ const InventoryClothes = ({ id, selectedCategory }) => {
   const { deleteClothHandler } = useDeleteCloth();
   // handel the delete cloth
   const handelDeleteCloth = (clothId) => {
-    deleteClothHandler(clothId, id);
+    deleteClothHandler(clothId, user.id);
   };
   // set the image to be dragged
   const [draggabelImage, setDraggabelImage] = useState(null);

@@ -103,7 +103,7 @@ const Navbar = () => {
               </MenuItem>
               <MenuItem className="flex h-8 items-end pt-3 " disabled>
                 <CogIcon className="mr-5 w-5 self-start" />
-                <p className="self-start">V 1.0.0</p>
+                <p className="self-start">V 0.0.1(beta)</p>
               </MenuItem>
             </Menu>
           </div>

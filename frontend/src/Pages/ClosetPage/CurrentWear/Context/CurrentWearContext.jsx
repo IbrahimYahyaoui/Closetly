@@ -9,7 +9,7 @@ const ClosetItemsReducer = (state, action) => {
     case "SET_TODAY_WEAR":
       return { ...state, TodayWear: action.payload };
     case "SET_IS_DRAGGING":
-      console.log(action.payload, "is dragging");
+      // console.log(action.payload, "is dragging");
       return { ...state, isDragging: action.payload };
     default:
       return state;

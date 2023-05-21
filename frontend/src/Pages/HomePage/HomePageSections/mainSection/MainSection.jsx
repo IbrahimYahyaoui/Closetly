@@ -12,28 +12,28 @@ const MainSection = () => {
     <div className=" w-full overflow-hidden  ">
       {/* this button will appear only on phone device  */}
       <div
-        className="border-2 rounded-md flex flex-col items-center md:hidden "
+        className="flex flex-col items-center rounded-md border-2 md:hidden "
         ref={isButtonInViewPort}
       >
-        <p className="font-semibold p-2">
+        <p className="p-2 font-semibold">
           Start discover your personal style and then share it with others.
         </p>
         <motion.button
-          className=" bg-btnColor w-11/12 h-12 text-white capitalize font-semibold rounded my-4  "
+          className=" my-4 h-12 w-11/12 rounded bg-btnColor font-semibold capitalize text-white  "
           whileTap={{ scale: 0.9 }}
         >
           <img
             src={Tshirt}
-            className="w-8 text-white absolute rotate-45  opacity-60 -translate-x-2 translate-y-2"
+            className="absolute w-8 -translate-x-2 translate-y-2  rotate-45 text-white opacity-60"
           />
-          {user && <Link to={`/closet/${user.id}`}>visit your closet</Link>}
+          {user && <Link to={`/closet`}>visit your closet</Link>}
         </motion.button>
       </div>
       {
         // this section will appear only on desktop
         !isInView && (
           <motion.div
-            className="w-20 h-20  bg-btnColor rounded-full fixed bottom-0 right-0  m-4 md:hidden flex justify-center items-center"
+            className="fixed bottom-0  right-0 m-4 flex h-20 w-20  items-center justify-center rounded-full bg-btnColor md:hidden"
             drag
             dragConstraints={{
               left: 0,
@@ -46,7 +46,7 @@ const MainSection = () => {
           >
             {user && (
               <Link to={`/closet/${user.id}`} className="">
-                <p className="text-center font-semibold  text-white p-4 text-sm">
+                <p className="p-4 text-center  text-sm font-semibold text-white">
                   visit your closet
                 </p>
               </Link>
@@ -57,10 +57,10 @@ const MainSection = () => {
       {
         // thsi is test section
       }
-      <div className="w-full  h-screen"></div>
-      <div className="w-full  h-screen"></div>
-      <div className="w-full  h-screen"></div>
-      <div className="w-full  h-screen"></div>
+      <div className="h-screen  w-full"></div>
+      <div className="h-screen  w-full"></div>
+      <div className="h-screen  w-full"></div>
+      <div className="h-screen  w-full"></div>
     </div>
   );
 };

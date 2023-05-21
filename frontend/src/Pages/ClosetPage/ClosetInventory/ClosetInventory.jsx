@@ -6,7 +6,7 @@ import { inventoryContext } from "./context/InventoryContext";
 import { AuthContext } from "../../AuthPage/context/AuthContext";
 import { ArrowLongUpIcon } from "@heroicons/react/24/solid";
 
-const ClosetInventory = ({ id, isShowing, setIsShowing }) => {
+const ClosetInventory = ({ isShowing, setIsShowing }) => {
   const { categoryListItem, inventoryItems } = useContext(inventoryContext);
   const { user } = useContext(AuthContext);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -22,7 +22,7 @@ const ClosetInventory = ({ id, isShowing, setIsShowing }) => {
     }
   }, [ChildrenRef]);
   return (
-    <AnimatePresence>
+    <>
       <motion.div layout className="z-20 bg-white">
         <button
           className=" top-0 z-50 h-12  w-full bg-slate-200 md:hidden"
@@ -71,11 +71,11 @@ const ClosetInventory = ({ id, isShowing, setIsShowing }) => {
         </div>
         <motion.div
           layout
-          className=" container grid h-screen touch-none  grid-cols-2   gap-6 overflow-scroll bg-white p-2 pb-32  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          className=" container grid h-screen touch-none grid-cols-2  gap-6   overflow-scroll bg-white  pb-32 pr-4  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
-          {id && <AddClothes id={id} />}
+          <AddClothes />
           {inventoryItems && inventoryItems.length > 0 && (
-            <InventoryClothes id={id} selectedCategory={selectedCategory} />
+            <InventoryClothes selectedCategory={selectedCategory} />
           )}
         </motion.div>
       </motion.div>
@@ -89,7 +89,7 @@ const ClosetInventory = ({ id, isShowing, setIsShowing }) => {
     
       /* Chrome, Edge, and Safari */
       *::-webkit-scrollbar {
-        width: 10px; /* increase the width */
+        width: 5px; /* increase the width */
         border-radius: 20px; /* increase the border-radius */
       }
     
@@ -107,7 +107,7 @@ const ClosetInventory = ({ id, isShowing, setIsShowing }) => {
     </style>
     
       `}</style>
-    </AnimatePresence>
+    </>
   );
 };
 

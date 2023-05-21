@@ -19,9 +19,12 @@ import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { useAddClothes } from "./hooks/useAddClothes";
 import { toast } from "react-hot-toast";
 import { inventoryContext } from "../../context/InventoryContext";
+import { AuthContext } from "../../../../AuthPage/context/AuthContext";
 
-const AddClothes = ({ id }) => {
+const AddClothes = () => {
   const { categoryListItem } = useContext(inventoryContext);
+  const { user } = useContext(AuthContext);
+
   const myObject = categoryListItem.map((item, index) => ({ name: item }));
 
   let [isOpen, setIsOpen] = useState(false);
@@ -67,7 +70,7 @@ const AddClothes = ({ id }) => {
     const formData = new FormData();
     formData.append("image", ClothesPicture);
     formData.append("name", ClotheName.current.value);
-    formData.append("id", id);
+    formData.append("id", user.id);
     if (!isAddCategory) {
       formData.append("category", selected.name);
       // console.log(selected.name);
@@ -177,7 +180,7 @@ const AddClothes = ({ id }) => {
                           {myObject &&
                             myObject.map((item) => (
                               <Listbox.Option
-                                key={item}
+                                key={Math.random()}
                                 className={({ active }) =>
                                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                     active
