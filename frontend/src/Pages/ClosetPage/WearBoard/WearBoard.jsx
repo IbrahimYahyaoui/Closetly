@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 
-import { CurrentWearContext } from "../CurrentWear/Context/CurrentWearContext";
+import { CurrentWearContext } from "../WearBoard/Context/CurrentWearContext";
 import shirt from "../../../assets/closetAssets/shirtPlaceholder.svg";
 import { PaperAirplaneIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";

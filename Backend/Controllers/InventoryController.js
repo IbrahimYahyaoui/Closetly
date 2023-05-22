@@ -1,4 +1,3 @@
-const Cloth = require("../Models/ClothModel");
 const User = require("../Models/userModel");
 const uuid = require("uuid");
 

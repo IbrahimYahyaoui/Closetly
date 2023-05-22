@@ -4,7 +4,7 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 import { useDeleteCloth } from "./hooks/useDeleteCloth";
 import wearIcon from "../../../../../assets/closetAssets/shirtPlaceholder.svg";
-import { CurrentWearContext } from "../../../CurrentWear/Context/CurrentWearContext";
+import { CurrentWearContext } from "../../../WearBoard/Context/CurrentWearContext";
 import { AuthContext } from "../../../../AuthPage/context/AuthContext";
 
 const InventoryClothes = ({ id, selectedCategory }) => {

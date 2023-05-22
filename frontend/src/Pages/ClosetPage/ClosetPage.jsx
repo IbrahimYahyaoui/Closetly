@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ClosetInventory from "./ClosetInventory/ClosetInventory";
 import WearBoard from "./WearBoard/WearBoard";
 import { motion, AnimatePresence } from "framer-motion";
-import { CurrentWearContext } from "./CurrentWear/Context/CurrentWearContext";
+import { CurrentWearContext } from "../ClosetPage/WearBoard/Context/CurrentWearContext";
 
 const ClosetPage = () => {
   //  get id from local storage

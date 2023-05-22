@@ -1,24 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { PaperAirplaneIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { toast } from "react-hot-toast";
+import { LoaderIcon, toast } from "react-hot-toast";
 import { Dialog } from "@headlessui/react";
-import { Textarea } from "@nextui-org/react";
-import { CurrentWearContext } from "../../CurrentWear/Context/CurrentWearContext";
+import { Loading, Textarea } from "@nextui-org/react";
+import { CurrentWearContext } from "../Context/CurrentWearContext";
+import { AuthContext } from "../../../AuthPage/context/AuthContext";
+
 import shirt from "../../../../assets/closetAssets/shirtPlaceholder.svg";
+import { useAddPost } from "../hooks/useAddPost";
 const WearBoardNavbar = () => {
+  const { TodayOutfit } = useContext(CurrentWearContext);
+  const { user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [description, setDescription] = useState("");
-  const { TodayOutfit } = useContext(CurrentWearContext);
 
-  // extract image index from TodayOutfit
-  const [imageIndex, setImageIndex] = useState([]);
-  useEffect(() => {
-    if (TodayOutfit) {
-      //   console.log(Object.keys(TodayOutfit), "TodayOutfit keys");
-      //   setImageIndex(Object.keys(TodayOutfit), "imahge");
-      console.log(TodayOutfit, "TodayOutfit");
-    }
-  }, [TodayOutfit]);
+  const { addPostHandler, isLoading } = useAddPost();
+  // call hook to add post
+
+  const addPost = () => {
+    addPostHandler(description, TodayOutfit, user.id);
+  };
 
   return (
     <nav className="flex h-16 w-full items-center  justify-between border-b-2 bg-white  shadow-xl">
@@ -28,6 +29,10 @@ const WearBoardNavbar = () => {
       <p
         className="  mr-4 flex cursor-pointer items-center whitespace-nowrap rounded bg-slate-400 px-8 py-2 text-sm font-bold text-white"
         onClick={() => {
+          if (Object.keys(TodayOutfit).length === 0) {
+            toast.error("You have to wear something first");
+            return;
+          }
           setIsOpen(true);
         }}
       >
@@ -71,6 +76,7 @@ const WearBoardNavbar = () => {
                 placeholder="Description"
                 maxLength={200}
                 css={{ width: "100%", padding: "0px 12px" }}
+                value={description}
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}
@@ -81,7 +87,6 @@ const WearBoardNavbar = () => {
               <div className=" grid w-full grid-cols-3 place-items-center text-center ">
                 {TodayOutfit &&
                   Array.from({ length: 12 }).map((_, i) => {
-                    console.log(i, TodayOutfit[i], "TodayOutfit[i]");
                     if (TodayOutfit[i] !== "none") {
                       return (
                         <div
@@ -112,16 +117,20 @@ const WearBoardNavbar = () => {
                   })}
               </div>
             </section>
-            <button
-              className=" my-4 ml-4 h-10 w-11/12 rounded bg-slate-400 font-bold capitalize text-white"
-              onClick={() => {
-                toast.success("under development", {
-                  icon: "🚧",
-                });
-              }}
-            >
-              share it
-            </button>
+            {!isLoading ? (
+              <button
+                className=" my-4 ml-4 h-10 w-11/12 rounded bg-slate-400 font-bold capitalize text-white"
+                onClick={() => {
+                  addPost();
+                }}
+              >
+                share it
+              </button>
+            ) : (
+              <button className=" my-4 ml-4 h-10 w-11/12 rounded bg-slate-400 font-bold capitalize text-white">
+                <Loading color={"currentColor"} size="sm" />
+              </button>
+            )}
           </Dialog.Panel>
         </div>
       </Dialog>
