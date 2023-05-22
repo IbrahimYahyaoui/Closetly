@@ -3,6 +3,8 @@ import Tshirt from "../../../../assets/wear.svg";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../AuthPage/context/AuthContext";
+import Timeline from "./components/TimeLine/Timeline";
+import WelcomText from "./components/TimeLine/components/WelcomText";
 const MainSection = () => {
   const isButtonInViewPort = useRef();
   const isInView = useInView(isButtonInViewPort);
@@ -10,6 +12,9 @@ const MainSection = () => {
 
   return (
     <div className=" w-full overflow-hidden  ">
+      <div className=" md:hidden">
+        <WelcomText />
+      </div>
       {/* this button will appear only on phone device  */}
       <div
         className="flex flex-col items-center rounded-md border-2 md:hidden "
@@ -30,7 +35,7 @@ const MainSection = () => {
         </Link>
       </div>
       {
-        // this section will appear only on desktop
+        // this section will appear only on phone
         !isInView && (
           <motion.div
             className="fixed bottom-0  right-0 m-4 flex h-20 w-20  items-center justify-center rounded-full bg-btnColor md:hidden"
@@ -55,10 +60,9 @@ const MainSection = () => {
       {
         // thsi is test section
       }
-      <div className="h-screen  w-full"></div>
-      <div className="h-screen  w-full"></div>
-      <div className="h-screen  w-full"></div>
-      <div className="h-screen  w-full"></div>
+      <div>
+        <Timeline />
+      </div>
     </div>
   );
 };
