@@ -3,12 +3,20 @@ import React, { useContext } from "react";
 import Tshirt from "../../../../assets/wear.svg";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../AuthPage/context/AuthContext";
-import { FollowersContext } from "../mainSection/components/followe/context/FollowersContext";
+import { FollowersContext } from "../context/FollowersContext";
 import { Avatar } from "@nextui-org/react";
+import { useFollow } from "../hooks/useFollow";
 const RightSection = () => {
   const { user: existUser } = useContext(AuthContext);
-  const { suggestions } = useContext(FollowersContext);
-  console.log(suggestions.userList);
+  const { suggestions, following } = useContext(FollowersContext);
+
+  const { follow, unfollow } = useFollow();
+  const followHandler = (destinationId, sourceId) => {
+    follow(destinationId, sourceId);
+  };
+  const unfollowHandler = (destinationId, sourceId) => {
+    unfollow(destinationId, sourceId);
+  };
   return (
     <div className="flex  flex-col items-center px-3  ">
       <div className="  flex  h-fit w-full  flex-col items-center rounded-md border-2  p-2   font-semibold">
@@ -32,11 +40,11 @@ const RightSection = () => {
       <div className="mt-10 h-80 w-full scroll-m-10 overflow-y-scroll rounded-md border-2 ">
         <h3 className="m-4 flex cursor-pointer items-center justify-between font-semibold">
           <p>people you might know</p>
-          <p className="cursor-pointer text-xs">sell all</p>
+          {/* <p className="cursor-pointer text-xs">sell all</p> */}
         </h3>
         <div>
-          {suggestions.userList &&
-            suggestions.userList.map((user) => {
+          {suggestions &&
+            suggestions.map((user) => {
               if (user.username !== existUser.Username) {
                 return (
                   <div
@@ -57,13 +65,31 @@ const RightSection = () => {
                       )}
                       <p className="pl-2">{user.username}</p>
                     </div>
-                    <button className="rounded-md bg-btnColor px-2  text-white">
-                      follow
-                    </button>
+                    {following &&
+                    // check if user is already following this user
+                    !following.find((item) => item === user._id) ? (
+                      <button
+                        className="rounded-md bg-btnColor px-2  text-white"
+                        onClick={() => {
+                          followHandler(user._id, existUser.id);
+                        }}
+                      >
+                        follow
+                      </button>
+                    ) : (
+                      <button
+                        className=" rounded-md border-2  border-slate-500 px-2 text-slate-500"
+                        onClick={() => {
+                          unfollowHandler(user._id, existUser.id);
+                        }}
+                      >
+                        unfollow
+                      </button>
+                    )}
                   </div>
                 );
               }
-              return null; // Add this line if you don't want to render anything for other cases
+              return null;
             })}
         </div>
       </div>

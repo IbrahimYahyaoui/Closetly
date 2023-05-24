@@ -8,11 +8,12 @@ import {
 import axios from "axios";
 export const FollowersContext = createContext();
 
-import { AuthContext } from "../../../../../../AuthPage/context/AuthContext";
+import { AuthContext } from "../../../AuthPage/context/AuthContext";
 //
 const FollowersDispatcher = (state, action) => {
   switch (action.type) {
     case "GET_FOLLOWERS":
+      console.log(action.payload, "payload");
       return {
         ...state,
         followers: action.payload,
@@ -26,6 +27,20 @@ const FollowersDispatcher = (state, action) => {
       return {
         ...state,
         suggestions: action.payload,
+      };
+
+    case "ADD_FOLLOWER_LOCALLY":
+      // used to store new follow to show unfollow button wen user follow someone
+      return {
+        ...state,
+        following: [...state.following, action.payload],
+      };
+    case "REMOVE_FOLLOWER_LOCALLY":
+      return {
+        ...state,
+        following: state.following.filter(
+          (follower) => follower !== action.payload
+        ),
       };
     default:
       return state;
@@ -56,7 +71,6 @@ export const FollowersContextProvider = ({ children }) => {
           }follow/followersList/${userId}`
         )
         .then((res) => {
-          console.log(res.data);
           dispatch({ type: "GET_FOLLOWERS", payload: res.data });
         })
         .catch((err) => {
@@ -77,7 +91,6 @@ export const FollowersContextProvider = ({ children }) => {
           }follow/followingList/${userId}`
         )
         .then((res) => {
-          console.log(res.data);
           dispatch({ type: "GET_FOLLOWING", payload: res.data });
         })
         .catch((err) => {
@@ -96,7 +109,6 @@ export const FollowersContextProvider = ({ children }) => {
           `${import.meta.env.VITE_APP_Production_ROOT}follow/followSuggestion`
         )
         .then((res) => {
-          console.log(res.data);
           dispatch({ type: "GET_SUGGESTIONS", payload: res.data });
         })
         .catch((err) => {
