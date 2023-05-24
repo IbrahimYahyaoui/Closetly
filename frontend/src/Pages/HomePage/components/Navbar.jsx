@@ -14,6 +14,7 @@ import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import { motion } from "framer-motion";
 import { useLogout } from "../../AuthPage/hooks/useLogout";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const { user } = useContext(AuthContext);
   const { logout } = useLogout();
@@ -92,7 +93,10 @@ const Navbar = () => {
             >
               <MenuItem className="flex h-8 items-end  ">
                 <UserCircleIcon className="mr-5 w-5 self-start" />
-                <p className="self-start"> Profile</p>
+                <Link to={`/profile/${user.id}`} className="self-start">
+                  {" "}
+                  Profile
+                </Link>
               </MenuItem>
               <MenuItem
                 className="flex h-8  items-center pt-3 "

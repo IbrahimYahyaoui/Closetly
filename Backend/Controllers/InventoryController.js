@@ -76,7 +76,6 @@ const addCloth = async (req, res) => {
 
 const getCloths = (req, res) => {
   const { id } = req.body;
-  console.log(req.body);
   try {
     if (!id) {
       return res.status(400).json({ error: "Please provide a user id" });

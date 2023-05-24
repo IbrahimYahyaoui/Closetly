@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../../../../../AuthPage/context/AuthContext";
 
-const WelcomText = () => {
+const WelcomeText = () => {
   let timeOfDay;
   const date = new Date();
   const hours = date.getHours();
@@ -11,7 +11,7 @@ const WelcomText = () => {
   } else if (hours >= 12 && hours < 17) {
     timeOfDay = "afternoon";
   } else {
-    timeOfDay = "night";
+    timeOfDay = "evening";
   }
 
   const { user } = useContext(AuthContext);
@@ -22,4 +22,4 @@ const WelcomText = () => {
   );
 };
 
-export default WelcomText;
+export default WelcomeText;

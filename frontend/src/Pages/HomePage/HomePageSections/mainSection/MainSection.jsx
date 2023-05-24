@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../AuthPage/context/AuthContext";
 import Timeline from "./components/TimeLine/Timeline";
-import WelcomText from "./components/TimeLine/components/WelcomText";
+import WelcomeText from "./components/TimeLine/components/WelcomeText";
 const MainSection = () => {
   const isButtonInViewPort = useRef();
   const isInView = useInView(isButtonInViewPort);
@@ -13,7 +13,7 @@ const MainSection = () => {
   return (
     <div className=" w-full overflow-hidden  ">
       <div className=" md:hidden">
-        <WelcomText />
+        <WelcomeText />
       </div>
       {/* this button will appear only on phone device  */}
       <div

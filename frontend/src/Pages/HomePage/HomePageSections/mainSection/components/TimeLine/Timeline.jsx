@@ -1,11 +1,11 @@
 import React from "react";
-import WelcomText from "./components/WelcomText";
+import WelcomeText from "./components/WelcomeText";
 
 const Tiemeline = () => {
   return (
     <div className="hide-scrollbar md:h-screen  md:overflow-scroll">
       <div className="hidden md:block">
-        <WelcomText />
+        <WelcomeText />
       </div>
       <p className="">lorem</p>
       <p className="">lorem</p>
@@ -37,17 +37,14 @@ const Tiemeline = () => {
       <p className="">lorem</p>
       <p className="">lorem</p>
       <p className="">lorem</p>
-
-      <p className="">lorem</p>
-      <p className="">lorem</p>
-
       <p className="">lorem</p>
       <p className="">lorem</p>
       <p className="">lorem</p>
       <p className="">lorem</p>
       <p className="">lorem</p>
       <p className="">lorem</p>
-
+      <p className="">lorem</p>
+      <p className="">lorem</p>
       <p className="">lorem</p>
       <p className="">lorem</p>
       <p className="">lorem</p>

@@ -10,6 +10,7 @@ const app = express();
 const AuthRoutes = require("./Routes/AuthRoutes");
 const InventoryRoutes = require("./Routes/InventoryRoutes");
 const PostRoutes = require("./Routes/PostRoutes");
+const followRoutes = require("./Routes/followersRoutes");
 //  middleware
 app.use(express.json());
 
@@ -19,6 +20,7 @@ app.use(cors({}));
 app.use("/Auth", AuthRoutes);
 app.use("/inventory", InventoryRoutes);
 app.use("/post", PostRoutes);
+app.use("/follow", followRoutes);
 // mongodb connection
 mongoose
   .connect(process.env.MONGO_URI)
