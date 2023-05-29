@@ -2,10 +2,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Routes,
   RouterProvider,
-  useLocation,
 } from "react-router-dom";
+
 import SignUp from "./Pages/AuthPage/SignUp";
 import SignIn from "./Pages/AuthPage/SignIn";
 import { Toaster } from "react-hot-toast";
@@ -36,31 +35,6 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  // useEffect(() => {
-  //   document.addEventListener("click", logClick);
-  //   document.addEventListener("touchstart", logTouch);
-
-  //   return () => {
-  //     document.removeEventListener("click", logClick);
-  //     document.removeEventListener("touchstart", logTouch);
-  //   };
-  // }, []);
-  // polyfill({
-  //   // use this to make use of the scroll behaviour
-  //   dragImageTranslateOverride: scrollBehaviourDragImageTranslateOverride,
-  // });
-  // useEffect(() => {
-  //   const script = document.createElement("script");
-
-  //   script.src = "";
-  //   script.async = true;
-
-  //   document.body.appendChild(script);
-
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
   return (
     <>
       <Toaster
@@ -71,6 +45,7 @@ function App() {
           },
         }}
       />
+
       <RouterProvider router={router} />
     </>
   );

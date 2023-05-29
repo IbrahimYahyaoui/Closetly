@@ -9,7 +9,6 @@ import { InventoryContextProvider } from "./Pages/ClosetPage/ClosetInventory/con
 import { CurrentWearContextProvider } from "./Pages/ClosetPage/WearBoard/Context/CurrentWearContext.jsx";
 import { FollowersContextProvider } from "./Pages/HomePage/HomePageSections/context/FollowersContext.jsx";
 import { SearchProvider } from "./Pages/HomePage/components/context/SearchContext.jsx";
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContextProvider>
