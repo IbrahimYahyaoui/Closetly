@@ -1,5 +1,5 @@
-import { Avatar, Badge, Dropdown, User } from "@nextui-org/react";
-import React, { useContext } from "react";
+import { Avatar, Badge, Dropdown, Loading, User } from "@nextui-org/react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../AuthPage/context/AuthContext";
 import {
   ChevronDownIcon,
@@ -8,52 +8,153 @@ import {
   CogIcon,
   HeartIcon,
   BellIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
-import { motion } from "framer-motion";
+
 import { useLogout } from "../../AuthPage/hooks/useLogout";
 import { Link } from "react-router-dom";
+import { UseSearch } from "./hooks/UseSearch";
+import { Dialog } from "@headlessui/react";
+import { SearchContext } from "./context/SearchContext";
+import { toast } from "react-hot-toast";
+
 const Navbar = () => {
   const { user } = useContext(AuthContext);
   const { logout } = useLogout();
   const handelLogout = () => {
     logout();
   };
+  //
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { search, isLoading } = UseSearch();
+  const [searchValue, setSearchValue] = useState("");
+  const { searchResult } = useContext(SearchContext);
+  console.log(searchResult === []);
+  const handelSearch = () => {
+    if (searchValue !== "") {
+      search(searchValue);
+    } else {
+      toast.error("please enter a username");
+    }
+  };
   return (
     <nav className="fixed   z-50  flex w-full  justify-between border-b-2 bg-white p-2 pb-1 ">
       <div className="LogoFont w-1/3  text-2xl opacity-70 ">closetly</div>
-      <section className="flex w-2/3 items-center justify-end ">
-        <div className="flex  w-16 items-center justify-between ">
+      <section className="flex w-2/3  justify-end  ">
+        <div className="flex  w-full  items-center justify-end ">
+          {/* search on phone */}
           <div>
-            <Dropdown placement="bottom-right ">
-              <Dropdown.Button
-                className="p-0"
-                style={{
-                  background: "transparent",
-                }}
-              >
-                <Badge color="error" content={0}>
-                  <HeartIcon className=" w-6  cursor-pointer fill-none  stroke-black" />
-                </Badge>
-              </Dropdown.Button>
-              <Dropdown.Menu aria-label="Static Actions">
-                <Dropdown.Item key="delete" withDivider color="error">
-                  Delete file
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <MagnifyingGlassIcon
+              className="mr-3 w-5 cursor-pointer "
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            />
+            <Dialog
+              open={isOpen}
+              onClose={() => setIsOpen(false)}
+              className="relative z-50 "
+            >
+              {/* The backdrop, rendered as a fixed sibling to the panel container */}
+              <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+
+              {/* Full-screen container to center the panel */}
+              <div className="fixed inset-0 flex items-center justify-center p-4">
+                {/* The actual dialog panel  */}
+                <Dialog.Panel className="mx-auto  w-full max-w-sm rounded bg-white p-2 text-center">
+                  <Dialog.Title className="py-4 font-bold">
+                    Search for user
+                  </Dialog.Title>
+
+                  <div className="flex w-full">
+                    <input
+                      className=" h-8 w-4/5 rounded-l border pl-1 outline-none "
+                      placeholder="username"
+                      onChange={(e) => {
+                        setSearchValue(e.target.value);
+                      }}
+                    />
+                    {isLoading ? (
+                      <div className="flex w-1/5 cursor-pointer items-center justify-center rounded-r bg-slate-400">
+                        <Loading size="xs" color="white" />
+                      </div>
+                    ) : (
+                      <div
+                        className="flex w-1/5 cursor-pointer items-center justify-center rounded-r bg-slate-400"
+                        onClick={() => {
+                          handelSearch();
+                        }}
+                      >
+                        <MagnifyingGlassIcon className="w-6  " />
+                      </div>
+                    )}
+                  </div>
+                  {(searchResult && searchResult === "empty") ||
+                  (searchResult && searchResult.length === 0) ? (
+                    <div className="my-4 h-60  overflow-scroll rounded border">
+                      <p className="flex h-full items-center justify-center text-sm text-gray-500">
+                        provide a valid username for search
+                      </p>
+                    </div>
+                  ) : (
+                    <div className=" my-4 h-60  overflow-scroll rounded border">
+                      {searchResult &&
+                        searchResult.map((user) => {
+                          return (
+                            <Link
+                              to={`/profile/${user._id}`}
+                              é
+                              className="flex items-center justify-between px-2 pt-3"
+                              key={user._id}
+                              onClick={() => {
+                                console.log(user._id);
+                              }}
+                            >
+                              <div className="flex items-center">
+                                {user.profilePic === "" ? (
+                                  <div className="flex items-center">
+                                    <Avatar
+                                      src={`https://eu.ui-avatars.com/api/?name=${user.username}&size=300`}
+                                      className="cursor-pointer"
+                                    />
+                                    <p className="mx-2 text-sm font-semibold">
+                                      {user.username}
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center">
+                                    <Avatar
+                                      src={user.profilePic}
+                                      className="cursor-pointer"
+                                    />
+                                    <p className="mx-2 text-sm font-semibold">
+                                      {user.username}
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            </Link>
+                          );
+                        })}
+                    </div>
+                  )}
+                </Dialog.Panel>
+              </div>
+            </Dialog>
           </div>
           <div>
-            <Dropdown placement="bottom-right ">
+            <Dropdown placement="bottom-right  ">
               <Dropdown.Button
                 className="p-0 "
                 style={{
                   background: "transparent",
                 }}
               >
-                <Badge color="error" content={0} className="mr-2">
+                <Badge color="error" content={12} className="ml-2">
                   <BellIcon className=" w-6  cursor-pointer fill-none  stroke-black " />
                 </Badge>
               </Dropdown.Button>
@@ -67,7 +168,7 @@ const Navbar = () => {
         </div>
         {user && (
           <div className="mr-2 flex items-center">
-            <p className="mx-4 ml-5 h-8 w-1 rounded bg-slate-300  opacity-50"></p>
+            <p className=" mr-4 h-8 w-1 rounded bg-slate-300  opacity-50"></p>
             <Menu
               // menu styles
               menuStyle={{
@@ -91,13 +192,11 @@ const Navbar = () => {
               }
               transition
             >
-              <MenuItem className="flex h-8 items-end  ">
-                <UserCircleIcon className="mr-5 w-5 self-start" />
-                <Link to={`/profile/${user.id}`} className="self-start">
-                  {" "}
-                  Profile
-                </Link>
-              </MenuItem>
+              <Link to={`/profile/${user.id}`} className="self-start">
+                <MenuItem className="flex h-8 items-end  ">
+                  <UserCircleIcon className="mr-5 w-5 self-start" /> Profile
+                </MenuItem>
+              </Link>
               <MenuItem
                 className="flex h-8  items-center pt-3 "
                 onClick={() => handelLogout()}
@@ -112,9 +211,6 @@ const Navbar = () => {
             </Menu>
           </div>
         )}
-        {/* <button className=" hidden md:block bg-btnColor px-10 py-2 rounded-xl text-white font-semibold  mx-2 ml-10 ">
-            Open your wardrobe
-          </button> */}
       </section>
     </nav>
   );

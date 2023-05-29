@@ -85,10 +85,30 @@ const followSuggestion = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  const { username } = req.body;
+  try {
+    const userList = await User.find(
+      { username: { $regex: username, $options: "i" } },
+      { username: 1, profilePic: 1 }
+    );
+
+    if (userList.length !== 0) {
+      res.status(200).json(userList);
+    } else {
+      res.status(200).json("empty");
+    }
+  } catch (error) {
+    console.log({ error: error.message });
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   follow,
   unfollow,
   followersList,
   followingList,
   followSuggestion,
+  search,
 };

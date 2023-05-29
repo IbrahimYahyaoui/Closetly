@@ -8,6 +8,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { InventoryContextProvider } from "./Pages/ClosetPage/ClosetInventory/context/InventoryContext.jsx";
 import { CurrentWearContextProvider } from "./Pages/ClosetPage/WearBoard/Context/CurrentWearContext.jsx";
 import { FollowersContextProvider } from "./Pages/HomePage/HomePageSections/context/FollowersContext.jsx";
+import { SearchProvider } from "./Pages/HomePage/components/context/SearchContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -15,9 +16,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <FollowersContextProvider>
         <InventoryContextProvider>
           <CurrentWearContextProvider>
-            <NextUIProvider disableBaseline="true">
-              <App />
-            </NextUIProvider>
+            <SearchProvider>
+              <NextUIProvider disableBaseline="true">
+                <App />
+              </NextUIProvider>
+            </SearchProvider>
           </CurrentWearContextProvider>
         </InventoryContextProvider>
       </FollowersContextProvider>

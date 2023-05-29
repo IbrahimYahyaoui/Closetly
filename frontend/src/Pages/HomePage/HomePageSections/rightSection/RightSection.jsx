@@ -11,6 +11,7 @@ const RightSection = () => {
   const { suggestions, following } = useContext(FollowersContext);
 
   const { follow, unfollow } = useFollow();
+
   const followHandler = (destinationId, sourceId) => {
     follow(destinationId, sourceId);
   };
