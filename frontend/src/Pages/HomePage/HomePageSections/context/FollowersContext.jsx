@@ -13,7 +13,6 @@ import { AuthContext } from "../../../AuthPage/context/AuthContext";
 const FollowersDispatcher = (state, action) => {
   switch (action.type) {
     case "GET_FOLLOWERS":
-      console.log(action.payload, "payload");
       return {
         ...state,
         followers: action.payload,

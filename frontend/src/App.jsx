@@ -11,7 +11,7 @@ import { Toaster } from "react-hot-toast";
 import HomePage from "./Pages/HomePage/HomePage";
 import ClosetPage from "./Pages/ClosetPage/ClosetPage";
 import { useEffect } from "react";
-import ProfilePageControls from "./Pages/profilePage/ProfilePageControls";
+import ProfilePage from "./Pages/profilePage/ProfilePage";
 // function logClick(event) {
 //   console.log("Clicked!", event);
 // }
@@ -27,7 +27,7 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/home" element={<HomePage />}></Route>
       <Route path="/closet" element={<ClosetPage />}></Route>
-      <Route path="/profile/:id" element={<ProfilePageControls />}></Route>
+      <Route path="/profile/:id" element={<ProfilePage />}></Route>
 
       <Route path="*" element={<h1>Page not found</h1>}></Route>
     </>

@@ -4,6 +4,7 @@ import ClosetInventory from "./ClosetInventory/ClosetInventory";
 import WearBoard from "./WearBoard/WearBoard";
 import { motion, AnimatePresence } from "framer-motion";
 import { CurrentWearContext } from "../ClosetPage/WearBoard/Context/CurrentWearContext";
+// import Navbar from "../HomePage/components/Navbar";
 
 const ClosetPage = () => {
   //  get id from local storage

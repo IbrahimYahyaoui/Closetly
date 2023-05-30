@@ -12,7 +12,6 @@ export const UseSearch = () => {
         username,
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data === "empty") {
           toast.error("no user found");
         }

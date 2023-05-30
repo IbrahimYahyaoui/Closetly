@@ -11,6 +11,9 @@
     /* font-weight: 600; */
     /* background: #e2f2e8; */
   }
+  .z-TOP {
+    z-index: 9999;
+  }
   .LogoFont {
     font-family: "Pacifico", cursive;
   }

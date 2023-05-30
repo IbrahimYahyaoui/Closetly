@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useContext } from "react";
 import Tshirt from "../../../../assets/wear.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../AuthPage/context/AuthContext";
 import { FollowersContext } from "../context/FollowersContext";
 import { Avatar } from "@nextui-org/react";
@@ -9,6 +9,7 @@ import { useFollow } from "../hooks/useFollow";
 const RightSection = () => {
   const { user: existUser } = useContext(AuthContext);
   const { suggestions, following } = useContext(FollowersContext);
+  const navigate = useNavigate();
 
   const { follow, unfollow } = useFollow();
 
@@ -49,8 +50,12 @@ const RightSection = () => {
               if (user.username !== existUser.Username) {
                 return (
                   <div
-                    className="flex items-center justify-between px-2 pt-3"
+                    className="flex cursor-pointer items-center justify-between px-2 pt-3"
                     key={user._id}
+                    onClick={() => {
+                      console.log(user._id);
+                      return navigate(`/profile/${user._id}`);
+                    }}
                   >
                     <div className="flex items-center">
                       {user.profilePic === "" ? (

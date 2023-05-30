@@ -100,7 +100,29 @@ const search = async (req, res) => {
     }
   } catch (error) {
     console.log({ error: error.message });
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getProfile = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const profile = await User.findById(
+      { _id: id },
+      {
+        username: 1,
+        profilePic: 1,
+        followers: 1,
+        following: 1,
+        inventory: 1,
+        createdAt: 1,
+      }
+    );
+    res.status(200).json(profile);
+  } catch (error) {
+    console.log({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -111,4 +133,5 @@ module.exports = {
   followingList,
   followSuggestion,
   search,
+  getProfile,
 };

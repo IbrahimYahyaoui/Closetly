@@ -15,15 +15,15 @@ import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 
 import { useLogout } from "../../AuthPage/hooks/useLogout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, redirect } from "react-router-dom";
 import { UseSearch } from "./hooks/UseSearch";
 import { Dialog } from "@headlessui/react";
 import { SearchContext } from "./context/SearchContext";
 import { toast } from "react-hot-toast";
-
 const Navbar = () => {
   const { user } = useContext(AuthContext);
   const { logout } = useLogout();
+  const navigate = useNavigate();
   const handelLogout = () => {
     logout();
   };
@@ -33,7 +33,6 @@ const Navbar = () => {
   const { search, isLoading } = UseSearch();
   const [searchValue, setSearchValue] = useState("");
   const { searchResult } = useContext(SearchContext);
-  console.log(searchResult === []);
   const handelSearch = () => {
     if (searchValue !== "") {
       search(searchValue);
@@ -42,8 +41,10 @@ const Navbar = () => {
     }
   };
   return (
-    <nav className="fixed   z-50  flex w-full  justify-between border-b-2 bg-white p-2 pb-1 ">
-      <div className="LogoFont w-1/3  text-2xl opacity-70 ">closetly</div>
+    <nav className="z-TOP   fixed  flex w-full  justify-between border-b-2 bg-white p-2 pb-1 ">
+      <Link to="/home" className="LogoFont w-1/3  text-2xl opacity-70 ">
+        closetly
+      </Link>
       <section className="flex w-2/3  justify-end  ">
         <div className="flex  w-full  items-center justify-end ">
           {/* search on phone */}
@@ -57,7 +58,7 @@ const Navbar = () => {
             <Dialog
               open={isOpen}
               onClose={() => setIsOpen(false)}
-              className="relative z-50 "
+              className="z-TOP relative "
             >
               {/* The backdrop, rendered as a fixed sibling to the panel container */}
               <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
@@ -105,13 +106,13 @@ const Navbar = () => {
                       {searchResult &&
                         searchResult.map((user) => {
                           return (
-                            <Link
-                              to={`/profile/${user._id}`}
-                              é
+                            <div
+                              // to={`/profile/${user._id}`}
                               className="flex items-center justify-between px-2 pt-3"
                               key={user._id}
                               onClick={() => {
-                                console.log(user._id);
+                                setIsOpen(false);
+                                return navigate(`/profile/${user._id}`);
                               }}
                             >
                               <div className="flex items-center">
@@ -137,7 +138,7 @@ const Navbar = () => {
                                   </div>
                                 )}
                               </div>
-                            </Link>
+                            </div>
                           );
                         })}
                     </div>
