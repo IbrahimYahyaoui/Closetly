@@ -42,6 +42,7 @@ function App() {
           style: {
             background: "#363636",
             color: "#fff",
+            zIndex: "9999",
           },
         }}
       />
