@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { useReducer, createContext } from "react";
 
 export const SearchContext = createContext();
 
@@ -18,6 +18,7 @@ export const SearchProvider = ({ children }) => {
   const [state, dispatch] = useReducer(SearchReducer, {
     searchResult: [],
   });
+
   return (
     <SearchContext.Provider value={{ ...state, dispatch }}>
       {children}

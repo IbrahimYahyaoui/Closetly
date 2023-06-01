@@ -118,9 +118,7 @@ export const FollowersContextProvider = ({ children }) => {
       getFollowers();
     }
   }, [userId]);
-  useEffect(() => {
-    console.log(state, "stateFollowers");
-  }, [state]);
+
   return (
     <FollowersContext.Provider value={{ ...state, dispatch }}>
       {children}

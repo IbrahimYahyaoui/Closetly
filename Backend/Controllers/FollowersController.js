@@ -86,15 +86,23 @@ const followSuggestion = async (req, res) => {
 };
 
 const search = async (req, res) => {
+  // username to search for
   const { username } = req.body;
+  const { sender } = req.body;
+  console.log(req.body); // ==> { username: 'ib', sender: 'Ibrahim_Yh' }
   try {
     const userList = await User.find(
       { username: { $regex: username, $options: "i" } },
       { username: 1, profilePic: 1 }
     );
 
-    if (userList.length !== 0) {
-      res.status(200).json(userList);
+    // Filter out sender's name from userList if included
+    const filteredUserList = userList.filter(
+      (user) => user.username !== sender
+    );
+
+    if (filteredUserList.length !== 0) {
+      res.status(200).json(filteredUserList);
     } else {
       res.status(200).json("empty");
     }
@@ -106,7 +114,7 @@ const search = async (req, res) => {
 
 const getProfile = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+
   try {
     const profile = await User.findById(
       { _id: id },

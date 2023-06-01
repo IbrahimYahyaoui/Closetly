@@ -1,22 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useProfile } from "./hooks/useProfile";
 import { Avatar, Loading } from "@nextui-org/react";
 import { Tab } from "@headlessui/react";
-
+import { useFollow } from "../HomePage/HomePageSections/hooks/useFollow";
+import { FollowersContext } from "../HomePage/HomePageSections/context/FollowersContext";
 // date fns
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import Navbar from "../HomePage/components/Navbar";
+import { AuthContext } from "../AuthPage/context/AuthContext";
 const ProfilePageControls = () => {
   const { id } = useParams();
   const { profile, userData } = useProfile();
-
-  const location = useLocation();
+  const { follow, unfollow } = useFollow();
+  const { user } = useContext(AuthContext);
+  const { following } = useContext(FollowersContext);
   useEffect(() => {
     profile(id);
-    console.log(userData);
   }, [id]);
 
+  console.log();
+  const handelFollow = () => {
+    follow(id, user.id);
+  };
+  const handelUnfollow = () => {
+    unfollow(id, user.id);
+  };
   return (
     <div key={userData}>
       <Navbar />
@@ -48,12 +57,24 @@ const ProfilePageControls = () => {
                 </div>
               )}
             </div>
-            <div className="flex flex-col   justify-center md:justify-start">
+            <div className="flex flex-col   justify-center md:w-1/2 md:justify-start">
               <div className="flex  flex-col items-center text-center md:flex-row ">
                 <p className="text-2xl ">{userData.username}</p>
-                <button className="  mt-4 rounded bg-slate-400 px-2 text-white  md:ml-16 md:mt-0">
-                  Follow
-                </button>
+                {following && !following.includes(id) ? (
+                  <button
+                    className="  mt-4 rounded bg-slate-400 px-2 text-white  md:ml-16 md:mt-0"
+                    onClick={() => handelFollow()}
+                  >
+                    Follow
+                  </button>
+                ) : (
+                  <button
+                    className="  mt-4 rounded border-2 border-slate-400 px-2 text-slate-400  md:ml-16 md:mt-0"
+                    onClick={() => handelUnfollow()}
+                  >
+                    unfollow
+                  </button>
+                )}
               </div>
               <div className="my-4 flex w-full justify-between ">
                 <p>

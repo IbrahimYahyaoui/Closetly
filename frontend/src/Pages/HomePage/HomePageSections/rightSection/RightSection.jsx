@@ -52,12 +52,14 @@ const RightSection = () => {
                   <div
                     className="flex cursor-pointer items-center justify-between px-2 pt-3"
                     key={user._id}
-                    onClick={() => {
-                      console.log(user._id);
-                      return navigate(`/profile/${user._id}`);
-                    }}
                   >
-                    <div className="flex items-center">
+                    <div
+                      className="flex  items-center"
+                      onClick={() => {
+                        console.log(user._id);
+                        return navigate(`/profile/${user._id}`);
+                      }}
+                    >
                       {user.profilePic === "" ? (
                         <Avatar
                           src={`https://eu.ui-avatars.com/api/?name=${user.username}&size=300`}
