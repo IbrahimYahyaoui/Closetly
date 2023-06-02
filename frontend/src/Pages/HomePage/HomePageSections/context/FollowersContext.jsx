@@ -30,15 +30,17 @@ const FollowersDispatcher = (state, action) => {
 
     case "ADD_FOLLOWER_LOCALLY":
       // used to store new follow to show unfollow button wen user follow someone
+
       return {
         ...state,
         following: [...state.following, action.payload],
       };
     case "REMOVE_FOLLOWER_LOCALLY":
+      console.log(action.payload, "payload from remove");
       return {
         ...state,
         following: state.following.filter(
-          (follower) => follower !== action.payload
+          (follower) => follower._id !== action.payload._id
         ),
       };
     default:
@@ -82,7 +84,7 @@ export const FollowersContextProvider = ({ children }) => {
   }, [userId]);
   // get following
   useEffect(() => {
-    const getFollowers = async () => {
+    const getFollowing = async () => {
       axios
         .get(
           `${
@@ -91,13 +93,16 @@ export const FollowersContextProvider = ({ children }) => {
         )
         .then((res) => {
           dispatch({ type: "GET_FOLLOWING", payload: res.data });
+          const followingIds = res.data.map((user) => {
+            console.log(user._id);
+          });
         })
         .catch((err) => {
           console.log(err);
         });
     };
     if (userId) {
-      getFollowers();
+      getFollowing();
     }
   }, [userId]);
   // get suggestion users

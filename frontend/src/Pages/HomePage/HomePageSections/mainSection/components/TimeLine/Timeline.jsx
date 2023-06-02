@@ -28,7 +28,7 @@ const Timeline = () => {
   };
 
   return (
-    <div className="hide-scrollbar md:h-screen md:overflow-scroll">
+    <div className="hide-scrollbar pb-10 md:h-screen md:overflow-scroll">
       <div className="hidden md:block">
         <WelcomeText />
       </div>

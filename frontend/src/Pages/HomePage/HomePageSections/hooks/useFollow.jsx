@@ -4,7 +4,7 @@ import { FollowersContext } from "../context/FollowersContext";
 import { useContext } from "react";
 export const useFollow = () => {
   const { dispatch } = useContext(FollowersContext);
-  const follow = async (destinationId, sourceId) => {
+  const follow = async (destinationId, sourceId, tempUserObj) => {
     axios
       .post(`${import.meta.env.VITE_APP_Production_ROOT}follow/add`, {
         destinationId,
@@ -13,14 +13,14 @@ export const useFollow = () => {
       .then((res) => {
         console.log(res.data);
         toast.success("followed successfully");
-        dispatch({ type: "ADD_FOLLOWER_LOCALLY", payload: destinationId });
+        dispatch({ type: "ADD_FOLLOWER_LOCALLY", payload: tempUserObj });
       })
       .catch((err) => {
         toast.error("something went wrong");
         console.log(err);
       });
   };
-  const unfollow = async (destinationId, sourceId) => {
+  const unfollow = async (destinationId, sourceId, tempUserObj) => {
     axios
       .post(`${import.meta.env.VITE_APP_Production_ROOT}follow/delete`, {
         destinationId,
@@ -29,7 +29,7 @@ export const useFollow = () => {
       .then((res) => {
         console.log(res.data);
         toast.success("unfollowed successfully");
-        dispatch({ type: "REMOVE_FOLLOWER_LOCALLY", payload: destinationId });
+        dispatch({ type: "REMOVE_FOLLOWER_LOCALLY", payload: tempUserObj });
       })
       .catch((err) => {
         toast.error("something went wrong");

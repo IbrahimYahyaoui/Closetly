@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useProfile } from "./hooks/useProfile";
 import { Avatar, Loading } from "@nextui-org/react";
@@ -15,16 +15,32 @@ const ProfilePageControls = () => {
   const { follow, unfollow } = useFollow();
   const { user } = useContext(AuthContext);
   const { following } = useContext(FollowersContext);
+  const [alreadyFollow, setAlreadyFollow] = useState(false);
+  // const [tempUserObj, setTempUserObj] = useState();
   useEffect(() => {
     profile(id);
+    // build minimized user object
   }, [id]);
 
-  console.log();
   const handelFollow = () => {
-    follow(id, user.id);
+    const tempUserObj = {
+      username: userData.username,
+      profilePic: userData.profilePic,
+      _id: id,
+    };
+
+    // setTempUserObj(UserObj);
+    follow(id, user.id, tempUserObj);
   };
   const handelUnfollow = () => {
-    unfollow(id, user.id);
+    const tempUserObj = {
+      username: userData.username,
+      profilePic: userData.profilePic,
+      _id: id,
+    };
+    // console.log(tempUserObj, "tempUserObj");
+
+    unfollow(id, user.id, tempUserObj);
   };
   return (
     <div key={userData}>
@@ -60,17 +76,22 @@ const ProfilePageControls = () => {
             <div className="flex flex-col   justify-center md:w-1/2 md:justify-start">
               <div className="flex  flex-col items-center text-center md:flex-row ">
                 <p className="text-2xl ">{userData.username}</p>
-                {following && !following.includes(id) ? (
+                {(following && !following) ||
+                !following.some((user) => user._id === id) ? (
                   <button
                     className="  mt-4 rounded bg-slate-400 px-2 text-white  md:ml-16 md:mt-0"
-                    onClick={() => handelFollow()}
+                    onClick={() => {
+                      handelFollow();
+                    }}
                   >
                     Follow
                   </button>
                 ) : (
                   <button
                     className="  mt-4 rounded border-2 border-slate-400 px-2 text-slate-400  md:ml-16 md:mt-0"
-                    onClick={() => handelUnfollow()}
+                    onClick={() => {
+                      handelUnfollow();
+                    }}
                   >
                     unfollow
                   </button>

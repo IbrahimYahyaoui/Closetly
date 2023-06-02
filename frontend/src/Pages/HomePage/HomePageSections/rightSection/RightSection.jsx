@@ -13,11 +13,12 @@ const RightSection = () => {
 
   const { follow, unfollow } = useFollow();
 
-  const followHandler = (destinationId, sourceId) => {
-    follow(destinationId, sourceId);
+  const followHandler = (destinationId, sourceId, tempUserObj) => {
+    follow(destinationId, sourceId, tempUserObj);
   };
-  const unfollowHandler = (destinationId, sourceId) => {
-    unfollow(destinationId, sourceId);
+  const unfollowHandler = (destinationId, sourceId, tempUserObj) => {
+    console.log(tempUserObj, "tempUserObj");
+    unfollow(destinationId, sourceId, tempUserObj);
   };
   return (
     <div className="flex  flex-col items-center px-3  ">
@@ -47,7 +48,7 @@ const RightSection = () => {
         <div>
           {suggestions &&
             suggestions.map((user) => {
-              if (user.username !== existUser.Username) {
+              if (user && user.username !== existUser.Username) {
                 return (
                   <div
                     className="flex cursor-pointer items-center justify-between px-2 pt-3"
@@ -75,11 +76,14 @@ const RightSection = () => {
                     </div>
                     {following &&
                     // check if user is already following this user
-                    !following.find((item) => item === user._id) ? (
+                    !following.some(
+                      (followingUser) =>
+                        followingUser && followingUser._id === user._id
+                    ) ? (
                       <button
                         className="rounded-md bg-btnColor px-2  text-white"
                         onClick={() => {
-                          followHandler(user._id, existUser.id);
+                          followHandler(user._id, existUser.id, user);
                         }}
                       >
                         follow
@@ -88,7 +92,7 @@ const RightSection = () => {
                       <button
                         className=" rounded-md border-2  border-slate-500 px-2 text-slate-500"
                         onClick={() => {
-                          unfollowHandler(user._id, existUser.id);
+                          unfollowHandler(user._id, existUser.id, user);
                         }}
                       >
                         unfollow

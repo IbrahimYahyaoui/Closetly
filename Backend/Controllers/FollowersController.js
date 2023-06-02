@@ -53,14 +53,27 @@ const followersList = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const userList = await User.findOne({ _id: id });
+    const user = await User.findOne({ _id: id }, { followers: 1 });
 
-    res.status(200).json(userList.followers);
-    console.log();
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const followerIds = user.followers;
+    const followerUsers = await User.find(
+      { _id: { $in: followerIds } },
+      { username: 1, profilePic: 1 }
+    );
+
+    res.status(200).json(followerUsers);
   } catch (error) {
     console.log({ error: error.message });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching followers list" });
   }
 };
+
 const followingList = async (req, res) => {
   const { id } = req.params;
 
