@@ -4,13 +4,13 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import shirt from "../../../../../../../assets/closetAssets/shirtPlaceholder.svg";
 const Post = ({ post, owner }) => {
   let currentOutfit = JSON.parse(post.Outfit);
-  console.log(currentOutfit);
+  // console.log(currentOutfit);
   return (
     <div className="my-4 rounded bg-slate-100 p-2">
       {/* username and porfile pic */}
       <div className="flex items-center">
         <div>
-          {owner.profilePic === "" ? (
+          {owner && owner.profilePic === "" ? (
             <Avatar
               src={`https://eu.ui-avatars.com/api/?name=${owner.username}&size=300`}
               className="cursor-pointer"
@@ -37,7 +37,7 @@ const Post = ({ post, owner }) => {
           {currentOutfit &&
             Array.from({ length: 12 }).map((_, i) => {
               if (currentOutfit[i].indexOf("shirtPlaceholder") < 0) {
-                console.log(currentOutfit[i], "i");
+                // console.log(currentOutfit[i], "i");
                 return (
                   <div
                     key={i}

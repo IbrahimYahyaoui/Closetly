@@ -152,6 +152,7 @@ const getProfile = async (req, res) => {
         following: 1,
         inventory: 1,
         createdAt: 1,
+        postCount: 1,
       }
     );
     res.status(200).json(profile);

@@ -20,6 +20,7 @@ const UserSchema = new Schema(
     inventory: [],
     followers: [],
     following: [],
+    postCount: Number,
   },
   { timestamps: true }
 );

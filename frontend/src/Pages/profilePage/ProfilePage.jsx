@@ -109,9 +109,7 @@ const ProfilePageControls = () => {
               </div>
               <div className="my-4 flex w-full justify-between ">
                 <p>
-                  <span className="font-semibold">
-                    {userData.inventory.length}
-                  </span>{" "}
+                  <span className="font-semibold">{userData.postCount}</span>{" "}
                   Post
                 </p>
                 <p className="mx-2">

@@ -7,6 +7,9 @@ const addPost = async (req, res) => {
   // console.log(req.body);
   try {
     const newPost = await Post.create({ Description, Outfit, UserId });
+    await User.findByIdAndUpdate(UserId, {
+      $inc: { postCount: 1 }, // Increment the postCount field by 1
+    });
     res.status(200).json({ newPost });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -33,9 +36,10 @@ const getPost = async (req, res) => {
   }
 };
 // get All post
+
 const getAllPosts = async (req, res) => {
   const { currentUserId, page, limit } = req.body;
-  // console.log(currentUserId, page, limit);
+  console.log(currentUserId, page, limit);
   try {
     const currentUser = await User.findById(currentUserId);
     const followingIds = currentUser.following;
@@ -47,23 +51,30 @@ const getAllPosts = async (req, res) => {
     // Calculate the skip value based on the page and limit
     const skip = (page - 1) * limit;
 
+    // Convert followingIds to ObjectId instances
+    const followingObjectIds = followingIds.map(
+      (id) => new mongoose.Types.ObjectId(id)
+    );
+
     // Fetch the total count of posts to calculate the total number of pages
     const totalCount = await Post.countDocuments({
-      UserId: { $in: followingIds },
+      UserId: { $in: followingObjectIds },
     });
 
     // Fetch the posts with pagination
-    const posts = await Post.find({ UserId: { $in: followingIds } })
+    const posts = await Post.find({
+      UserId: { $in: followingObjectIds },
+    })
       .skip(skip)
       .limit(limit);
 
     const totalPages = Math.ceil(totalCount / limit);
 
     res.status(200).json({
-      posts,
       page,
       totalPages,
       totalCount,
+      posts,
     });
   } catch (error) {
     console.log(error);

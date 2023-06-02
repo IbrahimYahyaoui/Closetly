@@ -16,18 +16,19 @@ export const useTimeline = (page) => {
           limit: 10,
         })
         .then((res) => {
-          const { posts, totalCount, totalPages } = res.data;
+          console.log(res.data);
+          // const { posts, totalCount, totalPages } = res.data;
           dispatch({
             type: "FETCH_TIMELINE",
-            payload: posts,
+            payload: res.data.posts,
           });
           dispatch({
             type: "setPostCount",
-            payload: totalCount,
+            payload: res.data.totalCount,
           });
           dispatch({
             type: "setPageCount",
-            payload: totalPages,
+            payload: res.data.totalPages,
           });
         })
         .catch((err) => console.log(err));
