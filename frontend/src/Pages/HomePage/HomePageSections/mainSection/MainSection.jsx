@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../AuthPage/context/AuthContext";
 import Timeline from "./components/TimeLine/Timeline";
 import WelcomeText from "./components/TimeLine/components/WelcomeText";
+import { useTimeline } from "./components/TimeLine/hooks/useTimeline";
 const MainSection = () => {
   const isButtonInViewPort = useRef();
   const isInView = useInView(isButtonInViewPort);

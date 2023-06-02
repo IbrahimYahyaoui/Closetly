@@ -118,7 +118,7 @@ export const FollowersContextProvider = ({ children }) => {
       getFollowers();
     }
   }, [userId]);
-
+  console.log(state);
   return (
     <FollowersContext.Provider value={{ ...state, dispatch }}>
       {children}

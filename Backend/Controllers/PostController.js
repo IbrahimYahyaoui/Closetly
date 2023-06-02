@@ -1,4 +1,5 @@
 const Post = require("../Models/PostModel");
+const User = require("../Models/userModel");
 const mongoose = require("mongoose");
 // add post
 const addPost = async (req, res) => {
@@ -33,13 +34,43 @@ const getPost = async (req, res) => {
 };
 // get All post
 const getAllPosts = async (req, res) => {
+  const { currentUserId, page, limit } = req.body;
+  // console.log(currentUserId, page, limit);
   try {
-    const Allposts = await Post.find({});
-    res.status(200).send(Allposts);
+    const currentUser = await User.findById(currentUserId);
+    const followingIds = currentUser.following;
+
+    // Pagination parameters
+    const page = parseInt(req.body.page) || 1; // Default to page 1 if not specified
+    const limit = parseInt(req.body.limit) || 10; // Default to 10 posts per page if not specified
+
+    // Calculate the skip value based on the page and limit
+    const skip = (page - 1) * limit;
+
+    // Fetch the total count of posts to calculate the total number of pages
+    const totalCount = await Post.countDocuments({
+      UserId: { $in: followingIds },
+    });
+
+    // Fetch the posts with pagination
+    const posts = await Post.find({ UserId: { $in: followingIds } })
+      .skip(skip)
+      .limit(limit);
+
+    const totalPages = Math.ceil(totalCount / limit);
+
+    res.status(200).json({
+      posts,
+      page,
+      totalPages,
+      totalCount,
+    });
   } catch (error) {
     console.log(error);
+    res.status(500).send("An error occurred while fetching posts");
   }
 };
+
 // delete post
 const DeletePost = (req, res) => {
   res.send("delete");

@@ -9,17 +9,20 @@ import { InventoryContextProvider } from "./Pages/ClosetPage/ClosetInventory/con
 import { CurrentWearContextProvider } from "./Pages/ClosetPage/WearBoard/Context/CurrentWearContext.jsx";
 import { FollowersContextProvider } from "./Pages/HomePage/HomePageSections/context/FollowersContext.jsx";
 import { SearchProvider } from "./Pages/HomePage/components/context/SearchContext.jsx";
+import { TimelineContextProvider } from "./Pages/HomePage/HomePageSections/mainSection/components/TimeLine/Context/TimelineContext.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContextProvider>
       <FollowersContextProvider>
         <InventoryContextProvider>
           <CurrentWearContextProvider>
-            <SearchProvider>
-              <NextUIProvider disableBaseline="true">
-                <App />
-              </NextUIProvider>
-            </SearchProvider>
+            <TimelineContextProvider>
+              <SearchProvider>
+                <NextUIProvider disableBaseline="true">
+                  <App />
+                </NextUIProvider>
+              </SearchProvider>
+            </TimelineContextProvider>
           </CurrentWearContextProvider>
         </InventoryContextProvider>
       </FollowersContextProvider>

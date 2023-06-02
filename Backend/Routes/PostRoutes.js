@@ -10,7 +10,7 @@ const router = express.Router();
 // add post
 router.post("/addPost", addPost);
 // get All post
-router.get("/getAllPosts", getAllPosts);
+router.post("/getAllPosts", getAllPosts);
 // get post by id
 router.post("/getPost/:id", getPost);
 
