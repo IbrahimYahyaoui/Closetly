@@ -8,6 +8,7 @@ import { set } from "date-fns";
 import Post from "./components/Post";
 import { FollowersContext } from "../../../context/FollowersContext";
 import { useInView } from "framer-motion";
+import { Loading } from "@nextui-org/react";
 
 const Timeline = () => {
   const { fetchTimeline } = useTimeline();
@@ -50,7 +51,9 @@ const Timeline = () => {
       </div>
       {!noMoreData ? (
         <Waypoint onEnter={fetchMoreData}>
-          <div>more</div>
+          <div className="pt-8 text-center">
+            <Loading color={"currentColor"} />
+          </div>
         </Waypoint>
       ) : (
         <div className="text-center md:mb-20 ">
