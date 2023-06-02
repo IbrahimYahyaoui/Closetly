@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useProfile } from "./hooks/useProfile";
 import { Avatar, Loading } from "@nextui-org/react";
 import { Tab } from "@headlessui/react";
@@ -9,6 +9,8 @@ import { FollowersContext } from "../HomePage/HomePageSections/context/Followers
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import Navbar from "../HomePage/components/Navbar";
 import { AuthContext } from "../AuthPage/context/AuthContext";
+import { toast } from "react-hot-toast";
+
 const ProfilePageControls = () => {
   const { id } = useParams();
   const { profile, userData } = useProfile();
@@ -16,10 +18,9 @@ const ProfilePageControls = () => {
   const { user } = useContext(AuthContext);
   const { following } = useContext(FollowersContext);
   const [alreadyFollow, setAlreadyFollow] = useState(false);
-  // const [tempUserObj, setTempUserObj] = useState();
+
   useEffect(() => {
     profile(id);
-    // build minimized user object
   }, [id]);
 
   const handelFollow = () => {
@@ -28,20 +29,18 @@ const ProfilePageControls = () => {
       profilePic: userData.profilePic,
       _id: id,
     };
-
-    // setTempUserObj(UserObj);
     follow(id, user.id, tempUserObj);
   };
+
   const handelUnfollow = () => {
     const tempUserObj = {
       username: userData.username,
       profilePic: userData.profilePic,
       _id: id,
     };
-    // console.log(tempUserObj, "tempUserObj");
-
     unfollow(id, user.id, tempUserObj);
   };
+
   return (
     <div key={userData}>
       <Navbar />
@@ -76,24 +75,35 @@ const ProfilePageControls = () => {
             <div className="flex flex-col   justify-center md:w-1/2 md:justify-start">
               <div className="flex  flex-col items-center text-center md:flex-row ">
                 <p className="text-2xl ">{userData.username}</p>
-                {(following && !following) ||
-                !following.some((user) => user._id === id) ? (
-                  <button
-                    className="  mt-4 rounded bg-slate-400 px-2 text-white  md:ml-16 md:mt-0"
-                    onClick={() => {
-                      handelFollow();
-                    }}
-                  >
-                    Follow
-                  </button>
+                {userData.username !== user.Username ? (
+                  (following && !following) ||
+                  !following.some((user) => user._id === id) ? (
+                    <button
+                      className="  mt-4 rounded bg-slate-400 px-2 text-white  md:ml-16 md:mt-0"
+                      onClick={() => {
+                        handelFollow();
+                      }}
+                    >
+                      Follow
+                    </button>
+                  ) : (
+                    <button
+                      className="  mt-4 rounded border-2 border-slate-400 px-2 text-slate-400  md:ml-16 md:mt-0"
+                      onClick={() => {
+                        handelUnfollow();
+                      }}
+                    >
+                      Unfollow
+                    </button>
+                  )
                 ) : (
                   <button
                     className="  mt-4 rounded border-2 border-slate-400 px-2 text-slate-400  md:ml-16 md:mt-0"
                     onClick={() => {
-                      handelUnfollow();
+                      toast.error("Under development");
                     }}
                   >
-                    unfollow
+                    Settings
                   </button>
                 )}
               </div>
@@ -114,7 +124,7 @@ const ProfilePageControls = () => {
                   <span className="font-semibold">
                     {userData.following.length}
                   </span>{" "}
-                  following
+                  Following
                 </p>
               </div>
               <div>
