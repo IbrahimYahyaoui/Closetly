@@ -4,7 +4,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import shirt from "../../../../../../../assets/closetAssets/shirtPlaceholder.svg";
 const Post = ({ post, owner }) => {
   let currentOutfit = JSON.parse(post.Outfit);
-  // console.log(currentOutfit);
+
   return (
     <div className="my-4 rounded bg-slate-100 p-2">
       {/* username and porfile pic */}
@@ -12,15 +12,20 @@ const Post = ({ post, owner }) => {
         <div>
           {owner && owner.profilePic === "" ? (
             <Avatar
-              src={`https://eu.ui-avatars.com/api/?name=${owner.username}&size=300`}
+              src={`https://eu.ui-avatars.com/api/?name=${
+                owner && owner.username
+              }&size=300`}
               className="cursor-pointer"
             />
           ) : (
-            <Avatar src={owner.profilePic} className="cursor-pointer" />
+            <Avatar
+              src={owner && owner.profilePic}
+              className="cursor-pointer"
+            />
           )}
         </div>
         <div className="ml-2 flex flex-col">
-          <p className="font-semibold">{owner.username}</p>
+          <p className="font-semibold">{owner && owner.username}</p>
           <p className="text-xs font-normal">
             {formatDistanceToNow(new Date(post.createdAt), {
               addSuffix: true,

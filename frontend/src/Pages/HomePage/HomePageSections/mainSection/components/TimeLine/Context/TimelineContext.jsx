@@ -29,7 +29,7 @@ const TimelineReducer = (state, action) => {
 export const TimelineContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(TimelineReducer, {
     TimelinePosts: [],
-    postCount: 0,
+    postCount: 1,
     pageCount: 1,
   });
   console.log(state);

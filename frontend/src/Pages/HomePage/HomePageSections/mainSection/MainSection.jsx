@@ -35,7 +35,7 @@ const MainSection = () => {
           visit your closet
         </Link>
       </div>
-      {
+      {/* {
         // this section will appear only on phone
         !isInView && (
           <motion.div
@@ -57,10 +57,8 @@ const MainSection = () => {
             </Link>
           </motion.div>
         )
-      }
-      {
-        // thsi is test section
-      }
+      } */}
+
       <div>
         <Timeline />
       </div>

@@ -13,7 +13,7 @@ import {
 import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
-
+import shirt from "../../../assets/closetAssets/shirtPlaceholder.svg";
 import { useLogout } from "../../AuthPage/hooks/useLogout";
 import { Link, useNavigate, redirect } from "react-router-dom";
 import { UseSearch } from "./hooks/UseSearch";
@@ -205,6 +205,13 @@ const Navbar = () => {
                 <ArrowRightOnRectangleIcon className="self-star mr-5 w-5 " />
                 <p className=""> logout</p>
               </MenuItem>
+              <Link to="/closet">
+                <MenuItem className="flex h-8 items-center rounded  bg-slate-700 text-white">
+                  {/* <CogIcon className="mr-5 w-5 self-start" /> */}
+                  {/* <img src={shirt} className="h-4"></img> */}
+                  <p className="self-starts pb-2 pt-2 ">Open your closet</p>
+                </MenuItem>
+              </Link>
               <MenuItem className="flex h-8 items-end pt-3 " disabled>
                 <CogIcon className="mr-5 w-5 self-start" />
                 <p className="self-start">V 0.0.1(beta)</p>

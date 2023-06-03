@@ -16,7 +16,6 @@ const Timeline = () => {
   const { following } = useContext(FollowersContext);
   const [page, setPage] = useState(0);
   const [noMoreData, setNoMoreData] = useState(false);
-  const contentRef = useRef(null);
 
   const fetchMoreData = () => {
     if (page > pageCount) {
@@ -33,6 +32,9 @@ const Timeline = () => {
     // if (TimelinePosts.length >= postCount) return;
     fetchMoreData();
   }, [following]);
+  useEffect(() => {
+    console.log(postCount);
+  }, [postCount]);
 
   const getOwner = (userId) => {
     return following.find((user) => user._id === userId);
@@ -49,10 +51,15 @@ const Timeline = () => {
             <Post key={i} post={post} owner={getOwner(post.UserId)} />
           ))}
       </div>
+      {postCount === 0 && (
+        <p className="text-center">
+          if you don't see any posts try to follow more people
+        </p>
+      )}
       {!noMoreData ? (
         <Waypoint onEnter={fetchMoreData}>
           <div className="pt-8 text-center">
-            <Loading color={"currentColor"} />
+            {postCount > 0 && <Loading color={"currentColor"} />}
           </div>
         </Waypoint>
       ) : (
