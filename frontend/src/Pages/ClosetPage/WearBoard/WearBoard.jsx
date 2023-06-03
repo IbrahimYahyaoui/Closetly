@@ -23,6 +23,7 @@ const WearBoard = () => {
   //  all the logic below is related to drag and drop the item from the inventory to the wear board
   const [coordinateAry, setCoordinateAry] = useState([]);
   const DropZoneRef = useRef(null);
+
   const childRefs = useRef([]);
   // add empty background image
   useEffect(() => {
@@ -50,7 +51,6 @@ const WearBoard = () => {
         childRef.style.backgroundRepeat = "no-repeat";
         // add delete icon to each item
 
-        // clear html
         const xMarkIcon = (
           <XMarkIcon
             className="absolute right-2 top-2 h-4 w-4 cursor-pointer rounded bg-black text-white"
@@ -59,6 +59,8 @@ const WearBoard = () => {
               childRef.style.backgroundSize = "24px";
               childRef.style.backgroundPosition = "center";
               childRef.style.backgroundRepeat = "no-repeat";
+
+              TodayOutfitHandler();
               // clear html
               ReactDOM.render("", childRef);
             }}
@@ -130,7 +132,9 @@ const WearBoard = () => {
   }, [TodayOutfit]);
   return (
     <div className="  h-full w-full p-2">
-      <WearBoardNavbar />
+      <div className="pt-2">
+        <WearBoardNavbar />
+      </div>
       <div className="flex justify-center">
         <div
           className="  grid-row-4   mt-10 grid w-full  grid-cols-3 border-2"
@@ -141,7 +145,7 @@ const WearBoard = () => {
           {Array.from(Array(clothSpot).keys()).map((item) => {
             return (
               <div
-                className=" w-3/3 lg: relative  flex h-36 items-center justify-center  border"
+                className=" w-3/3 lg: relative  flex h-32 items-center justify-center  border"
                 ref={(ref) => (childRefs.current[item] = ref)}
                 key={item}
                 onClick={() => {
