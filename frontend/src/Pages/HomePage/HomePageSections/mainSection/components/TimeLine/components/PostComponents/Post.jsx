@@ -157,7 +157,10 @@ const Post = ({ post, owner }) => {
               {showAllComments ? (
                 <p onClick={toggleShowAllComments}>Show Less</p>
               ) : (
-                <p onClick={toggleShowAllComments}>Show All Comments</p>
+                <div onClick={toggleShowAllComments} className="flex">
+                  Show All Comments
+                  <p className="ml-2">({post.comments.length})</p>
+                </div>
               )}
             </div>
           )}
