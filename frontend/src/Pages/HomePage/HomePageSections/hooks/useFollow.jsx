@@ -5,6 +5,7 @@ import { useContext } from "react";
 export const useFollow = () => {
   const { dispatch } = useContext(FollowersContext);
   const follow = async (destinationId, sourceId, tempUserObj) => {
+    toast.dismiss();
     axios
       .post(`${import.meta.env.VITE_APP_Production_ROOT}follow/add`, {
         destinationId,
