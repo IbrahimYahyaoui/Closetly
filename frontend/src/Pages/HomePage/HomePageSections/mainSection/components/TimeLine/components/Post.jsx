@@ -1,4 +1,4 @@
-import { Avatar } from "@nextui-org/react";
+import { Avatar, Textarea } from "@nextui-org/react";
 
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import shirt from "../../../../../../../assets/closetAssets/shirtPlaceholder.svg";
@@ -98,8 +98,8 @@ const Post = ({ post, owner }) => {
           <div className="flex opacity-60">126 Comment</div>
         </div>
         {/* <div>post comment</div> */}
-        <div className="relative flex items-center pt-4">
-          <div className="absolute ml-1">
+        <div className=" flex items-start pt-4">
+          <div className=" ml-1 h-10">
             {activeUser && activeUser.profilePic === "" ? (
               <Avatar
                 src={`https://eu.ui-avatars.com/api/?name=${
@@ -114,10 +114,13 @@ const Post = ({ post, owner }) => {
               />
             )}
           </div>
-          <input
-            className=" h-12 w-full  rounded-full pl-14 "
+          <Textarea
+            className=" ml-2    rounded-full p-1"
             placeholder="write a comment"
-            maxLength={60}
+            // maxLength={300}
+            width="100%"
+            // minRows={1}
+            aria-labelledby="textarea"
           />
         </div>
       </div>
