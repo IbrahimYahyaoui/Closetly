@@ -103,7 +103,7 @@ const Post = ({ post, owner }) => {
             {activeUser && activeUser.profilePic === "" ? (
               <Avatar
                 src={`https://eu.ui-avatars.com/api/?name=${
-                  activeUser && activeUser.Username
+                  activeUser && activeUser.username
                 }&size=300`}
                 className="cursor-pointer"
               />
