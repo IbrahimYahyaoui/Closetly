@@ -16,7 +16,7 @@ const Timeline = () => {
   const { following } = useContext(FollowersContext);
   const [page, setPage] = useState(0);
   const [noMoreData, setNoMoreData] = useState(false);
-
+  console.log(TimelinePosts, "s");
   const fetchMoreData = () => {
     if (page > pageCount) {
       setNoMoreData(true);

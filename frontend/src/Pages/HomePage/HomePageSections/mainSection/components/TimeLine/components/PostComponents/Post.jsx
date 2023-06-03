@@ -9,14 +9,34 @@ import {
   PaperAirplaneIcon,
 } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../../../../../../AuthPage/context/AuthContext";
+import { usePost } from "./hooks/usePost";
+import { TimelineContext } from "../../Context/TimelineContext";
 const Post = ({ post, owner }) => {
+  let i = 0;
   let currentOutfit = JSON.parse(post.Outfit);
   const { activeUser } = useContext(AuthContext);
+  const { TimelinePosts, dispatch } = useContext(TimelineContext);
   const [isFocus, setIsFocus] = useState(false);
   const [comment, setComment] = useState("");
-  console.log(post, "post");
+  const { addComment } = usePost();
+  const commentRef = useRef();
+  const handelAddComment = (postId, posterId, comment, poster) => {
+    dispatch({
+      type: "ADD_COMMENT",
+      payload: {
+        postId,
+        posterId,
+        comment,
+        poster,
+      },
+    });
+
+    addComment(postId, posterId, comment, poster);
+    commentRef.current.value = "";
+    setComment("");
+  };
   return (
     <div className="my-4 rounded bg-slate-200 p-2">
       {/* username and porfile pic */}
@@ -99,7 +119,7 @@ const Post = ({ post, owner }) => {
             </p>
             {/* <p></p> */}
           </div>
-          <div className="flex opacity-60">126 Comment</div>
+          <div className="flex opacity-60">{post.comments.length} Comment</div>
         </div>
         {/* <div>post comment</div> */}
         <div className=" relative flex items-start pt-4">
@@ -128,6 +148,7 @@ const Post = ({ post, owner }) => {
               aria-labelledby="textarea"
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
+              ref={commentRef}
             />
             {(isFocus || comment.length > 0) && (
               <button
@@ -137,7 +158,12 @@ const Post = ({ post, owner }) => {
                   if (comment === "") {
                     toast.success("Comment is empty");
                   } else {
-                    console.log(comment);
+                    handelAddComment(
+                      post._id,
+                      activeUser._id,
+                      comment,
+                      activeUser.username
+                    );
                   }
                 }}
               >

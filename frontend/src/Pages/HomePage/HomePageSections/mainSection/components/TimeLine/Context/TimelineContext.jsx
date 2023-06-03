@@ -20,6 +20,31 @@ const TimelineReducer = (state, action) => {
         ...state,
         pageCount: action.payload,
       };
+    // add post comment locally
+    // ...
+
+    case "ADD_COMMENT": {
+      return {
+        ...state,
+        TimelinePosts: state.TimelinePosts.map((post) =>
+          post._id === action.payload.postId
+            ? {
+                ...post,
+                comments: [
+                  ...post.comments,
+                  {
+                    posterId: action.payload.posterId,
+                    poster: action.payload.poster,
+                    comment: action.payload.comment,
+                  },
+                ],
+              }
+            : post
+        ),
+      };
+    }
+
+    // ...
 
     default:
       return state;

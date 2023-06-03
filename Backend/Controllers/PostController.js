@@ -87,9 +87,31 @@ const DeletePost = (req, res) => {
   res.send("delete");
 };
 
+const addComment = async (req, res) => {
+  const { postId, posterId, comment, poster } = req.body;
+  try {
+    const commentObj = {
+      posterId,
+      comment,
+      poster,
+    };
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { $push: { comments: commentObj } },
+      { new: true }
+    );
+
+    res.json({ post });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error occurred while adding a comment");
+  }
+};
+
 module.exports = {
   addPost,
   DeletePost,
   getPost,
   getAllPosts,
+  addComment,
 };
