@@ -5,7 +5,7 @@ import { useTimeline } from "./hooks/useTimeline";
 import { TimelineContext } from "./Context/TimelineContext";
 import { Waypoint } from "react-waypoint";
 import { set } from "date-fns";
-import Post from "./components/Post";
+import Post from "./components/PostComponents/Post";
 import { FollowersContext } from "../../../context/FollowersContext";
 import { useInView } from "framer-motion";
 import { Loading } from "@nextui-org/react";

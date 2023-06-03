@@ -1,18 +1,22 @@
 import { Avatar, Textarea } from "@nextui-org/react";
 
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import shirt from "../../../../../../../assets/closetAssets/shirtPlaceholder.svg";
+import shirt from "../../../../../../../../assets/closetAssets/shirtPlaceholder.svg";
 import {
   HandThumbDownIcon,
   HandThumbUpIcon,
   MinusSmallIcon,
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/solid";
-import { useContext } from "react";
-import { AuthContext } from "../../../../../../AuthPage/context/AuthContext";
+import { toast } from "react-hot-toast";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../../../../../AuthPage/context/AuthContext";
 const Post = ({ post, owner }) => {
   let currentOutfit = JSON.parse(post.Outfit);
   const { activeUser } = useContext(AuthContext);
-  // console.log(user, "currentOutfit");
+  const [isFocus, setIsFocus] = useState(false);
+  const [comment, setComment] = useState("");
+  console.log(post, "post");
   return (
     <div className="my-4 rounded bg-slate-200 p-2">
       {/* username and porfile pic */}
@@ -98,7 +102,7 @@ const Post = ({ post, owner }) => {
           <div className="flex opacity-60">126 Comment</div>
         </div>
         {/* <div>post comment</div> */}
-        <div className=" flex items-start pt-4">
+        <div className=" relative flex items-start pt-4">
           <div className=" ml-1 h-10">
             {activeUser && activeUser.profilePic === "" ? (
               <Avatar
@@ -114,14 +118,33 @@ const Post = ({ post, owner }) => {
               />
             )}
           </div>
-          <Textarea
-            className=" ml-2    rounded-full p-1"
-            placeholder="write a comment"
-            // maxLength={300}
-            width="100%"
-            // minRows={1}
-            aria-labelledby="textarea"
-          />
+          <div className="flex w-full flex-col items-end px-2">
+            <Textarea
+              className="      rounded-full "
+              placeholder="write a comment"
+              maxLength={300}
+              width="100%"
+              onChange={(e) => setComment(e.target.value)}
+              aria-labelledby="textarea"
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+            />
+            {(isFocus || comment.length > 0) && (
+              <button
+                className=" mt-2 cursor-pointer  rounded bg-slate-500 px-8 py-2 text-white"
+                // disabled={comment === ""}
+                onClick={() => {
+                  if (comment === "") {
+                    toast.success("Comment is empty");
+                  } else {
+                    console.log(comment);
+                  }
+                }}
+              >
+                <PaperAirplaneIcon className="w-4" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
