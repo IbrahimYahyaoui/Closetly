@@ -209,7 +209,7 @@ const Navbar = () => {
                 <MenuItem className="flex h-8 items-center rounded  bg-slate-700 text-white">
                   {/* <CogIcon className="mr-5 w-5 self-start" /> */}
                   {/* <img src={shirt} className="h-4"></img> */}
-                  <p className="self-starts pb-2 pt-2 ">Open your closet</p>
+                  <p className="self-starts   py-2">Open your closet</p>
                 </MenuItem>
               </Link>
               <MenuItem className="flex h-8 items-end pt-3 " disabled>

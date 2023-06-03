@@ -102,7 +102,9 @@ const Post = ({ post, owner }) => {
           <div className="absolute ml-1">
             {activeUser && activeUser.profilePic === "" ? (
               <Avatar
-                src={`https://eu.ui-avatars.com/api/?name=${activeUser.Username}&size=300`}
+                src={`https://eu.ui-avatars.com/api/?name=${
+                  activeUser && activeUser.Username
+                }&size=300`}
                 className="cursor-pointer"
               />
             ) : (
