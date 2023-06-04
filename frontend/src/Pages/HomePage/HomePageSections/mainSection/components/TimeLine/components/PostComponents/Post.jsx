@@ -8,17 +8,20 @@ import {
   PaperAirplaneIcon,
 } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../../../../../AuthPage/context/AuthContext";
 import { usePost } from "./hooks/usePost";
 import { TimelineContext } from "../../Context/TimelineContext";
 import { Link } from "react-router-dom";
 import useSound from "use-sound";
 import clickSound from "../../../../../../../../assets/soundEffect/press.mp3";
+import { ProfileContext } from "../../../../../../../profilePage/context/ProfileContext";
 const Post = ({ post, owner }) => {
+  // console.log(owner);
   let currentOutfit = JSON.parse(post.Outfit);
   const { activeUser } = useContext(AuthContext);
   const { TimelinePosts, dispatch } = useContext(TimelineContext);
+  const { dispatch: profileDispatch } = useContext(ProfileContext);
   const [isFocus, setIsFocus] = useState(false);
   const [comment, setComment] = useState("");
   const { addComment, addLike, addDislike } = usePost();
@@ -26,12 +29,22 @@ const Post = ({ post, owner }) => {
   const [play] = useSound(clickSound, {
     volume: 0.1,
   });
-  // const [isLiked, setIsliked] = useState();
-  const isLiked = post.likes.some((like) => like.likerId === activeUser._id);
-
-  const isDisliked = post.dislikes.some(
-    (dislike) => dislike.dislikerId === activeUser._id
-  );
+  const [isLiked, setIsLiked] = useState();
+  const [isDisliked, setIsDisliked] = useState();
+  useEffect(() => {
+    if (activeUser) {
+      const isLikedIndex = post.likes.some(
+        (like) => like.likerId === activeUser._id
+      );
+      setIsLiked(isLikedIndex);
+    }
+    if (activeUser) {
+      const isDislikedIndex = post.dislikes.some(
+        (dislike) => dislike.dislikerId === activeUser._id
+      );
+      setIsDisliked(isDislikedIndex);
+    }
+  }, [activeUser, post]);
 
   const handleAddComment = (postId, posterId, comment, poster) => {
     dispatch({
@@ -43,7 +56,15 @@ const Post = ({ post, owner }) => {
         poster,
       },
     });
-
+    profileDispatch({
+      type: "ADD_COMMENT",
+      payload: {
+        postId,
+        posterId,
+        poster,
+        comment,
+      },
+    });
     addComment(postId, posterId, comment, poster);
     commentRef.current.value = "";
     setComment("");
@@ -68,11 +89,27 @@ const Post = ({ post, owner }) => {
         liker,
       },
     });
+    profileDispatch({
+      type: "ADD_LIKE",
+      payload: {
+        postId,
+        likerId,
+        liker,
+      },
+    });
   };
 
   const handleDislike = (postId, dislikerId, disliker) => {
     addDislike(postId, dislikerId, disliker);
     dispatch({
+      type: "ADD_DISLIKE",
+      payload: {
+        postId,
+        dislikerId,
+        disliker,
+      },
+    });
+    profileDispatch({
       type: "ADD_DISLIKE",
       payload: {
         postId,

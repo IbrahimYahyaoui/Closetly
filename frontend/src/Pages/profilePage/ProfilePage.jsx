@@ -10,19 +10,22 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import Navbar from "../HomePage/components/Navbar";
 import { AuthContext } from "../AuthPage/context/AuthContext";
 import { toast } from "react-hot-toast";
+import { ProfileContext } from "./context/ProfileContext";
+import Post from "../HomePage/HomePageSections/mainSection/components/TimeLine/components/PostComponents/Post";
 
 const ProfilePageControls = () => {
   const { id } = useParams();
-  const { profile, userData } = useProfile();
+  const { profile, userData, getMyPost } = useProfile();
   const { follow, unfollow } = useFollow();
-  const { user } = useContext(AuthContext);
+  const { user, activeUser } = useContext(AuthContext);
   const { following } = useContext(FollowersContext);
-  const [alreadyFollow, setAlreadyFollow] = useState(false);
-
+  const { myPost } = useContext(ProfileContext);
+  // console.log(myPost);
   useEffect(() => {
     profile(id);
+    getMyPost(id);
   }, [id]);
-
+  // console.log(myPost);
   const handelFollow = () => {
     const tempUserObj = {
       username: userData.username,
@@ -163,12 +166,44 @@ const ProfilePageControls = () => {
                   Closet
                 </Tab>
               </Tab.List>
-              <Tab.Panels className="bg-white p-4">
+              <Tab.Panels className="w-full bg-white p-4">
                 <Tab.Panel>
-                  <p>Content 1</p>
+                  <div className="flex flex-col items-center ">
+                    {myPost &&
+                      myPost.map((post) => {
+                        return (
+                          <div className="md:w-2/4">
+                            <Post post={post} owner={userData} />
+                          </div>
+                        );
+                      })}
+                  </div>
                 </Tab.Panel>
                 <Tab.Panel>
-                  <p>Content 2</p>
+                  <div className=" grid grid-cols-3 gap-2 md:grid-cols-10 ">
+                    {activeUser &&
+                      activeUser.inventory.map((item) => {
+                        return (
+                          <div
+                            key={item.clothId}
+                            className="flex h-40 flex-col  justify-center rounded border-2 p-2"
+                          >
+                            <div
+                              style={{
+                                backgroundImage: `url(${item.image})`,
+                                backgroundSize: "contain",
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat",
+                              }}
+                              className="h-32"
+                            ></div>
+                            <p className="h-8 w-full  whitespace-nowrap   text-base">
+                              {item.name}
+                            </p>
+                          </div>
+                        );
+                      })}
+                  </div>
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>

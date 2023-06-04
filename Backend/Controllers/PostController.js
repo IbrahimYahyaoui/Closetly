@@ -25,7 +25,7 @@ const getPost = async (req, res) => {
   }
 
   try {
-    const post = await Post.findById(id);
+    const post = await Post.find({ UserId: id });
     if (post) {
       res.status(200).send(post);
     } else {

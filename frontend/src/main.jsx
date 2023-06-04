@@ -10,6 +10,7 @@ import { CurrentWearContextProvider } from "./Pages/ClosetPage/WearBoard/Context
 import { FollowersContextProvider } from "./Pages/HomePage/HomePageSections/context/FollowersContext.jsx";
 import { SearchProvider } from "./Pages/HomePage/components/context/SearchContext.jsx";
 import { TimelineContextProvider } from "./Pages/HomePage/HomePageSections/mainSection/components/TimeLine/Context/TimelineContext.jsx";
+import { ProfileContextProvider } from "./Pages/profilePage/context/ProfileContext.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContextProvider>
@@ -17,11 +18,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <InventoryContextProvider>
           <CurrentWearContextProvider>
             <TimelineContextProvider>
-              <SearchProvider>
-                <NextUIProvider disableBaseline="true">
-                  <App />
-                </NextUIProvider>
-              </SearchProvider>
+              <ProfileContextProvider>
+                <SearchProvider>
+                  <NextUIProvider disableBaseline="true">
+                    <App />
+                  </NextUIProvider>
+                </SearchProvider>
+              </ProfileContextProvider>
             </TimelineContextProvider>
           </CurrentWearContextProvider>
         </InventoryContextProvider>
