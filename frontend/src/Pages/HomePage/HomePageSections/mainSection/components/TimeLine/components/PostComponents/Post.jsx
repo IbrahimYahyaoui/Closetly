@@ -122,7 +122,7 @@ const Post = ({ post, owner }) => {
   return (
     <div className="my-4 rounded bg-slate-200 p-2">
       {/* username and profile pic */}
-      <div className="flex items-center">
+      <Link to={`/profile/${owner._id}`} className="flex items-center">
         <div>
           {owner && owner.profilePic === "" ? (
             <Avatar
@@ -146,7 +146,7 @@ const Post = ({ post, owner }) => {
             })}
           </p>
         </div>
-      </div>
+      </Link>
 
       {/* description and outfit */}
       <div>

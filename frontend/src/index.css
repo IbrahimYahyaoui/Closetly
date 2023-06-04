@@ -14,6 +14,9 @@
   .z-TOP {
     z-index: 9998;
   }
+  .z-TOP1 {
+    z-index: 9997;
+  }
   .LogoFont {
     font-family: "Pacifico", cursive;
   }

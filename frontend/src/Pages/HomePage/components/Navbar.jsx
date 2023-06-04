@@ -21,7 +21,7 @@ import { Dialog } from "@headlessui/react";
 import { SearchContext } from "./context/SearchContext";
 import { toast } from "react-hot-toast";
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, activeUser } = useContext(AuthContext);
   const { logout } = useLogout();
   const navigate = useNavigate();
   const handelLogout = () => {
@@ -148,7 +148,7 @@ const Navbar = () => {
             </Dialog>
           </div>
           <div>
-            <Dropdown placement="bottom-right  ">
+            <Dropdown placement="bottom-right  " ariaLabel="Static Actions">
               <Dropdown.Button
                 className="p-0 "
                 style={{
@@ -180,14 +180,23 @@ const Navbar = () => {
               }}
               menuButton={
                 <MenuButton className="flex cursor-pointer  items-center">
-                  <Avatar
-                    src={`https://eu.ui-avatars.com/api/?name=${user.Username}&size=300`}
-                    // name={user.Username}
-                    className="cursor-pointer"
-                  />
-                  {/* <p className="mx-2 font-semibold text-sm">
+                  {activeUser && activeUser.profilePic === "" ? (
+                    <Avatar
+                      src={`https://eu.ui-avatars.com/api/?name=${user.Username}&size=300`}
+                      // name={user.Username}
+                      className="cursor-pointer"
+                    />
+                  ) : (
+                    <Avatar
+                      src={activeUser.profilePic}
+                      // name={user.Username}
+                      className="cursor-pointer"
+                    />
+                  )}
+
+                  <p className="mx-2 hidden text-sm font-semibold md:block">
                     {user && user.Username}
-                  </p> */}
+                  </p>
                   <ChevronDownIcon className="ml-2 w-4" />
                 </MenuButton>
               }

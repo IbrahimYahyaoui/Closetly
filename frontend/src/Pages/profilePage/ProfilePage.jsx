@@ -5,26 +5,38 @@ import { Avatar, Loading } from "@nextui-org/react";
 import { Tab } from "@headlessui/react";
 import { useFollow } from "../HomePage/HomePageSections/hooks/useFollow";
 import { FollowersContext } from "../HomePage/HomePageSections/context/FollowersContext";
-// date fns
+import { PencilSquareIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import Navbar from "../HomePage/components/Navbar";
 import { AuthContext } from "../AuthPage/context/AuthContext";
 import { toast } from "react-hot-toast";
 import { ProfileContext } from "./context/ProfileContext";
 import Post from "../HomePage/HomePageSections/mainSection/components/TimeLine/components/PostComponents/Post";
+import { Dialog } from "@headlessui/react";
 
 const ProfilePageControls = () => {
   const { id } = useParams();
-  const { profile, userData, getMyPost } = useProfile();
+  const { profile, userData, getMyPost, changeProfilePic, isChangeLoading } =
+    useProfile();
   const { follow, unfollow } = useFollow();
   const { user, activeUser } = useContext(AuthContext);
   const { following } = useContext(FollowersContext);
   const { myPost } = useContext(ProfileContext);
+  let [isOpen, setIsOpen] = useState(false);
   // console.log(myPost);
   useEffect(() => {
     profile(id);
     getMyPost(id);
   }, [id]);
+  // change profile pic handler if user is owner
+  const [newProfilePic, setNewProfilePic] = useState(null);
+  const handelChangeProfilePic = () => {
+    const formData = new FormData();
+    formData.append("profilePic", newProfilePic);
+    formData.append("id", activeUser._id);
+    changeProfilePic(formData);
+  };
+
   // console.log(myPost);
   const handelFollow = () => {
     const tempUserObj = {
@@ -52,29 +64,106 @@ const ProfilePageControls = () => {
           <section className="mt-4  flex  flex-col items-center justify-between  md:w-2/5 md:flex-row">
             <div>
               {userData.profilePic === "" ? (
-                <div className="mb-3 flex items-center ">
+                <div className="relative mb-3 flex items-center  ">
                   <Avatar
                     src={`https://eu.ui-avatars.com/api/?name=${userData.username}&size=300`}
-                    className="cursor-pointer"
+                    className=" cursor-pointer border-2 border-slate-400 p-1"
                     style={{
                       width: "150px",
                       height: "150px",
                     }}
                   />
+                  {userData.username === user.Username && (
+                    <PencilSquareIcon
+                      className="z-TOP1 absolute bottom-2 right-0 w-8 cursor-pointer rounded-full 
+                  border border-slate-400 bg-white fill-slate-400 p-1"
+                      onClick={() => {
+                        setIsOpen(true);
+                      }}
+                    />
+                  )}
                 </div>
               ) : (
-                <div className="flex flex-col items-center md:flex-row">
+                <div className="relative flex flex-col items-center md:flex-row">
                   <Avatar
                     src={userData.profilePic}
-                    className="cursor-pointer"
+                    className="cursor-pointer border-2 border-slate-400 p-1"
                     style={{
                       width: "150px",
                       height: "150px",
                     }}
                   />
+                  {userData.username === user.Username && (
+                    <PencilSquareIcon
+                      className="z-TOP1 absolute bottom-2 right-0 w-8 cursor-pointer rounded-full 
+                  border border-slate-400 bg-white fill-slate-400 p-1"
+                      onClick={() => {
+                        setIsOpen(true);
+                      }}
+                    />
+                  )}
                 </div>
               )}
             </div>
+            <Dialog
+              open={isOpen}
+              onClose={() => setIsOpen(false)}
+              className="z-TOP1 relative "
+            >
+              {/* The backdrop, rendered as a fixed sibling to the panel container */}
+              <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+
+              {/* Full-screen container to center the panel */}
+              <div className="fixed inset-0 flex items-center justify-center p-4">
+                {/* The actual dialog panel  */}
+                <Dialog.Panel className="mx-auto flex h-80 w-72 max-w-sm flex-col items-center   rounded bg-white">
+                  <Dialog.Title className="pt-2 font-bold">
+                    Modify Profile picture
+                  </Dialog.Title>
+                  <Dialog.Description className="flex w-full flex-col items-center">
+                    <label className=" p-2 ">
+                      <section
+                        className="bgPic flex h-32 w-32 flex-col items-center justify-center  rounded-full bg-slate-400"
+                        style={{
+                          width: "150px",
+                          height: "150px",
+                          backgroundImage: newProfilePic
+                            ? `url(${URL.createObjectURL(newProfilePic)})`
+                            : "",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      >
+                        {newProfilePic ? null : (
+                          <PhotoIcon className="h-10 w-10 text-white" />
+                        )}
+                      </section>
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => {
+                          const pic = e.target.files[0];
+                          setNewProfilePic(pic);
+                        }}
+                      />
+                    </label>
+                    {isChangeLoading ? (
+                      <Loading size="md" />
+                    ) : (
+                      <button
+                        className="mt-10 h-8 w-3/4 rounded bg-slate-400 font-semibold text-white"
+                        onClick={() => {
+                          handelChangeProfilePic();
+                        }}
+                      >
+                        Set as profile picture
+                      </button>
+                    )}
+                  </Dialog.Description>
+                </Dialog.Panel>
+              </div>
+            </Dialog>
             <div className="flex flex-col   justify-center md:w-1/2 md:justify-start">
               <div className="flex  flex-col items-center text-center md:flex-row ">
                 <p className="text-2xl ">{userData.username}</p>
@@ -99,16 +188,15 @@ const ProfilePageControls = () => {
                       Unfollow
                     </button>
                   )
-                ) : (
-                  <button
-                    className="  mt-4 rounded border-2 border-slate-400 px-2 text-slate-400  md:ml-16 md:mt-0"
-                    onClick={() => {
-                      toast.error("Under development");
-                    }}
-                  >
-                    Settings
-                  </button>
-                )}
+                ) : // <button
+                //   className="  mt-4 rounded border-2 border-slate-400 px-2 text-slate-400  md:ml-16 md:mt-0"
+                //   onClick={() => {
+                //     toast.error("Under development");
+                //   }}
+                // >
+                //   Settings
+                // </button>
+                null}
               </div>
               <div className="my-4 flex w-full justify-between ">
                 <p>
