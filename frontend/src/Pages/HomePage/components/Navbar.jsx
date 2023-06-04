@@ -148,7 +148,7 @@ const Navbar = () => {
             </Dialog>
           </div>
           <div>
-            <Dropdown placement="bottom-right  " ariaLabel="Static Actions">
+            <Dropdown placement="bottom-right  " Label="Static Actions">
               <Dropdown.Button
                 className="p-0 "
                 style={{
@@ -188,7 +188,7 @@ const Navbar = () => {
                     />
                   ) : (
                     <Avatar
-                      src={activeUser.profilePic}
+                      src={activeUser && activeUser.profilePic}
                       // name={user.Username}
                       className="cursor-pointer"
                     />
