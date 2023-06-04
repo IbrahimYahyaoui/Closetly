@@ -352,9 +352,8 @@ const getAllNotification = async (req, res) => {
 
   try {
     const profile = await User.findById(id, {
-      Notification: { $slice: -30 }, // Retrieve only the last 30 notifications
-    });
-
+      Notification: { $slice: -30 },
+    }).sort({ _id: -1 });
     // Fetch user documents for the sender IDs in the notifications
     const senderIds = profile.Notification.map(
       (notification) => notification.senderId

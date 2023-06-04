@@ -200,37 +200,40 @@ const Navbar = () => {
                 // css={{ height: "300px" }}
               >
                 {notification && notification.length !== 0 ? (
-                  notification.map((item, i) => (
-                    <Dropdown.Item
-                      key={i}
-                      className="py-6"
-                      css={{ width: "600px" }}
-                    >
-                      <div className="flex items-center">
-                        <div className="mr-1">
-                          {item.senderProfilePic === "" ? (
-                            <div className="flex items-center">
-                              <Avatar
-                                src={`https://eu.ui-avatars.com/api/?name=${item.senderName}&size=300`}
-                                className="cursor-pointer"
-                              />
-                            </div>
-                          ) : (
-                            <div className="flex items-center">
-                              <Avatar
-                                src={item.senderProfilePic}
-                                className="cursor-pointer"
-                              />
-                            </div>
-                          )}
+                  notification
+                    .slice()
+                    .reverse()
+                    .map((item, i) => (
+                      <Dropdown.Item
+                        key={i}
+                        className="py-6"
+                        css={{ width: "600px" }}
+                      >
+                        <div className="flex items-center">
+                          <div className="mr-1">
+                            {item.senderProfilePic === "" ? (
+                              <div className="flex items-center">
+                                <Avatar
+                                  src={`https://eu.ui-avatars.com/api/?name=${item.senderName}&size=300`}
+                                  className="cursor-pointer"
+                                />
+                              </div>
+                            ) : (
+                              <div className="flex items-center">
+                                <Avatar
+                                  src={item.senderProfilePic}
+                                  className="cursor-pointer"
+                                />
+                              </div>
+                            )}
+                          </div>
+                          <div>{item.senderName}</div>
+                          <div className="ml-1 whitespace-nowrap">
+                            {reactionType(item.action)}
+                          </div>
                         </div>
-                        <div>{item.senderName}</div>
-                        <div className="ml-1 whitespace-nowrap">
-                          {reactionType(item.action)}
-                        </div>
-                      </div>
-                    </Dropdown.Item>
-                  ))
+                      </Dropdown.Item>
+                    ))
                 ) : (
                   <Dropdown.Item className=" py-6">
                     <p className="text-center">nothing yet</p>
