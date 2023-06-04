@@ -169,41 +169,48 @@ const ProfilePageControls = () => {
               <Tab.Panels className="w-full bg-white p-4">
                 <Tab.Panel>
                   <div className="flex flex-col items-center ">
-                    {myPost &&
-                      myPost.map((post) => {
-                        return (
-                          <div className="md:w-2/4">
-                            <Post post={post} owner={userData} />
-                          </div>
-                        );
-                      })}
+                    {myPost && myPost.length > 0 ? (
+                      myPost.map((post) => (
+                        <div className="w-full md:w-2/4" key={post.id}>
+                          <Post post={post} owner={userData} />
+                        </div>
+                      ))
+                    ) : (
+                      <div className="mt-4 flex items-center justify-center">
+                        <p className="text-lg font-bold">No posts yet</p>
+                      </div>
+                    )}
                   </div>
                 </Tab.Panel>
                 <Tab.Panel>
-                  <div className=" grid grid-cols-3 gap-2 md:grid-cols-10 ">
-                    {activeUser &&
-                      activeUser.inventory.map((item) => {
-                        return (
+                  {userData && userData.inventory.length > 0 ? (
+                    <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-10">
+                      {userData.inventory.map((item) => (
+                        <div
+                          key={item.clothId}
+                          className="flex flex-col justify-center rounded border-2 p-2"
+                        >
                           <div
-                            key={item.clothId}
-                            className="flex h-40 flex-col  justify-center rounded border-2 p-2"
-                          >
-                            <div
-                              style={{
-                                backgroundImage: `url(${item.image})`,
-                                backgroundSize: "contain",
-                                backgroundPosition: "center",
-                                backgroundRepeat: "no-repeat",
-                              }}
-                              className="h-32"
-                            ></div>
-                            <p className="h-8 w-full  whitespace-nowrap   text-base">
-                              {item.name}
-                            </p>
-                          </div>
-                        );
-                      })}
-                  </div>
+                            style={{
+                              backgroundImage: `url(${item.image})`,
+                              backgroundSize: "contain",
+                              backgroundPosition: "center",
+                              backgroundRepeat: "no-repeat",
+                              height: "10rem",
+                              // Adjust the height as needed
+                            }}
+                          ></div>
+                          <p className="h-15 w-full text-center text-base">
+                            {item.name}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className=" mt-4 flex items-center justify-center">
+                      <p className="text-lg font-bold">Inventory is empty</p>
+                    </div>
+                  )}
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
