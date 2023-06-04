@@ -16,7 +16,6 @@ export const useTimeline = (page) => {
           limit: 10,
         })
         .then((res) => {
-          console.log(res.data);
           // const { posts, totalCount, totalPages } = res.data;
           dispatch({
             type: "FETCH_TIMELINE",

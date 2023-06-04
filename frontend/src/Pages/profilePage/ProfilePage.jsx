@@ -258,8 +258,8 @@ const ProfilePageControls = () => {
                 <Tab.Panel>
                   <div className="flex flex-col items-center ">
                     {myPost && myPost.length > 0 ? (
-                      myPost.map((post) => (
-                        <div className="w-full md:w-2/4" key={post.id}>
+                      myPost.map((post, i) => (
+                        <div className="w-full md:w-2/4" key={i}>
                           <Post post={post} owner={userData} />
                         </div>
                       ))

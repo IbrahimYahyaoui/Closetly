@@ -78,7 +78,6 @@ const Post = ({ post, owner }) => {
   const renderedComments = showAllComments
     ? post.comments
     : post.comments.slice(0, 3);
-  console.log(renderedComments);
 
   const handleLike = (postId, likerId, liker) => {
     addLike(postId, likerId, liker);

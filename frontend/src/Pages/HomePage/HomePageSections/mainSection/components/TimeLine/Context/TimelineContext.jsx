@@ -5,7 +5,6 @@ export const TimelineContext = createContext();
 const TimelineReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_TIMELINE":
-      console.log(action.payload);
       return {
         ...state,
         TimelinePosts: [...state.TimelinePosts, ...action.payload],
@@ -144,7 +143,7 @@ export const TimelineContextProvider = ({ children }) => {
     postCount: 0,
     pageCount: 1,
   });
-  console.log(state);
+
   return (
     <TimelineContext.Provider value={{ ...state, dispatch }}>
       {children}

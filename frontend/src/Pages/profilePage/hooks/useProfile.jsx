@@ -15,12 +15,9 @@ export const useProfile = () => {
   };
 
   const getMyPost = (id) => {
-    console.log(id);
     axios
       .post(`${import.meta.env.VITE_APP_Production_ROOT}post/getPost/${id}`)
       .then((res) => {
-        console.log(res.data);
-
         dispatch({ type: "MY_POST", payload: res.data });
       })
       .catch((err) => console.log(err));
