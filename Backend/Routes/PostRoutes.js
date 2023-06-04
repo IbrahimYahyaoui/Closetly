@@ -7,6 +7,7 @@ const {
   addComment,
   addLike,
   addDislike,
+  getAllNotification,
 } = require("../Controllers/PostController");
 const router = express.Router();
 
@@ -25,4 +26,6 @@ router.post("/comment", addComment);
 router.post("/like", addLike);
 // like post dislike
 router.post("/dislike", addDislike);
+// get all notification
+router.post("/getNotification", getAllNotification);
 module.exports = router;

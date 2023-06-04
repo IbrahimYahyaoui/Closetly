@@ -21,6 +21,7 @@ const UserSchema = new Schema(
     followers: [],
     following: [],
     postCount: { type: Number, default: 0 },
+    Notification: [],
   },
   { timestamps: true }
 );

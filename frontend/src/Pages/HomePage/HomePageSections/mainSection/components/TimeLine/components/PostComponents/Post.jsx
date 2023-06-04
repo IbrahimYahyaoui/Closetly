@@ -122,31 +122,33 @@ const Post = ({ post, owner }) => {
   return (
     <div className="my-4 rounded bg-slate-200 p-2">
       {/* username and profile pic */}
-      <Link to={`/profile/${owner._id}`} className="flex items-center">
-        <div>
-          {owner && owner.profilePic === "" ? (
-            <Avatar
-              src={`https://eu.ui-avatars.com/api/?name=${
-                owner && owner.username
-              }&size=300`}
-              className="cursor-pointer"
-            />
-          ) : (
-            <Avatar
-              src={owner && owner.profilePic}
-              className="cursor-pointer"
-            />
-          )}
-        </div>
-        <div className="ml-2 flex flex-col">
-          <p className="font-semibold">{owner && owner.username}</p>
-          <p className="text-xs font-normal">
-            {formatDistanceToNow(new Date(post.createdAt), {
-              addSuffix: true,
-            })}
-          </p>
-        </div>
-      </Link>
+      {owner && (
+        <Link to={`/profile/${owner._id}`} className="flex items-center">
+          <div>
+            {owner && owner.profilePic === "" ? (
+              <Avatar
+                src={`https://eu.ui-avatars.com/api/?name=${
+                  owner && owner.username
+                }&size=300`}
+                className="cursor-pointer"
+              />
+            ) : (
+              <Avatar
+                src={owner && owner.profilePic}
+                className="cursor-pointer"
+              />
+            )}
+          </div>
+          <div className="ml-2 flex flex-col">
+            <p className="font-semibold">{owner && owner.username}</p>
+            <p className="text-xs font-normal">
+              {formatDistanceToNow(new Date(post.createdAt), {
+                addSuffix: true,
+              })}
+            </p>
+          </div>
+        </Link>
+      )}
 
       {/* description and outfit */}
       <div>

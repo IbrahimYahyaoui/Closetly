@@ -4,22 +4,44 @@ const mongoose = require("mongoose");
 // add post
 const addPost = async (req, res) => {
   const { Description, Outfit, UserId } = req.body;
-  // console.log(req.body);
+
   try {
     const newPost = await Post.create({ Description, Outfit, UserId });
-    await User.findByIdAndUpdate(UserId, {
-      $inc: { postCount: 1 }, // Increment the postCount field by 1
+
+    // Get the user's followers
+    const user = await User.findById(UserId);
+    const followers = user.followers;
+
+    // Create the notification data
+    const notificationData = {
+      postId: newPost._id,
+      action: "addPost",
+      senderId: UserId,
+      senderName: user.username,
+    };
+
+    // Send notification to each follower
+    followers.forEach(async (followerId) => {
+      await User.findByIdAndUpdate(followerId, {
+        $push: { Notification: notificationData },
+      });
     });
+    //  increment  post count
+    await User.findByIdAndUpdate(UserId, {
+      $inc: { postCount: 1 },
+    });
+
     res.status(200).json({ newPost });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 // get post
 const getPost = async (req, res) => {
   // get id from params
   const { id } = req.params;
-
+  // validate the id
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send("Invalid user id");
   }
@@ -29,11 +51,13 @@ const getPost = async (req, res) => {
 
     if (posts.length > 0) {
       // Fetch user documents for the commenter IDs
+
       const commenterIds = posts.reduce(
         (ids, post) =>
           ids.concat(post.comments.map((comment) => comment.posterId)),
         []
       );
+      //
       const commenters = await User.find(
         { _id: { $in: commenterIds } },
         { profilePic: 1 }
@@ -147,17 +171,39 @@ const DeletePost = (req, res) => {
 
 const addComment = async (req, res) => {
   const { postId, posterId, comment, poster } = req.body;
+
   try {
     const commentObj = {
       posterId,
       comment,
       poster,
     };
+
     const post = await Post.findByIdAndUpdate(
       postId,
       { $push: { comments: commentObj } },
       { new: true }
     );
+
+    // Get the post owner
+    const postOwner = await User.findById(post.UserId);
+
+    // Create the notification data
+    const notificationData = {
+      postId: post._id,
+      action: "addComment",
+      senderId: posterId,
+      senderName: poster,
+    };
+
+    // Send notification to the  followers
+
+    const postOwnerFollowers = postOwner.followers;
+    postOwnerFollowers.forEach(async (followerId) => {
+      await User.findByIdAndUpdate(followerId, {
+        $push: { Notification: notificationData },
+      });
+    });
 
     res.json({ post });
   } catch (error) {
@@ -168,7 +214,7 @@ const addComment = async (req, res) => {
 
 const addLike = async (req, res) => {
   const { postId, likerId, liker } = req.body;
-  // console.log(req.body);
+
   try {
     const likerObj = {
       likerId,
@@ -201,6 +247,29 @@ const addLike = async (req, res) => {
     }
 
     await post.save();
+
+    // Get the post owner
+    const postOwner = await User.findById(post.UserId);
+
+    // Create the notification data
+    const notificationData = {
+      postId: post._id,
+      action: "addLike",
+      senderId: likerId,
+      senderName: liker,
+    };
+
+    // Send notification to the post owner and their followers
+    await User.findByIdAndUpdate(postOwner._id, {
+      $push: { Notification: notificationData },
+    });
+
+    const postOwnerFollowers = postOwner.followers;
+    postOwnerFollowers.forEach(async (followerId) => {
+      await User.findByIdAndUpdate(followerId, {
+        $push: { Notification: notificationData },
+      });
+    });
 
     res.send(post);
   } catch (error) {
@@ -247,10 +316,72 @@ const addDislike = async (req, res) => {
 
     await post.save();
 
+    // Get the post owner
+    const postOwner = await User.findById(dislikerId);
+
+    // Create the notification data
+    const notificationData = {
+      postId: post._id,
+      action: "addDislike",
+      senderId: dislikerId,
+      senderName: disliker,
+    };
+
+    // Send notification to the post owner's followers
+    const postOwnerFollowers = postOwner.followers;
+    postOwnerFollowers.forEach(async (followerId) => {
+      await User.findByIdAndUpdate(followerId, {
+        $push: { Notification: notificationData },
+      });
+    });
+
     res.send(post);
   } catch (error) {
     console.log(error);
     res.status(500).send("An error occurred while disliking a post");
+  }
+};
+
+const getAllNotification = async (req, res) => {
+  const { id } = req.body;
+
+  // Validate the provided ID
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid user ID" });
+  }
+
+  try {
+    const profile = await User.findById(id, {
+      Notification: { $slice: -30 }, // Retrieve only the last 30 notifications
+    });
+
+    // Fetch user documents for the sender IDs in the notifications
+    const senderIds = profile.Notification.map(
+      (notification) => notification.senderId
+    );
+    const senders = await User.find(
+      { _id: { $in: senderIds } },
+      { profilePic: 1 }
+    );
+
+    // Create an object to store profile picture links by user ID
+    const profilePics = senders.reduce((pics, sender) => {
+      pics[sender._id.toString()] = sender.profilePic;
+      return pics;
+    }, {});
+
+    // Add profile picture links to each notification
+    const notificationsWithProfilePics = profile.Notification.map(
+      (notification) => ({
+        ...notification,
+        senderProfilePic: profilePics[notification.senderId?.toString()] || "",
+      })
+    );
+
+    res.status(200).json(notificationsWithProfilePics);
+  } catch (error) {
+    console.log({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -262,4 +393,5 @@ module.exports = {
   addComment,
   addLike,
   addDislike,
+  getAllNotification,
 };

@@ -3,17 +3,29 @@ const User = require("../Models/userModel");
 const follow = async (req, res) => {
   const { destinationId, sourceId } = req.body;
   try {
-    // const destinationId = await User.findOne({ _id: destinationId });
-    // update followers
     await User.updateOne(
       { _id: destinationId },
       { $addToSet: { followers: sourceId } }
     );
-    // update following if not already following
+
     await User.updateOne(
       { _id: sourceId },
       { $addToSet: { following: destinationId } }
     );
+
+    const user = await User.findOne({ _id: sourceId });
+
+    const notificationData = {
+      senderId: sourceId,
+      action: "follow",
+      senderName: user.username,
+    };
+
+    await User.updateOne(
+      { _id: destinationId },
+      { $push: { Notification: notificationData } }
+    );
+
     res.status(200).json({
       message: "Followed successfully",
     });

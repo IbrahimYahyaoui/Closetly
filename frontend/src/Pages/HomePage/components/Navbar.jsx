@@ -1,5 +1,5 @@
 import { Avatar, Badge, Dropdown, Loading, User } from "@nextui-org/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../AuthPage/context/AuthContext";
 import {
   ChevronDownIcon,
@@ -20,9 +20,11 @@ import { UseSearch } from "./hooks/UseSearch";
 import { Dialog } from "@headlessui/react";
 import { SearchContext } from "./context/SearchContext";
 import { toast } from "react-hot-toast";
+import { useNotification } from "./hooks/UseNotification";
 const Navbar = () => {
   const { user, activeUser } = useContext(AuthContext);
   const { logout } = useLogout();
+  const { getNotification, notification } = useNotification();
   const navigate = useNavigate();
   const handelLogout = () => {
     logout();
@@ -38,6 +40,26 @@ const Navbar = () => {
       search(searchValue);
     } else {
       toast.error("please enter a username");
+    }
+  };
+  useEffect(() => {
+    getNotification();
+  }, [user]);
+  console.log(notification);
+  const reactionType = (type) => {
+    switch (type) {
+      case "addLike":
+        return "liked your post";
+      case "addComment":
+        return "commented on your post";
+      case "addFollow":
+        return "started following you";
+      case "addDislike":
+        return "disliked your post";
+      case "follow":
+        return "follow you";
+      default:
+        return "";
     }
   };
   return (
@@ -148,21 +170,72 @@ const Navbar = () => {
             </Dialog>
           </div>
           <div>
-            <Dropdown placement="bottom-right  " Label="Static Actions">
+            <Dropdown
+              placement="bottom-right"
+              Label="Static Actions"
+              style={{
+                background: "transparent",
+              }}
+            >
               <Dropdown.Button
                 className="p-0 "
                 style={{
                   background: "transparent",
                 }}
               >
-                <Badge color="error" content={12} className="ml-2">
+                <Badge
+                  color="error"
+                  content={
+                    notification && notification.length === 30
+                      ? "30"
+                      : notification && notification.length
+                  }
+                  className="ml-2"
+                >
                   <BellIcon className=" w-6  cursor-pointer fill-none  stroke-black " />
                 </Badge>
               </Dropdown.Button>
-              <Dropdown.Menu aria-label="Static Actions">
-                <Dropdown.Item key="new">
-                  <p>hello</p>
-                </Dropdown.Item>
+              <Dropdown.Menu
+                aria-label="Static Actions"
+                // css={{ height: "300px" }}
+              >
+                {notification && notification.length !== 0 ? (
+                  notification.map((item, i) => (
+                    <Dropdown.Item
+                      key={i}
+                      className="py-6"
+                      css={{ width: "600px" }}
+                    >
+                      <div className="flex items-center">
+                        <div className="mr-1">
+                          {item.senderProfilePic === "" ? (
+                            <div className="flex items-center">
+                              <Avatar
+                                src={`https://eu.ui-avatars.com/api/?name=${item.senderName}&size=300`}
+                                className="cursor-pointer"
+                              />
+                            </div>
+                          ) : (
+                            <div className="flex items-center">
+                              <Avatar
+                                src={item.senderProfilePic}
+                                className="cursor-pointer"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div>{item.senderName}</div>
+                        <div className="ml-1 whitespace-nowrap">
+                          {reactionType(item.action)}
+                        </div>
+                      </div>
+                    </Dropdown.Item>
+                  ))
+                ) : (
+                  <Dropdown.Item className=" py-6">
+                    <p className="text-center">nothing yet</p>
+                  </Dropdown.Item>
+                )}
               </Dropdown.Menu>
             </Dropdown>
           </div>
