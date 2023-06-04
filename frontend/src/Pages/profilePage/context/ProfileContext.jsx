@@ -105,6 +105,7 @@ const profileReducer = (state, action) => {
                   posterId: action.payload.posterId,
                   poster: action.payload.poster,
                   comment: action.payload.comment,
+                  profilePic: action.payload.profilePic,
                 },
               ],
             };

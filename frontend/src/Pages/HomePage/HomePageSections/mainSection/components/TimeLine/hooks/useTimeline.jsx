@@ -20,7 +20,7 @@ export const useTimeline = (page) => {
           // const { posts, totalCount, totalPages } = res.data;
           dispatch({
             type: "FETCH_TIMELINE",
-            payload: res.data.posts,
+            payload: res.data.post,
           });
           dispatch({
             type: "setPostCount",

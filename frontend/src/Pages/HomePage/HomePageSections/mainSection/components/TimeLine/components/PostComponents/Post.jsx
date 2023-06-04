@@ -27,7 +27,7 @@ const Post = ({ post, owner }) => {
   const { addComment, addLike, addDislike } = usePost();
   const commentRef = useRef();
   const [play] = useSound(clickSound, {
-    volume: 0.1,
+    volume: 0.2,
   });
   const [isLiked, setIsLiked] = useState();
   const [isDisliked, setIsDisliked] = useState();
@@ -54,6 +54,7 @@ const Post = ({ post, owner }) => {
         posterId,
         comment,
         poster,
+        profilePic: activeUser.profilePic,
       },
     });
     profileDispatch({
@@ -63,21 +64,21 @@ const Post = ({ post, owner }) => {
         posterId,
         poster,
         comment,
+        profilePic: activeUser.profilePic,
       },
     });
     addComment(postId, posterId, comment, poster);
     commentRef.current.value = "";
     setComment("");
   };
-
   const [showAllComments, setShowAllComments] = useState(false);
   const toggleShowAllComments = () => {
     setShowAllComments(!showAllComments);
   };
-
   const renderedComments = showAllComments
     ? post.comments
     : post.comments.slice(0, 3);
+  console.log(renderedComments);
 
   const handleLike = (postId, likerId, liker) => {
     addLike(postId, likerId, liker);
@@ -230,25 +231,33 @@ const Post = ({ post, owner }) => {
 
         {/* Render comments */}
         <div className="flex w-full flex-col">
-          {renderedComments.map((comment, i) => (
-            <div key={i} className="flex items-start pt-4">
-              <div className="ml-1 flex w-full items-start rounded">
-                <Link to={`/profile/${comment.posterId}`}>
-                  <Avatar
-                    src={`https://eu.ui-avatars.com/api/?name=${comment.poster}&size=300`}
-                    className="cursor-pointer"
-                  />
-                </Link>
+          {renderedComments &&
+            renderedComments.map((comment, i) => (
+              <div key={i} className="flex items-start pt-4">
+                <div className="ml-1 flex w-full items-start rounded">
+                  <Link to={`/profile/${comment.posterId}`}>
+                    {comment.profilePic === "" ? (
+                      <Avatar
+                        src={`https://eu.ui-avatars.com/api/?name=${comment.poster}&size=300`}
+                        className="cursor-pointer"
+                      />
+                    ) : (
+                      <Avatar
+                        src={renderedComments && comment.profilePic}
+                        className="cursor-pointer"
+                      />
+                    )}
+                  </Link>
 
-                <div className="ml-2 mt-2 w-full">
-                  <p>{comment.poster}</p>
-                  <p className=" mt-2 w-full rounded-md bg-slate-100 p-2">
-                    {comment.comment}
-                  </p>
+                  <div className="ml-2 mt-2 w-full">
+                    <p>{comment.poster}</p>
+                    <p className=" mt-2 w-full rounded-md bg-slate-100 p-2">
+                      {comment.comment}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
           {post.comments.length > 3 && (
             <div className="mt-2 w-fit cursor-pointer self-center rounded border-2 border-slate-400 p-1 text-slate-700 focus:outline-none">
               {showAllComments ? (

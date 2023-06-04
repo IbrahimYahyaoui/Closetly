@@ -5,6 +5,7 @@ export const TimelineContext = createContext();
 const TimelineReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_TIMELINE":
+      console.log(action.payload);
       return {
         ...state,
         TimelinePosts: [...state.TimelinePosts, ...action.payload],
@@ -36,6 +37,7 @@ const TimelineReducer = (state, action) => {
                     posterId: action.payload.posterId,
                     poster: action.payload.poster,
                     comment: action.payload.comment,
+                    profilePic: action.payload.profilePic,
                   },
                 ],
               }

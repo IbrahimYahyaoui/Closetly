@@ -21,18 +21,46 @@ const getPost = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).send("Invalid post id");
+    return res.status(400).send("Invalid user id");
   }
 
   try {
-    const post = await Post.find({ UserId: id });
-    if (post) {
-      res.status(200).send(post);
+    const posts = await Post.find({ UserId: id });
+
+    if (posts.length > 0) {
+      // Fetch user documents for the commenter IDs
+      const commenterIds = posts.reduce(
+        (ids, post) =>
+          ids.concat(post.comments.map((comment) => comment.posterId)),
+        []
+      );
+      const commenters = await User.find(
+        { _id: { $in: commenterIds } },
+        { profilePic: 1 }
+      );
+
+      // Create an object to store profile picture links by user ID
+      const profilePics = commenters.reduce((pics, commenter) => {
+        pics[commenter._id.toString()] = commenter.profilePic;
+        return pics;
+      }, {});
+
+      // Add profile picture links to each comment in the fetched posts
+      const postsWithProfilePics = posts.map((post) => {
+        const updatedComments = post.comments.map((comment) => ({
+          ...comment,
+          profilePic: profilePics[comment.posterId?.toString()] || "",
+        }));
+        return { ...post.toObject(), comments: updatedComments };
+      });
+
+      res.status(200).send(postsWithProfilePics);
     } else {
-      res.status(404).send("Post not found");
+      res.status(404).send("No posts found");
     }
   } catch (error) {
     console.log(error);
+    res.status(500).send("An error occurred while fetching the posts");
   }
 };
 // get All post
@@ -45,15 +73,15 @@ const getAllPosts = async (req, res) => {
     const followingIds = currentUser.following;
 
     // Pagination parameters
-    const page = parseInt(req.body.page) || 1; // Default to page 1 if not specified
-    const limit = parseInt(req.body.limit) || 10; // Default to 10 posts per page if not specified
+    const pageNumber = parseInt(page) || 1; // Default to page 1 if not specified
+    const pageSize = parseInt(limit) || 10; // Default to 10 posts per page if not specified
 
     // Calculate the skip value based on the page and limit
-    const skip = (page - 1) * limit;
+    const skip = (pageNumber - 1) * pageSize;
 
     // Convert followingIds to ObjectId instances
-    const followingObjectIds = followingIds.map(
-      (id) => new mongoose.Types.ObjectId(id)
+    const followingObjectIds = followingIds.map((id) =>
+      mongoose.Types.ObjectId.createFromHexString(id)
     );
 
     // Fetch the total count of posts to calculate the total number of pages
@@ -66,22 +94,52 @@ const getAllPosts = async (req, res) => {
       UserId: { $in: followingObjectIds },
     })
       .skip(skip)
-      .limit(limit);
+      .limit(pageSize);
 
-    const totalPages = Math.ceil(totalCount / limit);
+    // Fetch user documents for the commenter IDs
+    const commenterIds = posts.reduce(
+      (ids, post) =>
+        ids.concat(post.comments.map((comment) => comment.posterId)),
+      []
+    );
+
+    const commenters = await User.find(
+      { _id: { $in: commenterIds } },
+      { profilePic: 1 }
+    );
+
+    // Create an object to store profile picture links by user ID
+    const profilePics = commenters.reduce((pics, commenter) => {
+      pics[commenter._id.toString()] = commenter.profilePic;
+      return pics;
+    }, {});
+
+    const postsWithProfilePics = posts.map((post) => {
+      const updatedComments = post.comments.map((comment) => ({
+        ...comment,
+        profilePic: profilePics[comment.posterId?.toString()] || "",
+      }));
+      return {
+        ...post.toObject(),
+        comments: updatedComments,
+      };
+    });
+
+    const totalPages = Math.ceil(totalCount / pageSize);
+    //
+    //
 
     res.status(200).json({
-      page,
+      page: pageNumber,
       totalPages,
       totalCount,
-      posts,
+      post: postsWithProfilePics,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send("An error occurred while fetching posts");
   }
 };
-
 // delete post
 const DeletePost = (req, res) => {
   res.send("delete");
