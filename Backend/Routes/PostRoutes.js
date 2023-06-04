@@ -5,6 +5,8 @@ const {
   getPost,
   getAllPosts,
   addComment,
+  addLike,
+  addDislike,
 } = require("../Controllers/PostController");
 const router = express.Router();
 
@@ -19,5 +21,8 @@ router.post("/getPost/:id", getPost);
 router.post("/deletePost", DeletePost);
 // add post comment
 router.post("/comment", addComment);
-
+// like post like
+router.post("/like", addLike);
+// like post dislike
+router.post("/dislike", addDislike);
 module.exports = router;

@@ -108,10 +108,100 @@ const addComment = async (req, res) => {
   }
 };
 
+const addLike = async (req, res) => {
+  const { postId, likerId, liker } = req.body;
+  // console.log(req.body);
+  try {
+    const likerObj = {
+      likerId,
+      liker,
+    };
+
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // If the liker has already disliked the post, remove it from dislikes
+    const dislikeIndex = post.dislikes.findIndex(
+      (dislike) => dislike.dislikerId === likerId
+    );
+
+    if (dislikeIndex !== -1) {
+      post.dislikes.splice(dislikeIndex, 1);
+    }
+
+    // Check if liker has already liked the post
+    const likeIndex = post.likes.findIndex((like) => like.likerId === likerId);
+
+    if (likeIndex === -1) {
+      // Add liker to likes array
+      post.likes.push(likerObj);
+    } else {
+      // Remove from likes array
+      post.likes.splice(likeIndex, 1);
+    }
+
+    await post.save();
+
+    res.send(post);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error occurred while liking a post");
+  }
+};
+
+const addDislike = async (req, res) => {
+  const { postId, dislikerId, disliker } = req.body;
+
+  try {
+    const dislikerObj = {
+      dislikerId,
+      disliker,
+    };
+
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // If the disliker has already liked the post, remove it from likes
+    const likeIndex = post.likes.findIndex(
+      (like) => like.likerId === dislikerId
+    );
+
+    if (likeIndex !== -1) {
+      post.likes.splice(likeIndex, 1);
+    }
+
+    // Check if disliker has already disliked the post
+    const dislikeIndex = post.dislikes.findIndex(
+      (dislike) => dislike.dislikerId === dislikerId
+    );
+
+    if (dislikeIndex === -1) {
+      // Add disliker to dislikes array
+      post.dislikes.push(dislikerObj);
+    } else {
+      // Remove from dislikes array
+      post.dislikes.splice(dislikeIndex, 1);
+    }
+
+    await post.save();
+
+    res.send(post);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error occurred while disliking a post");
+  }
+};
+
 module.exports = {
   addPost,
   DeletePost,
   getPost,
   getAllPosts,
   addComment,
+  addLike,
+  addDislike,
 };

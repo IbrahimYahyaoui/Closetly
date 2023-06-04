@@ -36,7 +36,7 @@ const FollowersDispatcher = (state, action) => {
         following: [...state.following, action.payload],
       };
     case "REMOVE_FOLLOWER_LOCALLY":
-      console.log(action.payload, "payload from remove");
+      // console.log(action.payload, "payload from remove");
       return {
         ...state,
         following: state.following.filter(
@@ -93,9 +93,9 @@ export const FollowersContextProvider = ({ children }) => {
         )
         .then((res) => {
           dispatch({ type: "GET_FOLLOWING", payload: res.data });
-          const followingIds = res.data.map((user) => {
-            console.log(user._id);
-          });
+          // const followingIds = res.data.map((user) => {
+          //   console.log(user._id);
+          // });
         })
         .catch((err) => {
           console.log(err);
@@ -123,7 +123,7 @@ export const FollowersContextProvider = ({ children }) => {
       getFollowers();
     }
   }, [userId]);
-  console.log(state);
+  // console.log(state);
   return (
     <FollowersContext.Provider value={{ ...state, dispatch }}>
       {children}

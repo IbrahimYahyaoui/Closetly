@@ -16,14 +16,13 @@ const Timeline = () => {
   const { following } = useContext(FollowersContext);
   const [page, setPage] = useState(0);
   const [noMoreData, setNoMoreData] = useState(false);
-  console.log(TimelinePosts, "s");
+
   const fetchMoreData = () => {
     if (page > pageCount) {
       setNoMoreData(true);
       return;
     }
     setPage(page + 1);
-    // console.log(page, pageCount);
 
     fetchTimeline(page);
   };
@@ -32,9 +31,6 @@ const Timeline = () => {
     // if (TimelinePosts.length >= postCount) return;
     fetchMoreData();
   }, [following]);
-  useEffect(() => {
-    console.log(postCount);
-  }, [postCount]);
 
   const getOwner = (userId) => {
     return following.find((user) => user._id === userId);

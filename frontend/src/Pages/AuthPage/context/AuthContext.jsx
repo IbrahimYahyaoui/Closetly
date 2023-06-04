@@ -27,13 +27,13 @@ export const AuthContextProvider = ({ children }) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       dispatch({ type: "SIGNIN", payload: user });
-      console.log(user.id, "user");
+      // console.log(user.id, "user");
       axios
         .get(
           `${import.meta.env.VITE_APP_Production_ROOT}follow/profile/${user.id}`
         )
         .then((response) => {
-          console.log(response.data, "active user");
+          // console.log(response.data, "active user");
           dispatch({ type: "SET_ACTIVE_USER", payload: response.data });
         })
         .catch((error) => {
@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
-  console.log("AuthContext", state);
+  // console.log("AuthContext", state);
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}

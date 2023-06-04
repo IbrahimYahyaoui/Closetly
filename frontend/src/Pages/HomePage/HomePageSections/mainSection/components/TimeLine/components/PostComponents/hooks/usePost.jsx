@@ -15,7 +15,33 @@ export const usePost = () => {
       })
       .catch((err) => console.log(err));
   };
+  const addLike = (postId, likerId, liker) => {
+    console.log(postId, likerId, liker);
+    axios
+      .post(`${import.meta.env.VITE_APP_Production_ROOT}post/like`, {
+        postId,
+        likerId,
+        liker,
+      })
+
+      .catch((err) => console.log(err));
+  };
+
+  const addDislike = (postId, dislikerId, disliker) => {
+    console.log(postId, dislikerId, disliker);
+    axios
+      .post(`${import.meta.env.VITE_APP_Production_ROOT}post/dislike`, {
+        postId,
+        dislikerId,
+        disliker,
+      })
+
+      .catch((err) => console.log(err));
+  };
+
   return {
     addComment,
+    addLike,
+    addDislike,
   };
 };

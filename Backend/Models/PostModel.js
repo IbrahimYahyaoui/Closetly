@@ -19,6 +19,12 @@ const PostSchema = new Schema(
     comments: {
       type: Array,
     },
+    likes: {
+      type: Array,
+    },
+    dislikes: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );

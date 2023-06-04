@@ -13,15 +13,25 @@ import { AuthContext } from "../../../../../../../AuthPage/context/AuthContext";
 import { usePost } from "./hooks/usePost";
 import { TimelineContext } from "../../Context/TimelineContext";
 import { Link } from "react-router-dom";
-
+import useSound from "use-sound";
+import clickSound from "../../../../../../../../assets/soundEffect/press.mp3";
 const Post = ({ post, owner }) => {
   let currentOutfit = JSON.parse(post.Outfit);
   const { activeUser } = useContext(AuthContext);
   const { TimelinePosts, dispatch } = useContext(TimelineContext);
   const [isFocus, setIsFocus] = useState(false);
   const [comment, setComment] = useState("");
-  const { addComment } = usePost();
+  const { addComment, addLike, addDislike } = usePost();
   const commentRef = useRef();
+  const [play] = useSound(clickSound, {
+    volume: 0.1,
+  });
+  // const [isLiked, setIsliked] = useState();
+  const isLiked = post.likes.some((like) => like.likerId === activeUser._id);
+
+  const isDisliked = post.dislikes.some(
+    (dislike) => dislike.dislikerId === activeUser._id
+  );
 
   const handleAddComment = (postId, posterId, comment, poster) => {
     dispatch({
@@ -47,6 +57,30 @@ const Post = ({ post, owner }) => {
   const renderedComments = showAllComments
     ? post.comments
     : post.comments.slice(0, 3);
+
+  const handleLike = (postId, likerId, liker) => {
+    addLike(postId, likerId, liker);
+    dispatch({
+      type: "ADD_LIKE",
+      payload: {
+        postId,
+        likerId,
+        liker,
+      },
+    });
+  };
+
+  const handleDislike = (postId, dislikerId, disliker) => {
+    addDislike(postId, dislikerId, disliker);
+    dispatch({
+      type: "ADD_DISLIKE",
+      payload: {
+        postId,
+        dislikerId,
+        disliker,
+      },
+    });
+  };
 
   return (
     <div className="my-4 rounded bg-slate-200 p-2">
@@ -118,15 +152,41 @@ const Post = ({ post, owner }) => {
       <div className="pt-4">
         <div className="flex justify-between">
           <div className="flex">
-            <p className="mr-2 flex w-16 cursor-pointer items-center justify-between rounded-full border-2 border-slate-400 px-2">
-              <HandThumbUpIcon className="h-5 w-4 fill-none stroke-black" />
-              <p>126</p>
-            </p>
+            <div
+              className={`mr-2 flex w-16 cursor-pointer items-center justify-between rounded-full border-2 border-slate-400 px-2 ${
+                isLiked ? "border-2 border-black  text-black" : ""
+              }`}
+              onClick={() => {
+                handleLike(post._id, activeUser._id, activeUser.username);
+                play();
+              }}
+            >
+              <HandThumbUpIcon
+                className={`h-5 w-4  stroke-black  ${
+                  isLiked ? " fill-black" : "fill-none"
+                }`}
+              />
+              <p className="w-2/3 text-center">{post && post.likes.length}</p>
+            </div>
 
-            <p className="flex w-16 cursor-pointer items-center justify-between rounded-full border-2 border-slate-400 px-2">
-              <HandThumbDownIcon className="h-5 w-4 fill-none stroke-black" />
-              <p>126</p>
-            </p>
+            <div
+              className={`flex w-16 cursor-pointer items-center justify-between rounded-full border-2 border-slate-400 px-2 ${
+                isDisliked ? "border-2 border-black  text-black" : ""
+              }`}
+              onClick={() => {
+                handleDislike(post._id, activeUser._id, activeUser.username);
+                play();
+              }}
+            >
+              <HandThumbDownIcon
+                className={`h-5 w-4  stroke-black  ${
+                  isDisliked ? " fill-black" : "fill-none"
+                }`}
+              />
+              <p className="w-2/3 text-center">
+                {post && post.dislikes.length}
+              </p>
+            </div>
           </div>
           <div className="flex opacity-60">{post.comments.length} Comment</div>
         </div>
