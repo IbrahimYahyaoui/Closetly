@@ -48,8 +48,9 @@ const Timeline = () => {
           ))}
       </div>
       {postCount === 0 && (
-        <p className="text-center">
-          if you don't see any posts try to follow more people
+        <p className="text-center font-semibold">
+          if you don't see any posts try to follow more people search for them
+          in the search bar
         </p>
       )}
       {!noMoreData ? (

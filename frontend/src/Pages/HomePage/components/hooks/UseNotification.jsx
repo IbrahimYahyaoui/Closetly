@@ -15,7 +15,6 @@ export const useNotification = () => {
         )
 
         .then((res) => {
-          console.log(res.data);
           setNotification(res.data);
         })
         .catch((err) => console.log(err));

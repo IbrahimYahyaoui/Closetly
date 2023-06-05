@@ -45,7 +45,7 @@ const Navbar = () => {
   useEffect(() => {
     getNotification();
   }, [user]);
-  console.log(notification);
+
   const reactionType = (type) => {
     switch (type) {
       case "addLike":
@@ -93,28 +93,35 @@ const Navbar = () => {
                     Search for user
                   </Dialog.Title>
 
-                  <div className="flex w-full">
-                    <input
-                      className=" h-8 w-4/5 rounded-l border pl-1 outline-none "
-                      placeholder="username"
-                      onChange={(e) => {
-                        setSearchValue(e.target.value);
-                      }}
-                    />
-                    {isLoading ? (
-                      <div className="flex w-1/5 cursor-pointer items-center justify-center rounded-r bg-slate-400">
-                        <Loading size="xs" color="white" />
-                      </div>
-                    ) : (
-                      <div
-                        className="flex w-1/5 cursor-pointer items-center justify-center rounded-r bg-slate-400"
-                        onClick={() => {
-                          handelSearch();
+                  <div className="flex w-full flex-col">
+                    <div className="flex">
+                      <input
+                        className=" h-8 w-4/5 rounded-l border pl-1 outline-none "
+                        placeholder="username"
+                        onChange={(e) => {
+                          setSearchValue(e.target.value);
                         }}
-                      >
-                        <MagnifyingGlassIcon className="w-6  " />
-                      </div>
-                    )}
+                      />
+
+                      {isLoading ? (
+                        <div className="flex w-1/5 cursor-pointer items-center justify-center rounded-r bg-slate-400">
+                          <Loading size="xs" color="white" />
+                        </div>
+                      ) : (
+                        <div
+                          className="flex w-1/5 cursor-pointer items-center justify-center rounded-r bg-slate-400"
+                          onClick={() => {
+                            handelSearch();
+                          }}
+                        >
+                          <MagnifyingGlassIcon className="w-6  " />
+                        </div>
+                      )}
+                    </div>
+                    <p className="mt-1 text-sm">
+                      if you don't know nobody follow :<br></br> Ibrahim_Yh or
+                      Mazen
+                    </p>
                   </div>
                   {(searchResult && searchResult === "empty") ||
                   (searchResult && searchResult.length === 0) ? (
