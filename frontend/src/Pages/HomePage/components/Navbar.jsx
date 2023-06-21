@@ -119,7 +119,7 @@ const Navbar = () => {
                       )}
                     </div>
                     <p className="mt-1 text-sm">
-                      if you don't know nobody follow :<br></br> Ibrahim_Yh or
+                      if you don't know anybody follow :<br></br> Ibrahim_Yh or
                       Mazen
                     </p>
                   </div>

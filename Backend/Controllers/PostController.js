@@ -376,7 +376,7 @@ const getAllNotification = async (req, res) => {
         senderProfilePic: profilePics[notification.senderId?.toString()] || "",
       })
     );
-
+    // console.log(notificationsWithProfilePics);
     res.status(200).json(notificationsWithProfilePics);
   } catch (error) {
     console.log({ error: error.message });

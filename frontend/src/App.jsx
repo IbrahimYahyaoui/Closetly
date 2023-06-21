@@ -12,13 +12,7 @@ import HomePage from "./Pages/HomePage/HomePage";
 import ClosetPage from "./Pages/ClosetPage/ClosetPage";
 import { useEffect } from "react";
 import ProfilePage from "./Pages/profilePage/ProfilePage";
-// function logClick(event) {
-//   console.log("Clicked!", event);
-// }
-
-// function logTouch(event) {
-//   console.log("Touched!", event);
-// }
+import { Analytics } from "@vercel/analytics/react";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,7 +40,7 @@ function App() {
           },
         }}
       />
-
+      <Analytics />
       <RouterProvider router={router} />
     </>
   );
